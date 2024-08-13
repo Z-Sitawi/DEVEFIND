@@ -31,6 +31,32 @@ const RecruiterSchema = new mongoose.Schema({
       message: props => `${props.value} is not a valid email!`
     }
   },
+  backupEmail: {
+    type: String,
+    required: false,
+    trim: true,
+    lowercase: true,
+    default: "",
+    validate: {
+      validator: function (v) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      },
+      message: props => `${props.value} is not a valid email!`
+    }
+  },
+  phone: {
+    type: String,
+    required: false,
+    trim: true,
+    lowercase: true,
+    default: "",
+    validate: {
+      validator: function (v) {
+          return /^\+\d{9,15}$/.test(v);
+      },
+      message: props => `${props.value} is not a valid phone number!`
+    }
+  },
   password: {
     type: String,
     required: true,

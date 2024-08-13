@@ -11,6 +11,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Route to render the HTML page
+app.get('/', (req, res) => {
+    res.send('<h1 style="color:Blue; text-align:center; margin:50px;">WELCOME TO DEVEFIND</h1>');
+});
+
 app.use('/', Recruiterroutes);
 app.get('/stats', Database.stats);
 
