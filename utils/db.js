@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const user = process.env.USER;
 const pwd = process.env.PASSWORD;
+const ADMINS = ["ZAKARIA", "OSBERT", "SANDRA"];
 
 class Database {
   static async connect () {
@@ -14,6 +15,9 @@ class Database {
 
   static async stats (req, res) {
     try {
+      if (!req.header('admin') || !ADMINS.includes(req.header('admin').toUpperCase())) {
+        return res.status(401).json({error: "Unauthorized"});
+      }
       const count = await Recruiter.countDocuments({});
       res.status(200).json({ Recruiters: count, Developers: 0 });
     } catch (error) {
