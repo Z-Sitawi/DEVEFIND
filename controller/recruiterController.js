@@ -34,7 +34,7 @@ class RecruiterController {
       //! TO BE REMOVED LATER
       if (req.header('admin') && ADMINS.includes(req.header('admin').toUpperCase())) {
         const all = await Recruiter.find(); 
-        return res.status(200).json(all);
+        return res.status(200).json({Recruiters: all});
       }
       //! ================= END ================= !\\
 
@@ -48,7 +48,7 @@ class RecruiterController {
         const user = await Recruiter.findById(userId);
   
         if (!user) return res.status(404).send({error: "Recruiter Not Found"});
-        return res.status(200).json({ user });
+        return res.status(200).json({ recruiter: user });
   
       } catch (error) {
         res.status(500).json({ error: error.message });

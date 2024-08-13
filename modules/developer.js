@@ -45,7 +45,6 @@ const DeveloperSchema = new mongoose.Schema({
     required: false,
     trim: true,
     lowercase: true,
-    default: "",
     validate: {
       validator: function (v) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -139,7 +138,7 @@ const DeveloperSchema = new mongoose.Schema({
       message: props => `${props.value} is not a valid personal website URL!`
     }}
   },
-  jobTitle: {
+  profession: {
     type: String,
     required: false
   },
