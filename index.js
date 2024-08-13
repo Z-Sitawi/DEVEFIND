@@ -1,6 +1,7 @@
 import Database from './utils/db.js';
 import express from 'express';
-import Recruiterroutes from './routes/recruiterRouts.js';
+import RecruiterRoutes from './routes/recruiterRouts.js';
+import DeveloperRoutes from './routes/developerRouts.js';
 import dotenv from 'dotenv';
 import redisClient from './utils/redis.js';
 
@@ -16,7 +17,8 @@ app.get('/', (req, res) => {
     res.send('<h1 style="color:Blue; text-align:center; margin:50px;">WELCOME TO DEVEFIND</h1>');
 });
 
-app.use('/', Recruiterroutes);
+app.use('/', RecruiterRoutes);
+app.use('/', DeveloperRoutes);
 app.get('/stats', Database.stats);
 
 function main () {
