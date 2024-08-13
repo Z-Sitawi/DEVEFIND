@@ -36,7 +36,6 @@ const RecruiterSchema = new mongoose.Schema({
     required: false,
     trim: true,
     lowercase: true,
-    default: "",
     validate: {
       validator: function (v) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -49,7 +48,6 @@ const RecruiterSchema = new mongoose.Schema({
     required: false,
     trim: true,
     lowercase: true,
-    default: "",
     validate: {
       validator: function (v) {
           return /^\+\d{9,15}$/.test(v);
