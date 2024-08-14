@@ -93,8 +93,9 @@ class RecruiterController {
 
         const hashedPwd = await Tools.hashPwd(password);
         newRecruiterData = { password: hashedPwd };
-      } else if (firstname) newRecruiterData = { ...newRecruiterData, firstname };
-      else if (lastname) newRecruiterData = { ...newRecruiterData, lastname };
+      } 
+      if (firstname) newRecruiterData = { ...newRecruiterData, firstname };
+      if (lastname) newRecruiterData = { ...newRecruiterData, lastname };
 
       const result = await Recruiter.findOneAndUpdate(filter, newRecruiterData);
 

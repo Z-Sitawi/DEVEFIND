@@ -4,15 +4,15 @@ import Authentification from '../controller/authController.js';
 
 const DeveloperRoutes = express.Router();
 
-DeveloperRoutes.post('/devloper/signup', DeveloperController.create);                 //! Sign Up 
-DeveloperRoutes.post('/devloper/login', Authentification.loginDeveloper);          /* Sign in */
-DeveloperRoutes.post('/devloper/logout', Authentification.logoutDeveloper);          //! Sign out
+DeveloperRoutes.post('/developer/signup', DeveloperController.create);                 //! Sign Up 
+DeveloperRoutes.post('/developer/login', Authentification.loginDeveloper);          /* Sign in */
+DeveloperRoutes.post('/developer/logout', Authentification.logoutDeveloper);          //! Sign out
 
-DeveloperRoutes.get('/api/devloper', DeveloperController.get);
-DeveloperRoutes.get('/api/devloper/all', DeveloperController.getAll);
+DeveloperRoutes.get('/api/developer', DeveloperController.get);
+DeveloperRoutes.get('/api/developer/all', DeveloperController.getAll);
 
-DeveloperRoutes.delete('/api/devloper', DeveloperController.del);                 //! Delete
+DeveloperRoutes.delete('/api/developer', DeveloperController.del);                 //! Delete
 
-// DeveloperRoutes.put('/api/devloper', DeveloperController.update);                 //? Update
+DeveloperRoutes.put('/api/developer/', DeveloperController.update);                 //? Update
 
 export default DeveloperRoutes;
