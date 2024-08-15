@@ -4,6 +4,7 @@ import RecruiterRoutes from './routes/recruiterRouts.js';
 import DeveloperRoutes from './routes/developerRouts.js';
 import dotenv from 'dotenv';
 import redisClient from './utils/redis.js';
+import cors from 'cors';
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -11,10 +12,11 @@ const PORT = process.env.PORT;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
-// Route to render the HTML page
+
 app.get('/', (req, res) => {
-    res.send('<h1 style="color:Blue; text-align:center; margin:50px;">WELCOME TO DEVEFIND</h1>');
+  res.send('<h1 style="color:Blue; text-align:center; margin:50px;">WELCOME TO DEVEFIND</h1>');
 });
 
 app.use('/', RecruiterRoutes);

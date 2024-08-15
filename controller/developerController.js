@@ -3,83 +3,161 @@ import Tools from '../utils/myfunctions.js';
 import Authentification from '../controller/authController.js';
 import mongoose from 'mongoose';
 import redisClient from '../utils/redis.js';
+import sharp from 'sharp';
+
 
 class DeveloperController {
-    static async create (req, res) {
-        try {
-          const { firstname, lastname, email, password, confirmPwd, age, gender, country, profession } = req.body;
-    
-          /* ======= checks ========== */
-          if (!firstname || !lastname || !email || !password || !confirmPwd || !age || !gender || !country || !profession) 
-            return res.status(400).json({ error: 'All Fields Must Be Filed' });
-          if (password !== confirmPwd) return res.status(400).json({ error: 'Passwords Do Not Match' });
-    
-          const user = await Developer.findOne({ email });
-          if (user) return res.status(400).json({ error: 'email already exist' });
-          /* ======= End of checks ========== */
-    
-          const hashedPwd = await Tools.hashPwd(password);
-          const newDevData = { firstname, lastname, email, password: hashedPwd, age, gender, country, profession };
-    
-          const developer = await Developer.create(newDevData);
-          console.log('Developer Account Created Successfully with the Id => ' + developer._id.toString());
-          res.status(201).json({message: "Developer Account Created Successfully"});
-        } catch (error) {
-          res.status(500).json({ error: error.message });
-        }
-    }
+  static async create (req, res) {
+    try {
+      const { firstname, lastname, email, password, confirmPwd, age, gender, country, profession } = req.body;
 
-    static async del (req, res) {
-        try {
-          const authToken = req.header('X-Token');
-          const userId = await Authentification.valideLogin(authToken, "dev");
-          if (!userId) return res.status(401).json({ error: 'Unauthorized' });
-    
-          if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
-    
-          const result = await Developer.findByIdAndDelete(userId);
-    
-          if (!result) return res.status(404).send({error: "Developer Not Found"});
-    
-          redisClient.client.del(`dev_Auth-${authToken}`);
-          return res.status(200).json({ "message": "Developer successfully deleted." });
-    
-        } catch (error) {
-          res.status(500).json({ error: error.message });
-        }
-    }
+      /* ======= checks ========== */
+      if (!firstname || !lastname || !email || !password || !confirmPwd || !age || !gender || !country || !profession) { return res.status(400).json({ error: 'All Fields Must Be Filed' }); }
+      if (password !== confirmPwd) return res.status(400).json({ error: 'Passwords Do Not Match' });
 
-    static async get (req, res) {
-        try {
-          const authToken = req.header('X-Token');
-          const userId = await Authentification.valideLogin(authToken, "dev");
-          if (!userId) return res.status(401).json({ error: 'Unauthorized' });
-    
-          if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
-    
-          const user = await Developer.findById(userId);
-    
-          if (!user) return res.status(404).send({error: "Developer Not Found"});
-          return res.status(200).json({ user });
-    
-        } catch (error) {
-          res.status(500).json({ error: error.message });
-        }
-    }
+      const user = await Developer.findOne({ email });
+      if (user) return res.status(400).json({ error: 'email already exist' });
+      /* ======= End of checks ========== */
 
-    static async getAll (req, res) {
-        try {
-          const authToken = req.header('X-Token');
-          const userId = await Authentification.valideLogin(authToken);
-          if (!userId) return res.status(401).json({ error: 'Unauthorized' });
-        
-          const user = await Developer.find({});
-          return res.status(200).json({ Developers: user });
-    
-        } catch (error) {
-          res.status(500).json({ error: error.message });
-        }
+      const hashedPwd = await Tools.hashPwd(password);
+      const newDevData = { firstname, lastname, email, password: hashedPwd, age, gender, country, profession };
+
+      const developer = await Developer.create(newDevData);
+      console.log('Developer Account Created Successfully with the Id => ' + developer._id.toString());
+      res.status(201).json({ message: 'Developer Account Created Successfully' });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
+  }
+
+  static async del (req, res) {
+    try {
+      const authToken = req.header('X-Token');
+      const userId = await Authentification.valideLogin(authToken, 'dev');
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
+
+      const result = await Developer.findByIdAndDelete(userId);
+
+      if (!result) return res.status(404).send({ error: 'Developer Not Found' });
+
+      redisClient.client.del(`dev_Auth-${authToken}`);
+      return res.status(200).json({ message: 'Developer successfully deleted.' });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  static async get (req, res) {
+    try {
+      const authToken = req.header('X-Token');
+      const userId = await Authentification.valideLogin(authToken, 'dev');
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
+
+      const user = await Developer.findById(userId);
+
+      if (!user) return res.status(404).send({ error: 'Developer Not Found' });
+      return res.status(200).json({ Developer: user });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  static async getAll (req, res) {
+    try {
+      const authToken = req.header('X-Token');
+      const userId = await Authentification.valideLogin(authToken);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      const user = await Developer.find({});
+      return res.status(200).json({ Developers: user });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  static async update (req, res) {
+    try {
+      const authToken = req.header('X-Token');
+      const userId = await Authentification.valideLogin(authToken, 'dev');
+
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
+
+      const { firstname, lastname, age, gender, country, backupEmail, phone, profession, languages, password, confirmPwd, summary } = req.body;
+      const filter = { _id: new mongoose.Types.ObjectId(userId) };
+      const newDevData = {};
+
+      if (password) {
+        if (!confirmPwd) return res.status(400).json({ error: 'Confirmation Password is Required' });
+        if (password !== confirmPwd) return res.status(400).json({ error: 'Passwords Do Not Match' });
+
+        const hashedPwd = await Tools.hashPwd(password);
+        newDevData.password = hashedPwd;
+      }
+
+      if (age < 18 || age > 65) return res.status(400).json({ error: 'Invalid age it must be between 18 and 65' });
+      newDevData.age = age;
+      if (!firstname || !lastname || !age || !gender || !country || !profession || !languages) { return res.status(400).json({ error: 'Mandatory fields must be filed' }); }
+
+      newDevData.firstname = firstname;
+      newDevData.lastname = lastname;
+      newDevData.gender = gender;
+      newDevData.country = country;
+      newDevData.profession = profession;
+      newDevData.backupEmail = backupEmail;
+      newDevData.phone = phone;
+      newDevData.languages = languages;
+      newDevData.summary = summary;
+
+      const result = await Developer.findOneAndUpdate(filter, newDevData, { new: true });
+
+      if (!result) return res.status(404).json({ error: 'Developer Not Found' });
+      else res.status(200).json({ message: 'Developer successfully updated.' });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  static async updateDevImage (req, res) {
+    try {
+      const authToken = req.header('X-Token');
+      const userId = await Authentification.valideLogin(authToken, 'dev');
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+      if (!req.file.mimetype.includes('image')) return res.status(400).json({ error: 'File Uploaded Is Not An Image' });
+      if (req.file.size > 1048576) return res.status(400).json({ error: 'File Uploaded Exceeds 1MB' });
+
+      const webpBuffer = await sharp(req.file.buffer).webp({ quality: 80 }).toBuffer();
+
+      const base64Image = webpBuffer.toString('base64');
+      const dataUri = `data:image/webp;base64,${base64Image}`;
+      const result = await Developer.findByIdAndUpdate(userId, { image: dataUri });
+      
+      if (!result) return res.status(401).json({ error: 'Developer Not Found' });
+      res.status(200).json({ message: 'Profile Picture Updated Successfully!' });
+    } catch (error) {
+      res.status(500).json({error: error.message});
+    }
+  }
+
+  static async removeImage (req, res) {
+    try {
+      const authToken = req.header('X-Token');
+      const userId = await Authentification.valideLogin(authToken, "dev");
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      
+      const result = await Developer.findByIdAndUpdate(userId, { image: "/root/DEVEFIND/static/user.png" });
+      if (!result) return res.status(401).json({ error: 'Developer Not Found' });
+
+      res.status(200).json({ message: 'Profile Picture Removed Successfully!' });
+    } catch (error) {
+      res.status(500).json({error: error.message});
+    }
+  }
 }
 
 export default DeveloperController;

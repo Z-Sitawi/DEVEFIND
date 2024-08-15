@@ -27,6 +27,10 @@ const DeveloperSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  profession: {
+    type: String,
+    required: false
+  },
   email: {
     type: String,
     required: true,
@@ -56,12 +60,6 @@ const DeveloperSchema = new mongoose.Schema({
     type: String,
     required: false,
     trim: true,
-    validate: {
-      validator: function (v) {
-          return /^\+\d{9,15}$/.test(v);
-      },
-      message: props => `${props.value} is not a valid phone number!`
-    }
   },
   password: {
     type: String,
@@ -74,11 +72,11 @@ const DeveloperSchema = new mongoose.Schema({
   }],
   image: {
     type: String,
-    default: '../static/user.png'
+    default: '/root/DEVEFIND/static/user.png'
   },
   summary: {
-    headline: {type: String, maxlength: 100},
-    description: {type: String, maxlength: 700}
+    headline: {type: String, maxlength: 100, default: ""},
+    description: {type: String, maxlength: 700, default: ""}
   },
   education: [{
     institution: {type: String, maxlength: 100},
@@ -137,10 +135,6 @@ const DeveloperSchema = new mongoose.Schema({
       },
       message: props => `${props.value} is not a valid personal website URL!`
     }}
-  },
-  profession: {
-    type: String,
-    required: false
   },
   certifications: [{
     name: {type: String, maxlength: 100},
