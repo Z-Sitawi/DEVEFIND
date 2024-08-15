@@ -72,7 +72,7 @@ const DeveloperSchema = new mongoose.Schema({
   }],
   image: {
     type: String,
-    default: '../static/user.png'
+    default: '/root/DEVEFIND/static/user.png'
   },
   summary: {
     headline: {type: String, maxlength: 100, default: ""},
