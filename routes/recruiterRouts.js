@@ -4,14 +4,16 @@ import Authentification from '../controller/authController.js';
 
 const RecruiterRoutes = express.Router();
 
-RecruiterRoutes.post('/recruiter/signup', RecruiterController.create);                 //! Sign Up 
-RecruiterRoutes.post('/recruiter/login', Authentification.loginRecruiter);          /* Sign in */
-RecruiterRoutes.post('/recruiter/logout', Authentification.logoutRecruiter);          //! Sign out
+RecruiterRoutes.post('/recruiter/signup', RecruiterController.create); //! Sign Up
+RecruiterRoutes.post('/recruiter/login', Authentification.loginRecruiter); /* Sign in */
+RecruiterRoutes.post('/recruiter/logout', Authentification.logoutRecruiter); //! Sign out
 
 RecruiterRoutes.get('/api/recruiter', RecruiterController.get);
 
-RecruiterRoutes.delete('/api/recruiter', RecruiterController.del);                 //! Delete
+RecruiterRoutes.delete('/api/recruiter', RecruiterController.del); //! Delete
 
-RecruiterRoutes.put('/api/recruiter', RecruiterController.update);                 //? Update
+RecruiterRoutes.put('/api/recruiter', RecruiterController.update); // ? Update
+DeveloperRoutes.put('/api/recruiter/image', upload.single('file'), RecruiterController.updateRecImage);
+
 
 export default RecruiterRoutes;
