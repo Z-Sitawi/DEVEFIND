@@ -4,7 +4,6 @@ import Tools from '../utils/myfunctions.js';
 import mongoose from 'mongoose';
 import Developer from '../modules/developer.js';
 
-
 class Authentification {
   static async loginRecruiter (req, res) {
     try {
@@ -33,8 +32,8 @@ class Authentification {
     }
   }
 
-  static async valideLogin (authToken, userType="rec") {
-    const key = (userType === "dev")? "dev_Auth": "recruiter_Auth";
+  static async valideLogin (authToken, userType = 'rec') {
+    const key = (userType === 'dev') ? 'dev_Auth' : 'recruiter_Auth';
     if (!authToken) return false;
     const userId = redisClient.client.get(`${key}-${authToken}`);
     if (!userId) return false;
@@ -42,18 +41,18 @@ class Authentification {
     return userId;
   }
 
-  static async logoutRecruiter(req, res) {
+  static async logoutRecruiter (req, res) {
     try {
-        const authToken = req.header('X-Token');
-        const userId = await Authentification.valideLogin(authToken);
+      const authToken = req.header('X-Token');
+      const userId = await Authentification.valideLogin(authToken);
 
-        if (!userId) return res.status(401).json({ error: 'Unauthorized' });
-        if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
 
-        redisClient.client.del(`recruiter_Auth-${authToken}`);
-        return res.status(200).json({ "message": "User Successfully Loged Out." });
+      redisClient.client.del(`recruiter_Auth-${authToken}`);
+      return res.status(200).json({ message: 'Recruiter Successfully Loged Out.', status: 'disconnected' });
     } catch (error) {
-        return res.status(500).json({ error: error.message });
+      return res.status(500).json({ error: error.message });
     }
   }
 
@@ -84,18 +83,18 @@ class Authentification {
     }
   }
 
-  static async logoutDeveloper(req, res) {
+  static async logoutDeveloper (req, res) {
     try {
-        const authToken = req.header('X-Token');
-        const userId = await Authentification.valideLogin(authToken, "dev");
+      const authToken = req.header('X-Token');
+      const userId = await Authentification.valideLogin(authToken, 'dev');
 
-        if (!userId) return res.status(401).json({ error: 'Unauthorized' });
-        if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
 
-        redisClient.client.del(`dev_Auth-${authToken}`);
-        return res.status(200).json({ "message": "User Successfully Loged Out." });
+      redisClient.client.del(`dev_Auth-${authToken}`);
+      return res.status(200).json({ message: 'Developer Successfully Loged Out.', status: 'disconnected' });
     } catch (error) {
-        return res.status(500).json({ error: error.message });
+      return res.status(500).json({ error: error.message });
     }
   }
 }
