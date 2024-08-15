@@ -128,6 +128,21 @@ class RecruiterController {
       res.status(500).json({error: error.message});
     }
   }
+
+  static async removeImage (req, res) {
+    try {
+      const authToken = req.header('X-Token');
+      const userId = await Authentification.valideLogin(authToken);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      
+      const result = await Recruiter.findByIdAndUpdate(userId, { image: "/root/DEVEFIND/static/user.png" });
+      if (!result) return res.status(401).json({ error: 'Recruiter Not Found' });
+
+      res.status(200).json({ message: 'Profile Picture Removed Successfully!' });
+    } catch (error) {
+      res.status(500).json({error: error.message});
+    }
+  }
 }
 
 export default RecruiterController;

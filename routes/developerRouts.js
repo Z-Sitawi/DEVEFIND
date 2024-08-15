@@ -20,6 +20,7 @@ DeveloperRoutes.delete('/api/developer', DeveloperController.del); //! Delete
 DeveloperRoutes.put('/api/developer/', DeveloperController.update); // ? Update
 
 // `upload.single('file')` parses the file data and attaches it to `req.file`
-DeveloperRoutes.put('/api/developer/image', upload.single('file'), DeveloperController.updateDevImage);
+DeveloperRoutes.put('/api/developer/image/update', upload.single('file'), DeveloperController.updateDevImage);
+DeveloperRoutes.put('/api/developer/image/remove', DeveloperController.removeImage);
 
 export default DeveloperRoutes;
