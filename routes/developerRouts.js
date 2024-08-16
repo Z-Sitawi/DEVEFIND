@@ -7,7 +7,6 @@ const upload = multer();
 
 const DeveloperRoutes = express.Router();
 
-
 DeveloperRoutes.post('/developer/signup', DeveloperController.create); //! Sign Up
 DeveloperRoutes.post('/developer/login', Authentification.loginDeveloper); /* Sign in */
 DeveloperRoutes.post('/developer/logout', Authentification.logoutDeveloper); //! Sign out
