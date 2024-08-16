@@ -14,7 +14,6 @@ class Database {
 
   static async stats (req, res) {
     try {
-
       const count = await Recruiter.countDocuments({});
       res.status(200).json({ Recruiters: count, Developers: 0 });
     } catch (error) {

@@ -18,5 +18,4 @@ RecruiterRoutes.put('/api/recruiter', RecruiterController.update);
 RecruiterRoutes.put('/api/recruiter/image/update', upload.single('file'), RecruiterController.updateRecImage);
 RecruiterRoutes.put('/api/recruiter/image/remove', RecruiterController.removeImage);
 
-
 export default RecruiterRoutes;
