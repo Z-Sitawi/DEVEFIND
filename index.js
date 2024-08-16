@@ -2,6 +2,7 @@ import Database from './utils/db.js';
 import express from 'express';
 import RecruiterRoutes from './routes/recruiterRouts.js';
 import DeveloperRoutes from './routes/developerRouts.js';
+import FilterController from './controller/filtersController.js';
 import dotenv from 'dotenv';
 import redisClient from './utils/redis.js';
 import cors from 'cors';
@@ -22,16 +23,17 @@ app.get('/', (req, res) => {
 app.use('/', RecruiterRoutes);
 app.use('/', DeveloperRoutes);
 app.get('/stats', Database.stats);
+app.get('/api/filters', FilterController.get)
 
 function main () {
   //! Connect to the database
   Database.connect()
-    .then(() => {
+    .then(async () => {
       //! Connect to Redis Server
-      redisClient.client.connect();
-    })
-    .then(() => {
-      //! Run Express Server
+      await redisClient.client.connect();
+      /* check if filters Exist */
+      await FilterController.setUpFilters();
+      /* Run Express Server */
       app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
       });
