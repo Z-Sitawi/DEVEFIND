@@ -1,0 +1,307 @@
+/* General Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background: linear-gradient(135deg, #2c3e50, #ffffff);
+}
+
+.home-page {
+    width: 100%;
+    padding: 20px;
+}
+
+/* Welcome Banner */
+.welcome-banner {
+    background-color: #2c3e50;
+    padding: 80px 20px;
+    text-align: center;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-banner h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.welcome-banner p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.welcome-banner .cta-button {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.welcome-banner .cta-button:hover {
+    background-color: #c0392b;
+}
+
+/* Search Bar for Job Seekers */
+.search-bar {
+    padding: 20px;
+    background-color: #ecf0f1;
+    text-align: center;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adding shadow */
+}
+
+.search-bar input {
+    padding: 10px;
+    width: 60%;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 1rem;
+}
+
+.search-bar button {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background-color: #c0392b;
+}
+
+/* Profile Overview */
+.profile-overview {
+    padding: 50px 20px;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adding shadow */
+}
+
+.profile-card {
+    display: inline-block;
+    padding: 20px;
+    background-color: #ecf0f1;
+    border-radius: 10px;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adding shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.profile-card .profile-pic {
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.profile-card h3 {
+    margin-bottom: 10px;
+    color: #34495e;
+}
+
+.profile-card p {
+    color: #7f8c8d;
+}
+
+.profile-card .cta-button {
+    margin-top: 10px;
+    background-color: #e74c3c;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+/* Dashboard Sections */
+.dashboard-recruiter, .dashboard-seeker {
+    padding: 50px 20px;
+    background-color: #f5f5f5;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adding shadow */
+}
+
+.dashboard-recruiter h2, .dashboard-seeker h2 {
+    margin-bottom: 30px;
+    color: #2c3e50;
+}
+
+.job-card, .job-recommendations .job-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adding shadow */
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+.job-card h3 {
+    margin-bottom: 10px;
+    color: #34495e;
+}
+
+.job-card p {
+    color: #7f8c8d;
+}
+
+.job-card .cta-button {
+    background-color: #e74c3c;
+}
+
+/* Recent Activity */
+.recent-activity {
+    padding: 50px 20px;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adding shadow */
+}
+
+.activity-feed {
+    display: inline-block;
+    text-align: left;
+}
+
+.activity-card {
+    background-color: #ecf0f1;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adding shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.activity-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+.activity-card p {
+    color: #34495e;
+}
+
+.activity-card span {
+    color: #7f8c8d;
+}
+
+/* Quick Links */
+.quick-links {
+    padding: 50px 20px;
+    background-color: #f5f5f5;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adding shadow */
+}
+
+.quick-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.quick-links li {
+    margin-bottom: 15px;
+}
+
+.quick-links .cta-button {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+.quick-links .cta-button:hover {
+    background-color: #34495e;
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+
+/* Footer Section */
+.footer {
+    background-color: #2c3e50;
+    padding: 20px;
+    color: #fff;
+    text-align: center;
+  }
+  
+  .footer-links {
+    margin-bottom: 20px;
+  }
+  
+  .footer-links a {
+    color: #bdc3c7;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+  
+  .footer-social {
+    margin-bottom: 20px;
+  }
+  
+  .footer-social a {
+    color: #bdc3c7;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+
+
+/* Responsive Styles */
+
+/* Mobile Devices (up to 600px) */
+@media (max-width: 600px) {
+    .welcome-banner h1 {
+        font-size: 1.8rem;
+    }
+
+    .welcome-banner p {
+        font-size: 1rem;
+    }
+
+    .search-bar input {
+        width: 80%;
+    }
+
+    .cta-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Tablets (up to 900px) */
+@media (max-width: 900px) {
+    .welcome-banner h1 {
+        font-size: 2.2rem;
+    }
+
+    .profile-card, .job-card, .activity-card {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .profile-overview, .dashboard-recruiter, .dashboard-seeker, .recent-activity, .quick-links, .notifications-section {
+        padding: 40px 20px;
+    }
+}
+
+/* Desktop (more than 900px) */
+@media (min-width: 901px) {
+    .welcome-banner h1 {
+        font-size: 2.5rem;
+    }
+
+    .profile-overview, .dashboard-recruiter, .dashboard-seeker, .recent-activity, .quick-links, .notifications-section {
+        padding: 50px 20px;
+    }
+}

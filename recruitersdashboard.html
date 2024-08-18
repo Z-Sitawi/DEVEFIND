@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - DeveFind</title>
+  <link rel="stylesheet" href="./recruitersdashboard.css">
+</head>
+<body>
+  <div class="home-page">
+    <!-- Welcome Banner -->
+    <section class="welcome-banner">
+      <h1>Welcome Back, [User Name]</h1>
+      <p>What would you like to do today?</p>
+      <a href="/create-job" class="cta-button">Post a Job</a>
+      <a href="/search-candidates" class="cta-button">Search for Candidates</a>
+      <a href="/update-profile" class="cta-button">Update Profile</a>
+    </section>
+
+    <!-- Search Bar for Job Seekers -->
+    <section class="search-bar" id="search-bar">
+      <form id="search-form">
+        <input 
+          type="text" 
+          id="search-query" 
+          placeholder="Search for jobs..." 
+        />
+        <button type="submit" class="cta-button">Search</button>
+      </form>
+    </section>
+
+    <!-- User Profile Overview -->
+    <section class="profile-overview">
+      <h2>Your Profile</h2>
+      <div class="profile-card">
+        <img src="/path-to-profile-picture.jpg" alt="Profile" class="profile-pic" />
+        <div class="profile-details">
+          <h3>[User Name]</h3>
+          <p>[User Title]</p>
+          <a href="/update-profile" class="cta-button">Edit Profile</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conditional Sections Based on User Role -->
+    <section class="dashboard-recruiter" id="dashboard-recruiter">
+      <h2>Candidates</h2>
+      <div class="profile-card">
+        <img src="/path-to-profile-picture.jpg" alt="Profile" class="profile-pic" />
+        <div class="profile-details">
+          <h3>[Candidate Name]</h3>
+          <p>[Candidate Title]</p>
+          <a href="/View-Candidate" class="cta-button">View Candidate</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="dashboard-seeker" id="dashboard-seeker">
+      <h2>Job Recommendations</h2>
+      <div class="job-recommendations">
+        <div class="job-card">
+          <h3>Frontend Developer at TechCorp</h3>
+          <p>Location: New York, NY</p>
+          <a href="/apply-job" class="cta-button">Apply Now</a>
+        </div>
+        <!-- Additional job recommendations -->
+      </div>
+    </section>
+
+    <!-- Recent Activity Feed -->
+    <section class="recent-activity">
+      <h2>Recent Activity</h2>
+      <div class="activity-feed">
+        <div class="activity-card">
+          <p>You have viewed <strong>15</strong> profiles of <strong>Job Title</strong> at XYZ Corp.</p>
+          <span>July 15, 2024</span>
+        </div>
+        <!-- Additional activity items -->
+      </div>
+    </section>
+
+    <!-- Quick Links -->
+    <section class="quick-links">
+      <ul>
+        <li><a href="/update profile" class="cta-button">update profile</a></li>
+        <li><a href="/logout" class="cta-button">setting</a></li>
+        <li><a href="/logout" class="cta-button">logout</a></li>
+      </ul>
+    </section>
+
+    <!-- Footer Section -->
+    <section class="Footer-section">
+      <h2>Quick Links</h2>
+    <footer class="footer">
+      <div class="footer-links">
+        <a href="/about">About Us</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+      </div>
+      <div class="footer-social">
+        <a href="https://twitter.com">Twitter</a>
+        <a href="https://linkedin.com">LinkedIn</a>
+      </div>
+      <p>© 2024 DeveFind. All rights reserved.</p>
+    </footer>
+    </section>
+  </div>
+
+  <script src="./home.js"></script>
+</body>
+</html>
