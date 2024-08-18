@@ -86,8 +86,7 @@ class DeveloperController {
       if (!userId) return res.status(401).json({ error: 'Unauthorized' });
       if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
 
-      const { firstname, lastname, age, gender, country, backupEmail, phone, profession, languages, password, confirmPwd, summary } = req.body;
-      const filter = { _id: new mongoose.Types.ObjectId(userId) };
+      const { firstname, lastname, age, gender, country, backupEmail, phone, profession, languages, level, password, confirmPwd, summary } = req.body;
       const newDevData = {};
 
       if (password) {
@@ -98,21 +97,24 @@ class DeveloperController {
         newDevData.password = hashedPwd;
       }
 
+      if (!firstname || !lastname || !age || !gender || !country || !profession || !languages || !level) { 
+        return res.status(400).json({ error: 'Mandatory fields must be filed' }); 
+      }
       if (age < 18 || age > 65) return res.status(400).json({ error: 'Invalid age it must be between 18 and 65' });
-      newDevData.age = age;
-      if (!firstname || !lastname || !age || !gender || !country || !profession || !languages) { return res.status(400).json({ error: 'Mandatory fields must be filed' }); }
 
       newDevData.firstname = firstname;
       newDevData.lastname = lastname;
+      newDevData.age = age;
       newDevData.gender = gender;
       newDevData.country = country;
       newDevData.profession = profession;
       newDevData.backupEmail = backupEmail;
       newDevData.phone = phone;
-      newDevData.languages = languages;
-      newDevData.summary = summary;
+      newDevData.languages = languages; // list of {language and proficiency} objects
+      newDevData.level = level;
+      newDevData.summary = summary; // One Singe object that contains headline and description
 
-      const result = await Developer.findOneAndUpdate(filter, newDevData, { new: true });
+      const result = await Developer.findByIdAndUpdate((userId, newDevData, { new: true }));
 
       if (!result) return res.status(404).json({ error: 'Developer Not Found' });
       else res.status(200).json({ message: 'Developer successfully updated.' });
