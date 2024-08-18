@@ -21,11 +21,16 @@ class Authentification {
       const token = Tools.generateToken();
       const key = `recruiter_Auth-${token}`;
       const value = user.id;
-      const timeInSec = 60 * 60 * 12; //! Authentification expires after 12 Hours
+      const timeInSec = 60 * 60 * 6; //! Authentification expires after 6 Hours
 
-      const reply = await redisClient.client.set(key, value, timeInSec);
+      const reply = await redisClient.client.set(key, value);
       if (reply !== 'OK') return res.status(500).json({ error: 'Rrdis Server Error' });
       console.log(`Log in Success, Token: ${token}`);
+      const expirationResult = await redisClient.client.expire(key, timeInSec);
+      if (expirationResult) {
+        console.log(`The key will expire in ${timeInSec} seconds from now.`);
+      }
+
       res.status(200).json({ status: 'connected', token });
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -72,11 +77,17 @@ class Authentification {
       const token = Tools.generateToken();
       const key = `dev_Auth-${token}`;
       const value = user.id;
-      const timeInSec = 60 * 60 * 12; //! Authentification expires after 12 Hours
+      const timeInSec = 60 * 60 * 6; //! Authentification expires after 6 Hours
 
-      const reply = await redisClient.client.set(key, value, timeInSec);
+      const reply = await redisClient.client.set(key, value);
       if (reply !== 'OK') return res.status(500).json({ error: 'Rrdis Server Error' });
       console.log(`Log in Success, Token: ${token}`);
+
+      const expirationResult = await redisClient.client.expire(key, timeInSec);
+      if (expirationResult) {
+        console.log(`The key will expire in ${timeInSec} seconds from now.`);
+      }
+
       res.status(200).json({ status: 'connected', token });
     } catch (err) {
       res.status(500).json({ error: err.message });
