@@ -27,18 +27,6 @@
       <button id="auth0-login" class="cta-button">Login with Auth0</button>
     </section>
   </div>
-  <script>
-    document.getElementById('login-form').addEventListener('submit', function(event) {
-      event.preventDefault();
-      // Redirect to dashboard after login
-      window.location.href = 'dashboard.html'; // Update to your actual dashboard URL
-    });
-
-    document.getElementById('auth0-login').addEventListener('click', function() {
-      // Implement Auth0 login redirect
-      // For example: auth0.loginWithRedirect();
-      window.location.href = '/auth0-login'; // Placeholder for actual Auth0 login
-    });
-  </script>
+  <script src="login.js"></script>
 </body>
 </html>
