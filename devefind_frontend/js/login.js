@@ -73,14 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
   
         if (response.ok) {
           alert('Login successful! Redirecting to your dashboard.');
-          window.location.href = '/dashboard';
+          const data = await response.json();
+          sessionStorage.setItem('token', data.token);
+          window.location.href = '/recruitersdashboard.html';
         } else {
           const error = await response.json();
-          alert(`Error: ${error.message}`);
+          alert(`Error: ${error.error}`);
         }
       } catch (error) {
         console.error('Login failed:', error);
       }
     });
   });
-  
