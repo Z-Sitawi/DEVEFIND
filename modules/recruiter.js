@@ -63,7 +63,7 @@ const RecruiterSchema = new mongoose.Schema({
   image: {
     type: String,
     required: false,
-    default: '../static/user.png'
+    default: './images/png/user.png'
   }
 }, {
   timestamps: true
