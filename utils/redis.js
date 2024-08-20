@@ -80,15 +80,14 @@ class RedisClient {
       });
     });
   }
-  
-  
+
   /**
    * Sets an expiration time for a given key in the Redis database.
    *
    * This method uses the Redis `EXPIRE` command to set the time-to-live (TTL)
    * for the specified key. The TTL is the duration (in seconds) after which
    * the key will be automatically deleted from the database.
-   * 
+   *
    * @param {string} key - The key for which the expiration time is to be set.
    * @param {number} timeInSec - The expiration time in seconds.
    * @returns {Promise<number>} A promise that resolves to the result of the EXPIRE command.
@@ -97,16 +96,15 @@ class RedisClient {
    * @throws {Error} Throws an error if there is an issue setting the expiration, such as a
    *                connection problem with the Redis server or invalid parameters.
    */
-  async expire(key, timeInSec) {
+  async expire (key, timeInSec) {
     try {
-        const result = await this.client.expire(key, timeInSec);
-        return result;
+      const result = await this.client.expire(key, timeInSec);
+      return result;
     } catch (error) {
-        console.error('Error setting expiration:', error.message);
-        throw error;
+      console.error('Error setting expiration:', error.message);
+      throw error;
     }
   }
-
 
   /**
    * Deletes the specified key from Redis.

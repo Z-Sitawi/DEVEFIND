@@ -12,7 +12,7 @@ class DeveloperController {
 
       /* ======= checks ========== */
       if (!firstName || !lastName || !email || !password || !confirmPassword || !age || !gender || !country || !profession) {
-        return res.status(400).json({ error: 'All Fields Must Be Filed' }); 
+        return res.status(400).json({ error: 'All Fields Must Be Filed' });
       }
       if (password !== confirmPassword) return res.status(400).json({ error: 'Passwords Do Not Match' });
 
@@ -98,8 +98,8 @@ class DeveloperController {
         newDevData.password = hashedPwd;
       }
 
-      if (!firstName || !lastName || !age || !gender || !country || !profession || !languages || !level) { 
-        return res.status(400).json({ error: 'Mandatory fields must be filed' }); 
+      if (!firstName || !lastName || !age || !gender || !country || !profession || !languages || !level) {
+        return res.status(400).json({ error: 'Mandatory fields must be filed' });
       }
       if (age < 18 || age > 65) return res.status(400).json({ error: 'Invalid age it must be between 18 and 65' });
 
@@ -172,8 +172,8 @@ class DeveloperController {
       const { age, gender, country, backupEmail, phone, profession, languages, level } = req.body;
       const newDevData = {};
 
-      if (!age || !gender || !country || !profession || !languages || !level) { 
-        return res.status(400).json({ error: 'Mandatory fields must be filed' }); 
+      if (!age || !gender || !country || !profession || !languages || !level) {
+        return res.status(400).json({ error: 'Mandatory fields must be filed' });
       }
       if (age < 18 || age > 65) return res.status(400).json({ error: 'Invalid age it must be between 18 and 65' });
 
