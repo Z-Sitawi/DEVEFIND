@@ -1,6 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const token = sessionStorage.getItem('token');
+
+    if (!token) {
+        window.location.href = '/login.html';
+        return;
+    }
     // Fetch and populate filters from filter.json
-    fetch('/controller/filter.json')
+    fetch('/api/filters')
         .then(response => response.json())
         .then(data => {
             populateDropdown('country-filter', data.country);
@@ -158,6 +164,32 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     fetchRecruiterData();
+
+    // Log Out
+    const logOutBtn = document.querySelector('#logOutBtn');
+    logOutBtn.addEventListener('click', async () => {
+        
+        try {
+          const response = await fetch('/recruiter/logout', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-token': token,
+            },
+          });
+    
+          if (response.ok) {
+            const result = await response.json();
+            alert(result.message);
+            window.location.href = '/login.html';
+          } else {
+            const error = await response.json();
+            alert(`Error: ${error.error}`);
+          }
+        } catch (error) {
+          console.error('Login failed:', error);
+        }
+      });
 });
 
 // Function to populate dropdowns
@@ -172,7 +204,7 @@ function populateDropdown(elementId, options) {
 }
 
 // Function to update candidate list
-function updateCandidateList(candidates) {
+/* function updateCandidateList(candidates) {
     const candidateList = document.getElementById('candidate-list');
     candidateList.innerHTML = ''; // Clear existing candidates
     candidates.forEach(candidate => {
@@ -185,4 +217,4 @@ function updateCandidateList(candidates) {
         `;
         candidateList.appendChild(candidateCard);
     });
-}
+} */
