@@ -1,18 +1,29 @@
 import express from 'express';
 import DeveloperController from '../controller/developerController.js';
 import Authentification from '../controller/authController.js';
+import multer from 'multer';
+
+const upload = multer();
 
 const DeveloperRoutes = express.Router();
 
-DeveloperRoutes.post('/devloper/signup', DeveloperController.create);                 //! Sign Up 
-DeveloperRoutes.post('/devloper/login', Authentification.loginDeveloper);          /* Sign in */
-DeveloperRoutes.post('/devloper/logout', Authentification.logoutDeveloper);          //! Sign out
+DeveloperRoutes.post('/developer/signup', DeveloperController.create); //! Sign Up
+DeveloperRoutes.post('/developer/login', Authentification.loginDeveloper); /* Sign in */
+DeveloperRoutes.post('/developer/logout', Authentification.logoutDeveloper); //! Sign out
 
-DeveloperRoutes.get('/api/devloper', DeveloperController.get);
-DeveloperRoutes.get('/api/devloper/all', DeveloperController.getAll);
+DeveloperRoutes.get('/api/developer', DeveloperController.get);
+DeveloperRoutes.get('/api/developer/all', DeveloperController.getAll);
 
-DeveloperRoutes.delete('/api/devloper', DeveloperController.del);                 //! Delete
+DeveloperRoutes.delete('/api/developer', DeveloperController.del); //! Delete
 
-// DeveloperRoutes.put('/api/devloper', DeveloperController.update);                 //? Update
+DeveloperRoutes.put('/api/developer/personal/info', DeveloperController.addPersonalInfo); // ? To add personal information (mandatory)
+DeveloperRoutes.put('/api/developer/update/personal', DeveloperController.update); // ? To Update personal information
+
+DeveloperRoutes.put('/api/developer/edu/info', DeveloperController.eduInfo); // ? To add and Update education details
+DeveloperRoutes.put('/api/developer/exp/info', DeveloperController.expInfo); // ? to add and Update experience info
+
+// `upload.single('file')` parses the file data and attaches it to `req.file`
+DeveloperRoutes.put('/api/developer/image/update', upload.single('file'), DeveloperController.updateDevImage);
+DeveloperRoutes.put('/api/developer/image/remove', DeveloperController.removeImage);
 
 export default DeveloperRoutes;
