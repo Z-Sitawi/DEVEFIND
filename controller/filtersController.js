@@ -52,7 +52,7 @@ class FilterController {
         }
         res.status(200).json(JSON.parse(backupFilters));
       }
-      res.status(200).json(filters);
+      res.status(200).json(filters[0]);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
