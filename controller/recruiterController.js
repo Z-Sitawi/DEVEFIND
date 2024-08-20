@@ -12,10 +12,10 @@ class RecruiterController {
 
       /* ======= checks ========== */
       if (!firstName || !lastName || !email || !password || !confirmPassword) return res.status(400).json({ error: 'All Fields Must Be Filed' });
-      if (password !== confirmPassword) return res.status(400).json({ error: 'Passwords Do Not Match' });
-
       const user = await Recruiter.findOne({ email });
       if (user) return res.status(400).json({ error: 'email already exist' });
+      if (password !== confirmPassword) return res.status(400).json({ error: 'Passwords Do Not Match' });
+
       /* ======= End of checks ========== */
 
       const hashedPwd = await Tools.hashPwd(password);

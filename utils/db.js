@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Recruiter from '../modules/recruiter.js';
+import Developer from '../modules/developer.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -14,8 +15,9 @@ class Database {
 
   static async stats (req, res) {
     try {
-      const count = await Recruiter.countDocuments({});
-      res.status(200).json({ Recruiters: count, Developers: 0 });
+      const countRecruiters = await Recruiter.countDocuments({});
+      const countDevelopers = await Developer.countDocuments({});
+      res.status(200).json({ Recruiters: countRecruiters, Developers: countDevelopers });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
