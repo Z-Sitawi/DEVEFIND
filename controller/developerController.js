@@ -8,19 +8,20 @@ import sharp from 'sharp';
 class DeveloperController {
   static async create (req, res) {
     try {
-      const { firstname, lastname, email, password, confirmPwd } = req.body;
+      const { firstName, lastName, email, password, confirmPassword, age, gender, country, profession } = req.body;
 
       /* ======= checks ========== */
-      if (!firstname || !lastname || !email || !password || !confirmPwd) { return res.status(400).json({ error: 'All Fields Must Be Filed' }); }
-      if (password !== confirmPwd) return res.status(400).json({ error: 'Passwords Do Not Match' });
+      if (!firstName || !lastName || !email || !password || !confirmPassword || !age || !gender || !country || !profession) {
+        return res.status(400).json({ error: 'All Fields Must Be Filed' }); 
+      }
+      if (password !== confirmPassword) return res.status(400).json({ error: 'Passwords Do Not Match' });
 
       const user = await Developer.findOne({ email });
       if (user) return res.status(400).json({ error: 'email already exist' });
       /* ======= End of checks ========== */
 
       const hashedPwd = await Tools.hashPwd(password);
-      const newDevData = { firstname, lastname, email, password: hashedPwd };
-
+      const newDevData = { firstName, lastName, email, password: hashedPwd, age, gender, country, profession };
       const developer = await Developer.create(newDevData);
       console.log('Developer Account Created Successfully with the Id => ' + developer._id.toString());
       res.status(201).json({ message: 'Developer Account Created Successfully' });
@@ -86,24 +87,24 @@ class DeveloperController {
       if (!userId) return res.status(401).json({ error: 'Unauthorized' });
       if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
 
-      const { firstname, lastname, age, gender, country, backupEmail, phone, profession, languages, level, password, confirmPwd, summary } = req.body;
+      const { firstName, lastName, age, gender, country, backupEmail, phone, profession, languages, level, password, confirmPassword, summary } = req.body;
       const newDevData = {};
 
       if (password) {
-        if (!confirmPwd) return res.status(400).json({ error: 'Confirmation Password is Required' });
-        if (password !== confirmPwd) return res.status(400).json({ error: 'Passwords Do Not Match' });
+        if (!confirmPassword) return res.status(400).json({ error: 'Confirmation Password is Required' });
+        if (password !== confirmPassword) return res.status(400).json({ error: 'Passwords Do Not Match' });
 
         const hashedPwd = await Tools.hashPwd(password);
         newDevData.password = hashedPwd;
       }
 
-      if (!firstname || !lastname || !age || !gender || !country || !profession || !languages || !level) { 
+      if (!firstName || !lastName || !age || !gender || !country || !profession || !languages || !level) { 
         return res.status(400).json({ error: 'Mandatory fields must be filed' }); 
       }
       if (age < 18 || age > 65) return res.status(400).json({ error: 'Invalid age it must be between 18 and 65' });
 
-      newDevData.firstname = firstname;
-      newDevData.lastname = lastname;
+      newDevData.firstName = firstName;
+      newDevData.lastName = lastName;
       newDevData.age = age;
       newDevData.gender = gender;
       newDevData.country = country;
@@ -160,7 +161,7 @@ class DeveloperController {
     }
   }
 
-  static async addPersonalInfo (req, res) {
+  /* static async addPersonalInfo (req, res) {
     try {
       const authToken = req.header('X-Token');
       const userId = await Authentification.valideLogin(authToken, 'dev');
@@ -193,7 +194,7 @@ class DeveloperController {
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-  }
+  } */
 }
 
 export default DeveloperController;

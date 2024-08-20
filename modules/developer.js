@@ -1,14 +1,14 @@
 import mongoose from 'mongoose';
 
 const DeveloperSchema = new mongoose.Schema({
-  firstname: {
+  firstName: {
     type: String,
     required: true,
     trim: true,
     minlength: 3,
     lowercase: true
   },
-  lastname: {
+  lastName: {
     type: String,
     required: true,
     trim: true,
