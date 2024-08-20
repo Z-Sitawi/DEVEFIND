@@ -8,10 +8,10 @@ import sharp from 'sharp';
 class DeveloperController {
   static async create (req, res) {
     try {
-      const { firstname, lastname, email, password, confirmPwd, age, gender, country, profession } = req.body;
+      const { firstname, lastname, email, password, confirmPwd } = req.body;
 
       /* ======= checks ========== */
-      if (!firstname || !lastname || !email || !password || !confirmPwd || !age || !gender || !country || !profession) { return res.status(400).json({ error: 'All Fields Must Be Filed' }); }
+      if (!firstname || !lastname || !email || !password || !confirmPwd) { return res.status(400).json({ error: 'All Fields Must Be Filed' }); }
       if (password !== confirmPwd) return res.status(400).json({ error: 'Passwords Do Not Match' });
 
       const user = await Developer.findOne({ email });
@@ -19,7 +19,7 @@ class DeveloperController {
       /* ======= End of checks ========== */
 
       const hashedPwd = await Tools.hashPwd(password);
-      const newDevData = { firstname, lastname, email, password: hashedPwd, age, gender, country, profession };
+      const newDevData = { firstname, lastname, email, password: hashedPwd };
 
       const developer = await Developer.create(newDevData);
       console.log('Developer Account Created Successfully with the Id => ' + developer._id.toString());
@@ -155,6 +155,41 @@ class DeveloperController {
       if (!result) return res.status(401).json({ error: 'Developer Not Found' });
 
       res.status(200).json({ message: 'Profile Picture Removed Successfully!' });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  static async addPersonalInfo (req, res) {
+    try {
+      const authToken = req.header('X-Token');
+      const userId = await Authentification.valideLogin(authToken, 'dev');
+
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
+
+      const { age, gender, country, backupEmail, phone, profession, languages, level } = req.body;
+      const newDevData = {};
+
+      if (!age || !gender || !country || !profession || !languages || !level) { 
+        return res.status(400).json({ error: 'Mandatory fields must be filed' }); 
+      }
+      if (age < 18 || age > 65) return res.status(400).json({ error: 'Invalid age it must be between 18 and 65' });
+
+      newDevData.age = age;
+      newDevData.gender = gender;
+      newDevData.country = country;
+      newDevData.profession = profession;
+      newDevData.backupEmail = backupEmail;
+      newDevData.phone = phone;
+      newDevData.languages = languages; // list of {language and proficiency} objects
+      newDevData.level = level;
+      newDevData.summary = summary; // One Singe object that contains headline and description
+
+      const result = await Developer.findByIdAndUpdate((userId, newDevData, { new: true }));
+
+      if (!result) return res.status(404).json({ error: 'Developer Not Found' });
+      else res.status(200).json({ message: 'Developer successfully updated.' });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
