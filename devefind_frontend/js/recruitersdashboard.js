@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (response.ok) {
                         alert('Profile picture updated successfully!');
                         // Optionally update the UI with the new profile picture
+                        location.reload();
                     } else {
                         alert(`Error: ${result.error}`);
                     }
