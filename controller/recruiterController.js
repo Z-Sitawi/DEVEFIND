@@ -74,7 +74,6 @@ class RecruiterController {
       if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
 
       const { firstName, lastName, password, confirmPassword, backupEmail, phone } = req.body;
-      const filter = { _id: new mongoose.Types.ObjectId(userId) };
       let newRecruiterData = {};
 
       if (!firstName || !lastName) { return res.status(400).json({ error: 'Mandatory fields must be filed' }); }
@@ -88,7 +87,7 @@ class RecruiterController {
       }
       newRecruiterData = { ...newRecruiterData, firstName, lastName, backupEmail, phone };
 
-      const result = await Recruiter.findOneAndUpdate(filter, newRecruiterData);
+      const result = await Recruiter.findByIdAndUpdate(userId, newRecruiterData);
 
       if (!result) return res.status(404).json({ error: 'Recruiter Not Found' });
       else res.status(200).json({ message: 'Recruiter successfully updated.' });
