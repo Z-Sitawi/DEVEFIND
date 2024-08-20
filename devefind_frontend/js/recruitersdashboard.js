@@ -181,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (response.ok) {
             const result = await response.json();
             alert(result.message);
+            sessionStorage.removeItem('token');
             window.location.href = '/login.html';
           } else {
             const error = await response.json();
