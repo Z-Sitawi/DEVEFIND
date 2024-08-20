@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         password: formData.get('password'),
         confirmPassword: formData.get('confirmPwd'),
       };
-        
+
       try {
         const response = await fetch('recruiter/signup', {
           method: 'POST',
@@ -82,6 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
   
         if (response.ok) {
           // Redirect to recruiter profile page
+          const result = await response.json();
+          alert(result.message || 'Sign up Succeed');
           window.location.href = './login.html';
         } else {
           const result = await response.json();
