@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('/api/filters')
         .then(response => response.json())
         .then(data => {
-            populateDropdown('country-filter', data[0].country);
-            populateDropdown('gender-filter', data[0].gender);
-            populateDropdown('language-filter', data[0].languages);
-            populateDropdown('proficiency-filter', data[0].proficiency);
-            populateDropdown('level-filter', data[0].level);
-            populateDropdown('profession-filter', data[0].profession);
+            populateDropdown('country-filter', data.country);
+            populateDropdown('gender-filter', data.gender);
+            populateDropdown('language-filter', data.languages);
+            populateDropdown('proficiency-filter', data.proficiency);
+            populateDropdown('level-filter', data.level);
+            populateDropdown('profession-filter', data.profession);
         })
         .catch(error => console.error('Error fetching filters:', error));
 
@@ -147,17 +147,17 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('/api/recruiter', {
                 headers: {
-                    'X-Token': localStorage.getItem('authToken'),
+                    'X-Token': token,
                 },
             });
             if (!response.ok) {
                 throw new Error('Failed to fetch recruiter data');
             }
             const recruiter = await response.json();
-            document.getElementById('recruiter-name').textContent = `${recruiter.firstname} ${recruiter.lastname}`;
-            document.getElementById('recruiter-title').textContent = recruiter.title || 'Title not provided';
-            document.getElementById('recruiter-org').textContent = recruiter.organization || 'Organization not provided';
-            document.querySelector('.card-avatar').src = recruiter.image || '../static/user.png';
+            document.getElementById('recruiter-name').textContent = `${recruiter.recruiter.firstName} ${recruiter.recruiter.lastName}`;
+            document.getElementById('recruiter-title').textContent = recruiter.recruiter.title || 'Title not provided';
+            document.getElementById('recruiter-org').textContent = recruiter.recruiter.organization || 'Organization not provided';
+            document.querySelector('.card-avatar').src = recruiter.recruiter.image || '../static/user.png';
         } catch (error) {
             console.error('Error fetching recruiter data:', error);
         }
