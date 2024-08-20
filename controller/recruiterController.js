@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import sharp from 'sharp';
 import redisClient from '../utils/redis.js';
 
-
 class RecruiterController {
   static async create (req, res) {
     try {
