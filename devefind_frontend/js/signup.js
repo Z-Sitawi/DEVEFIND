@@ -64,17 +64,15 @@ document.addEventListener('DOMContentLoaded', () => {
       // Collect recruiter form data
       const formData = new FormData(recruiterForm);
       const data = {
-        firstname: formData.get('firstname'),
-        lastname: formData.get('lastname'),
+        firstName: formData.get('firstname'),
+        lastName: formData.get('lastname'),
         email: formData.get('email'),
         password: formData.get('password'),
-        confirmPwd: formData.get('confirmPwd'),
-        backupEmail: formData.get('backupEmail'),
-        phone: formData.get('phone')
+        confirmPassword: formData.get('confirmPwd'),
       };
-  
+        
       try {
-        const response = await fetch('/recruiter/signup', {
+        const response = await fetch('recruiter/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -84,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
         if (response.ok) {
           // Redirect to recruiter profile page
-          window.location.href = '/recruitersdashboard';
+          window.location.href = './login.html';
         } else {
           const result = await response.json();
           alert(result.error || 'Sign up failed');
@@ -95,4 +93,3 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-  
