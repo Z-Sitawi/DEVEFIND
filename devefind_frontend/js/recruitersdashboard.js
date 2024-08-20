@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('/api/filters')
         .then(response => response.json())
         .then(data => {
-            populateDropdown('country-filter', data.country);
-            populateDropdown('gender-filter', data.gender);
-            populateDropdown('language-filter', data.languages);
-            populateDropdown('proficiency-filter', data.proficiency);
-            populateDropdown('level-filter', data.level);
-            populateDropdown('profession-filter', data.profession);
+            populateDropdown('country-filter', data[0].country);
+            populateDropdown('gender-filter', data[0].gender);
+            populateDropdown('language-filter', data[0].languages);
+            populateDropdown('proficiency-filter', data[0].proficiency);
+            populateDropdown('level-filter', data[0].level);
+            populateDropdown('profession-filter', data[0].profession);
         })
         .catch(error => console.error('Error fetching filters:', error));
 
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('/api/recruiter', {
                     method: 'PUT',
                     headers: {
-                        'X-Token': localStorage.getItem('authToken'),
+                        'X-Token': token,
                     },
                     body: formData,
                 });
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const response = await fetch('/api/recruiter/image/update', {
                         method: 'PUT',
                         headers: {
-                            'X-Token': localStorage.getItem('authToken'),
+                            'X-Token': token,
                         },
                         body: formData,
                     });
