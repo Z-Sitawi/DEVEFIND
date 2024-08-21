@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const personalInfoForm = document.getElementById('brief-form');
+    const briefInfoForm = document.getElementById('brief-form');
     const educationForm = document.getElementById('education-form');
     const skillsForm = document.getElementById('skills-form');
     const workExpForm = document.getElementById('work-exp-form');
@@ -15,14 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveContinue4 = document.getElementById('save-continue-4');
   
     function showForm(form) {
-        personalInfoForm.style.display = 'none';
+        briefInfoForm.style.display = 'none';
         educationForm.style.display = 'none';
         skillsForm.style.display = 'none';
         workExpForm.style.display = 'none';
         form.style.display = 'block';
     }
   
-    personalInfoBtn.addEventListener('click', () => showForm(personalInfoForm));
+    personalInfoBtn.addEventListener('click', () => showForm(briefInfoForm));
     educationBtn.addEventListener('click', () => showForm(educationForm));
     skillsBtn.addEventListener('click', () => showForm(skillsForm));
     workExpBtn.addEventListener('click', () => showForm(workExpForm));
