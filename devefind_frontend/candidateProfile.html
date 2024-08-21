@@ -19,11 +19,11 @@
       <button id="personal-info-btn" class="cta-button">Brief</button>
       <button id="education-btn" class="cta-button">Education & Experience</button>
       <button id="skills-btn" class="cta-button">Top Skills</button>
-      <button id="work-exp-btn" class="cta-button">Job Search</button>
+      <button id="work-exp-btn" class="cta-button">Portfolio</button>
     </div>
 
     <!-- Personal Information Form -->
-    <form id="brief-form" class="brief-form" style="display: none;">
+    <form id="brief-form" class="profile-form" style="display: none;">
       <h2>Contact</h2>
       <div class="form-group">
         <label for="phone">Phone Number</label>
@@ -43,40 +43,36 @@
       <h2>Summary</h2>
       <div class="form-group">
         <label for="headLine">Headline</label>
-        <input type="text" id="headLine" name="headLine">
+        <input type="text" id="headLine" name="headLine" placeholder="Enter a single sentence description of your professional skills/experience (e.g. Expert Web Designer with Ajax experience)">
       </div>
       <div class="form-group">
         <label for="description">Description</label>
-        <textarea id="description" name="description" rows="7" cols="40" placeholder="Use this space to show clients you have the skills and experience they're looking for.
+        <textarea id="description" name="description" rows="7" cols="40" style="resize: none" wrap="soft" placeholder="Use this space to show clients you have the skills and experience they're looking for.
         Describe your strengths and skills
         Highlight projects, accomplishments and education
         Keep it short and make sure it's error-free"></textarea>
       </div>
+      <br>
       <div class="form-group">
-        <label for="last-name">Age</label>
-        <input type="number" id="age" name="age" readonly>
+        <h2>Socials</h2>
+        <label for="github">Github</label>
+        <input type="url" id="github" name="github">
       </div>
       <div class="form-group">
-        <label for="last-name">Gender</label>
-        <input type="text" id="last-name" name="last-name" readonly>
+        <label for="linkedIn">LinkedIn</label>
+        <input type="url" id="linkedIn" name="linkedIn">
       </div>
       <div class="form-group">
-        <label for="country">Country</label>
-        <select id="country" name="country" required>
-          <!-- List of African countries -->
-          <option value="Nigeria">Nigeria</option>
-          <option value="Kenya">Kenya</option>
-          <option value="South Africa">South Africa</option>
-          <!-- Add more African countries here -->
-        </select>
+        <label for="facebook">Facebook</label>
+        <input type="url" id="facebook" name="facebook">
       </div>
       <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" readonly>
+        <label for="blogs">Blogs</label>
+        <input type="url" id="blogs" name="blogs">
       </div>
       <div class="form-group">
-        <label for="backup-email">Backup Email</label>
-        <input type="email" id="backup-email" name="backup-email" readonly>
+        <label for="website">Personal Website</label>
+        <input type="url" id="website" name="website">
       </div>
      
       <button type="button" class="cta-button" id="save-continue-1">Save and Continue</button>
