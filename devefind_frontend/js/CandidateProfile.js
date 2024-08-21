@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const personalInfoForm = document.getElementById('personal-info-form');
+    const personalInfoForm = document.getElementById('brief-form');
     const educationForm = document.getElementById('education-form');
     const skillsForm = document.getElementById('skills-form');
     const workExpForm = document.getElementById('work-exp-form');

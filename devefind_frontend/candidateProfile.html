@@ -16,18 +16,27 @@
 
     <!-- User Type Selection -->
     <div class="section-selection">
-      <button id="personal-info-btn" class="cta-button">Personal Information</button>
+      <button id="personal-info-btn" class="cta-button">Brief</button>
       <button id="education-btn" class="cta-button">Education & Experience</button>
       <button id="skills-btn" class="cta-button">Top Skills</button>
       <button id="work-exp-btn" class="cta-button">Job Search</button>
     </div>
 
     <!-- Personal Information Form -->
-    <form id="personal-info-form" class="profile-form" style="display: none;">
-      <h2>Personal Information</h2>
+    <form id="brief-form" class="brief-form" style="display: none;">
+      <h2>Contact</h2>
       <div class="form-group">
-        <label for="profile-picture">Profile Picture</label>
-        <input type="file" id="profile-picture" name="profile-picture" required>
+        <label for="phone">Phone Number</label>
+        <input type="text" id="phone" name="phone" placeholder="+233204596177">
+      </div>
+      <div class="form-group">
+        <label for="backupEmail">Backup Email</label>
+        <input type="email" id="backpuEmail" name="backupEmail" placeholder="example@gmail.com">
+      </div>
+      <h2>Level</h2>
+      <div class="form-group">
+        <label for="level">Level of Experience</label>
+        <input type="text" id="level" name="Level">
       </div>
       <div class="form-group">
         <label for="first-name">First Name</label>

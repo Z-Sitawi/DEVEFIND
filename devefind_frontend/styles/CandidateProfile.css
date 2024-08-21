@@ -52,17 +52,17 @@ h1 {
   outline: none;
 }
 
-.profile-form {
+.brief-form {
   display: none;
   flex-direction: column;
   margin-top: 20px;
 }
 
-.profile-form.active {
+.brief-form.active {
   display: flex;
 }
 
-.profile-form h2 {
+.brief-form h2 {
   margin-bottom: 20px;
   font-size: 1.5rem;
   color: #007bff;
@@ -93,7 +93,7 @@ h1 {
 }
 
 #add-skill-button {
-  background-color: #28a745;
+  background-color: #304c69;
   color: #fff;
   padding: 5px 10px;
   border: none;
