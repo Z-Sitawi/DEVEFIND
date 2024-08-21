@@ -161,7 +161,7 @@ class DeveloperController {
     }
   }
 
-  /* static async addPersonalInfo (req, res) {
+  static async eduInfo (req, res) {
     try {
       const authToken = req.header('X-Token');
       const userId = await Authentification.valideLogin(authToken, 'dev');
@@ -169,32 +169,35 @@ class DeveloperController {
       if (!userId) return res.status(401).json({ error: 'Unauthorized' });
       if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
 
-      const { age, gender, country, backupEmail, phone, profession, languages, level } = req.body;
-      const newDevData = {};
+      const { education } = req.body;
 
-      if (!age || !gender || !country || !profession || !languages || !level) {
-        return res.status(400).json({ error: 'Mandatory fields must be filed' });
-      }
-      if (age < 18 || age > 65) return res.status(400).json({ error: 'Invalid age it must be between 18 and 65' });
-
-      newDevData.age = age;
-      newDevData.gender = gender;
-      newDevData.country = country;
-      newDevData.profession = profession;
-      newDevData.backupEmail = backupEmail;
-      newDevData.phone = phone;
-      newDevData.languages = languages; // list of {language and proficiency} objects
-      newDevData.level = level;
-      newDevData.summary = summary; // One Singe object that contains headline and description
-
-      const result = await Developer.findByIdAndUpdate((userId, newDevData, { new: true }));
+      const result = await Developer.findByIdAndUpdate(userId, {education}, { new: true });
 
       if (!result) return res.status(404).json({ error: 'Developer Not Found' });
-      else res.status(200).json({ message: 'Developer successfully updated.' });
+      else res.status(200).json({ message: 'Developer education info updated successfully' });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-  } */
+  }
+
+  static async expInfo (req, res) {
+    try {
+      const authToken = req.header('X-Token');
+      const userId = await Authentification.valideLogin(authToken, 'dev');
+
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
+
+      const { experience } = req.body;
+
+      const result = await Developer.findByIdAndUpdate(userId, {experience}, { new: true });
+
+      if (!result) return res.status(404).json({ error: 'Developer Not Found' });
+      else res.status(200).json({ message: 'Developer experience info updated successfully' });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
 }
 
 export default DeveloperController;
