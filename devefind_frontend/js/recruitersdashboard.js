@@ -1,6 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const token = sessionStorage.getItem('token');
+
+    if (!token) {
+        window.location.href = '/login.html';
+        return;
+    }
     // Fetch and populate filters from filter.json
-    fetch('/controller/filter.json')
+    fetch('/api/filters')
         .then(response => response.json())
         .then(data => {
             populateDropdown('country-filter', data.country);
@@ -44,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('/api/recruiter', {
                     method: 'PUT',
                     headers: {
-                        'X-Token': localStorage.getItem('authToken'),
+                        'X-Token': token,
                     },
                     body: formData,
                 });
@@ -74,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const response = await fetch('/api/recruiter/image/update', {
                         method: 'PUT',
                         headers: {
-                            'X-Token': localStorage.getItem('authToken'),
+                            'X-Token': token,
                         },
                         body: formData,
                     });
@@ -82,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (response.ok) {
                         alert('Profile picture updated successfully!');
                         // Optionally update the UI with the new profile picture
+                        location.reload();
                     } else {
                         alert(`Error: ${result.error}`);
                     }
@@ -141,23 +148,50 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('/api/recruiter', {
                 headers: {
-                    'X-Token': localStorage.getItem('authToken'),
+                    'X-Token': token,
                 },
             });
             if (!response.ok) {
                 throw new Error('Failed to fetch recruiter data');
             }
             const recruiter = await response.json();
-            document.getElementById('recruiter-name').textContent = `${recruiter.firstname} ${recruiter.lastname}`;
-            document.getElementById('recruiter-title').textContent = recruiter.title || 'Title not provided';
-            document.getElementById('recruiter-org').textContent = recruiter.organization || 'Organization not provided';
-            document.querySelector('.card-avatar').src = recruiter.image || '../static/user.png';
+            document.getElementById('recruiter-name').textContent = `${recruiter.recruiter.firstName} ${recruiter.recruiter.lastName}`;
+            document.getElementById('recruiter-title').textContent = recruiter.recruiter.title || 'Title not provided';
+            document.getElementById('recruiter-org').textContent = recruiter.recruiter.organization || 'Organization not provided';
+            document.querySelector('.card-avatar').src = recruiter.recruiter.image || '../static/user.png';
         } catch (error) {
             console.error('Error fetching recruiter data:', error);
         }
     };
 
     fetchRecruiterData();
+
+    // Log Out
+    const logOutBtn = document.querySelector('#logOutBtn');
+    logOutBtn.addEventListener('click', async () => {
+        
+        try {
+          const response = await fetch('/recruiter/logout', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-token': token,
+            },
+          });
+    
+          if (response.ok) {
+            const result = await response.json();
+            alert(result.message);
+            sessionStorage.removeItem('token');
+            window.location.href = '/login.html';
+          } else {
+            const error = await response.json();
+            alert(`Error: ${error.error}`);
+          }
+        } catch (error) {
+          console.error('Login failed:', error);
+        }
+      });
 });
 
 // Function to populate dropdowns
@@ -172,7 +206,7 @@ function populateDropdown(elementId, options) {
 }
 
 // Function to update candidate list
-function updateCandidateList(candidates) {
+/* function updateCandidateList(candidates) {
     const candidateList = document.getElementById('candidate-list');
     candidateList.innerHTML = ''; // Clear existing candidates
     candidates.forEach(candidate => {
@@ -185,4 +219,4 @@ function updateCandidateList(candidates) {
         `;
         candidateList.appendChild(candidateCard);
     });
-}
+} */

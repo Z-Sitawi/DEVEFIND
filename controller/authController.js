@@ -12,7 +12,7 @@ class Authentification {
       if (!email || !password) return res.status(400).json({ error: 'All Fields Must Be Filed' });
 
       const user = await Recruiter.findOne({ email });
-      if (!user) return res.status(401).json({ error: 'Account Does Not Exist' });
+      if (!user) return res.status(400).json({ error: 'Account Does Not Exist' });
 
       const result = await Tools.authenticatePassword(password, user.password);
       if (!result) return res.status(401).json({ error: 'Incorrect Password' });

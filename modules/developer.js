@@ -1,14 +1,14 @@
 import mongoose from 'mongoose';
 
 const DeveloperSchema = new mongoose.Schema({
-  firstname: {
+  firstName: {
     type: String,
     required: true,
     trim: true,
     minlength: 3,
     lowercase: true
   },
-  lastname: {
+  lastName: {
     type: String,
     required: true,
     trim: true,
@@ -76,7 +76,7 @@ const DeveloperSchema = new mongoose.Schema({
   }],
   image: {
     type: String,
-    default: '/root/DEVEFIND/static/user.png'
+    default: './images/png/user.png'
   },
   summary: {
     headline: { type: String, maxlength: 100, default: '' },

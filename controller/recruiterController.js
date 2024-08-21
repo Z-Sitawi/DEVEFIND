@@ -5,23 +5,21 @@ import mongoose from 'mongoose';
 import sharp from 'sharp';
 import redisClient from '../utils/redis.js';
 
-const ADMINS = ['ZAKARIA', 'OSBERT', 'SANDRA']; //! TO BE REMOVED LATER
-
 class RecruiterController {
   static async create (req, res) {
     try {
-      const { firstname, lastname, email, password, confirmPwd } = req.body;
+      const { firstName, lastName, email, password, confirmPassword } = req.body;
 
       /* ======= checks ========== */
-      if (!firstname || !lastname || !email || !password || !confirmPwd) return res.status(400).json({ error: 'All Fields Must Be Filed' });
-      if (password !== confirmPwd) return res.status(400).json({ error: 'Passwords Do Not Match' });
-
+      if (!firstName || !lastName || !email || !password || !confirmPassword) return res.status(400).json({ error: 'All Fields Must Be Filed' });
       const user = await Recruiter.findOne({ email });
       if (user) return res.status(400).json({ error: 'email already exist' });
+      if (password !== confirmPassword) return res.status(400).json({ error: 'Passwords Do Not Match' });
+
       /* ======= End of checks ========== */
 
       const hashedPwd = await Tools.hashPwd(password);
-      const newRecruiterData = { firstname, lastname, email, password: hashedPwd };
+      const newRecruiterData = { firstName, lastName, email, password: hashedPwd };
 
       const recruiter = await Recruiter.create(newRecruiterData);
       console.log('Recruiter Account Created Successfully with the Id => ' + recruiter._id.toString());
@@ -32,13 +30,6 @@ class RecruiterController {
   }
 
   static async get (req, res) {
-    //! TO BE REMOVED LATER
-    if (req.header('admin') && ADMINS.includes(req.header('admin').toUpperCase())) {
-      const all = await Recruiter.find();
-      return res.status(200).json({ Recruiters: all });
-    }
-    //! ================= END ================= !\\
-
     try {
       const authToken = req.header('X-Token');
       const userId = await Authentification.valideLogin(authToken);
@@ -82,22 +73,21 @@ class RecruiterController {
       if (!userId) return res.status(401).json({ error: 'Unauthorized' });
       if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
 
-      const { firstname, lastname, password, confirmPwd, backupEmail, phone } = req.body;
-      const filter = { _id: new mongoose.Types.ObjectId(userId) };
+      const { firstName, lastName, password, confirmPassword, backupEmail, phone } = req.body;
       let newRecruiterData = {};
 
-      if (!firstname || !lastname) { return res.status(400).json({ error: 'Mandatory fields must be filed' }); }
+      if (!firstName || !lastName) { return res.status(400).json({ error: 'Mandatory fields must be filed' }); }
 
       if (password) {
-        if (!confirmPwd) return res.status(400).json({ error: 'Confirmation Password is Required' });
-        if (password !== confirmPwd) return res.status(400).json({ error: 'Passwords Do Not Match' });
+        if (!confirmPassword) return res.status(400).json({ error: 'Confirmation Password is Required' });
+        if (password !== confirmPassword) return res.status(400).json({ error: 'Passwords Do Not Match' });
 
         const hashedPwd = await Tools.hashPwd(password);
         newRecruiterData = { ...newRecruiterData, password: hashedPwd };
       }
-      newRecruiterData = { ...newRecruiterData, firstname, lastname, backupEmail, phone };
+      newRecruiterData = { ...newRecruiterData, firstName, lastName, backupEmail, phone };
 
-      const result = await Recruiter.findOneAndUpdate(filter, newRecruiterData);
+      const result = await Recruiter.findByIdAndUpdate(userId, newRecruiterData);
 
       if (!result) return res.status(404).json({ error: 'Recruiter Not Found' });
       else res.status(200).json({ message: 'Recruiter successfully updated.' });

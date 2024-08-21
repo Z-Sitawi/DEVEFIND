@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 // Define the schema for the User
 const RecruiterSchema = new mongoose.Schema({
-  firstname: {
+  firstName: {
     type: String,
     required: true,
     unique: false,
@@ -10,7 +10,7 @@ const RecruiterSchema = new mongoose.Schema({
     minlength: 3,
     lowercase: true
   },
-  lastname: {
+  lastName: {
     type: String,
     required: true,
     unique: false,
@@ -63,7 +63,7 @@ const RecruiterSchema = new mongoose.Schema({
   image: {
     type: String,
     required: false,
-    default: '../static/user.png'
+    default: './images/png/user.png'
   }
 }, {
   timestamps: true
