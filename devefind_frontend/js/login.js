@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
           alert('Login successful! Redirecting to your dashboard.');
           const data = await response.json();
           sessionStorage.setItem('token', data.token);
-          window.location.href = '/recruitersdashboard.html';
+          window.location.href = '/recruitersDash.html';
         } else {
           const error = await response.json();
           alert(`Error: ${error.error}`);

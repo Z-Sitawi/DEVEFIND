@@ -1,4 +1,24 @@
+function populateDropdown(elementId, options) {
+  const selectElement = document.getElementById(elementId);
+  options.forEach(option => {
+      const opt = document.createElement('option');
+      opt.value = option;
+      opt.text = option;
+      selectElement.appendChild(opt);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+
+  fetch('/api/filters')
+  .then(response => response.json())
+  .then(data => {
+      populateDropdown('country-filter', data.country);
+      populateDropdown('gender-filter', data.gender);
+      populateDropdown('profession-filter', data.profession);
+  })
+
+  .catch(error => console.error('Error fetching filters:', error));
     const jobSeekerForm = document.getElementById('job-seeker-form');
     const recruiterForm = document.getElementById('recruiter-form');
   
@@ -25,11 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
       // Collect job seeker form data
       const formData = new FormData(jobSeekerForm);
       const data = {
-        firstname: formData.get('firstname'),
-        lastname: formData.get('lastname'),
+        firstName: formData.get('firstname'),
+        lastName: formData.get('lastname'),
         email: formData.get('email'),
         password: formData.get('password'),
-        confirmPwd: formData.get('confirmPwd'),
+        confirmPassword: formData.get('confirmPwd'),
         age: formData.get('age'),
         gender: formData.get('gender'),
         country: formData.get('country'),
@@ -47,7 +67,22 @@ document.addEventListener('DOMContentLoaded', () => {
   
         if (response.ok) {
           // Redirect to job seeker profile page
-          window.location.href = '/job-seeker-profile';
+          const res = await fetch('/developer/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email:data.email, password: data.password}),
+          });
+          if (res.ok) {
+            const info = await res.json();
+            sessionStorage.setItem("token", info.token);
+            window.location.href = '/candidateProfile.html';
+          }
+          else {
+            const info = await response.json();
+            alert(info.error || 'Sign in failed');
+          }
         } else {
           const result = await response.json();
           alert(result.error || 'Sign up failed');
