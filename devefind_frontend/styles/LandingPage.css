@@ -10,6 +10,8 @@ body, html {
     font-family: 'Arial', sans-serif;
     color: #333;
     scroll-behavior: smooth;
+    overflow: scroll;
+    overflow-x: hidden;
   }
   
   .landing-page {
