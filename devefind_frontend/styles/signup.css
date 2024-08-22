@@ -138,25 +138,60 @@ h1 {
 }
 
 /* Media Queries */
+/* Base styles */
+.signup-page {
+  padding: 40px;
+  width: 70%;
+}
+
+.user-type-selection .cta-button {
+  width: auto;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Media Queries for smaller screens */
 @media (max-width: 768px) {
   .signup-page {
-      padding: 20px;
-      width: 90%;
+    padding: 20px;
+    width: 90%;
   }
 
   .user-type-selection .cta-button {
-      width: 100%;
-      margin-bottom: 10px;
+    width: 100%;
+    margin-bottom: 10px;
   }
 
   .form-group {
-      margin-bottom: 15px;
+    margin-bottom: 15px;
   }
 }
 
+/* Media Queries for smaller heights */
 @media (max-height: 800px) {
   .signup-page {
-      max-height: 90vh;
-      overflow-y: auto;
+    max-height: 90vh;
+    overflow-y: auto;
   }
 }
+
+/* Media Queries for larger screens */
+@media (min-width: 1024px) {
+  .signup-page {
+    padding: 60px;
+    width: 60%;
+  }
+
+  .user-type-selection .cta-button {
+    width: auto;
+    margin-bottom: 30px;
+  }
+
+  .form-group {
+    margin-bottom: 25px;
+  }
+}
+
