@@ -19,8 +19,8 @@ DeveloperRoutes.delete('/api/developer', DeveloperController.del); //! Delete
 //DeveloperRoutes.put('/api/developer/personal/info', DeveloperController.addPersonalInfo); // ? To add personal information (mandatory)
 DeveloperRoutes.put('/api/developer/update/personal', DeveloperController.update); // ? To Update personal information
 
-//DeveloperRoutes.put('/api/developer/edu/info', DeveloperController.eduInfo); // ? To add and Update education details
-//DeveloperRoutes.put('/api/developer/exp/info', DeveloperController.expInfo); // ? to add and Update experience info
+DeveloperRoutes.put('/api/developer/edu', DeveloperController.eduInfo);
+DeveloperRoutes.put('/api/developer/exp', DeveloperController.expInfo);
 
 // `upload.single('file')` parses the file data and attaches it to `req.file`
 DeveloperRoutes.put('/api/developer/image/update', upload.single('file'), DeveloperController.updateDevImage);

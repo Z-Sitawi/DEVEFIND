@@ -1,18 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-<<<<<<< HEAD
     const briefInfoForm = document.getElementById('brief-form');
-=======
-    const token = sessionStorage.getItem('token');
-    if (!token) {
-        window.location.href = '/login.html';
-        return;
-    }
-    
-    const personalInfoForm = document.getElementById('personal-info-form');
->>>>>>> 03fa0a1c32470eb3938eba46f74a021dc861be40
     const educationForm = document.getElementById('education-form');
     const skillsForm = document.getElementById('skills-form');
-    const workExpForm = document.getElementById('work-exp-form');
+    const workExpForm = document.getElementById('portfolio-form');
   
     const personalInfoBtn = document.getElementById('personal-info-btn');
     const educationBtn = document.getElementById('education-btn');
@@ -77,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <!-- Add more countries as needed -->
                 </select>
             </div>`;
-        educationSection.insertAdjacentHTML('beforeend', newEducation);
+        educationBtn.insertAdjacentHTML('beforeend', newEducation);
     });
   
     addExperienceBtn.addEventListener('click', () => {

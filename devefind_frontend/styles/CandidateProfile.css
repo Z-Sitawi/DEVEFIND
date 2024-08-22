@@ -46,14 +46,14 @@ h1 {
 }
 
 .cta-button:hover {
-  background-color: #304c69;
+  background-color: #218838;
 }
 
 .cta-button:focus {
   outline: none;
 }
 
-.brief-form {
+.profile-form {
   display: none;
   flex-direction: column;
   margin-top: 20px;
@@ -136,32 +136,23 @@ h1 {
   background-color: #e0a800;
 }
 
-.dynamic-education,
+/*.dynamic-education,
 .dynamic-experience {
   margin-bottom: 15px;
   padding: 10px;
   background: #f8f9fa;
   border: 1px solid #dee2e6;
   border-radius: 5px;
-}
+}*/
 
-.dynamic-education .form-group,
+/*.dynamic-education .form-group,
 .dynamic-experience .form-group {
   margin-bottom: 10px;
   margin-bottom: 15px;
   padding: 10px;
   background: #f8f
-}
+}*/
 
-/* Job Search Section */
-#job-search-type label {
-  display: inline-block;
-  margin-right: 10px;
-}
-
-#job-search-type input[type="checkbox"] {
-  margin-right: 5px;
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
