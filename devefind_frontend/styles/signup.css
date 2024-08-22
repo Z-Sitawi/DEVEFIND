@@ -134,22 +134,6 @@ h1 {
   transform: scale(0.98);
 }
 
-/* Media Queries */
-/* Base styles */
-.signup-page {
-  padding: 40px;
-  width: 70%;
-}
-
-.user-type-selection .cta-button {
-  width: auto;
-  margin-bottom: 20px;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
 /* Media Queries for smaller screens */
 @media (max-width: 768px) {
   .signup-page {
@@ -173,21 +157,3 @@ h1 {
       max-height: 90vh;
   }
 }
-
-/* Media Queries for larger screens */
-@media (min-width: 1024px) {
-  .signup-page {
-    padding: 60px;
-    width: 60%;
-  }
-
-  .user-type-selection .cta-button {
-    width: auto;
-    margin-bottom: 30px;
-  }
-
-  .form-group {
-    margin-bottom: 25px;
-  }
-}
-
