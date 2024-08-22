@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = sessionStorage.getItem('token');
 
-    if (!token) {
+    /* if (!token) {
         window.location.href = '/login.html';
         return;
-    }
+    } */
     // Fetch and populate filters from filter.json
     fetch('/api/filters')
         .then(response => response.json())
@@ -30,13 +30,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const editProfileBtn = document.getElementById('edit-profile-btn');
     const editProfilePopup = document.getElementById('edit-profile-popup');
     const closePopupBtn = document.getElementById('close-popup-btn');
+    const removeProfilePictureBtn = document.getElementById('remove-profile-picture');
+    const deleteProfileBtn = document.getElementById('delete-profile');
 
     editProfileBtn.addEventListener('click', () => {
-        editProfilePopup.style.display = 'block';
+    editProfilePopup.style.display = 'block';
     });
 
     closePopupBtn.addEventListener('click', () => {
-        editProfilePopup.style.display = 'none';
+    editProfilePopup.style.display = 'none';
     });
 
     // Handle profile edit form submission
@@ -46,18 +48,27 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
 
             const formData = new FormData(editProfileForm);
+            const password = formData.get('edit-password');
+            const confirmPassword = formData.get('edit-confirm-password');
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
             try {
                 const response = await fetch('/api/recruiter', {
                     method: 'PUT',
                     headers: {
-                        'X-Token': token,
+                        'X-Token': token, // Include the token in the headers
                     },
                     body: formData,
                 });
+
                 const result = await response.json();
                 if (response.ok) {
                     alert('Profile updated successfully!');
-                    editProfilePopup.style.display = 'none'; // Close the popup after saving
+                    editProfilePopup.style.display = 'none';
                 } else {
                     alert(`Error: ${result.error}`);
                 }
@@ -66,6 +77,56 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Handle profile picture removal
+    if (removeProfilePictureBtn) {
+        removeProfilePictureBtn.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/recruiter/image/remove', {
+                    method: 'PUT',
+                    headers: {
+                        'X-Token': token, // Include the token in the headers
+                    },
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert('Profile picture removed successfully!');
+                } else {
+                    alert(`Error: ${result.error}`);
+                }
+            } catch (error) {
+                console.error('Error removing profile picture:', error);
+            }
+        });
+    }
+
+    // Handle profile deletion
+    if (deleteProfileBtn) {
+        deleteProfileBtn.addEventListener('click', async () => {
+            if (confirm('Are you sure you want to delete your profile?')) {
+                try {
+                    const response = await fetch('/api/recruiter', {
+                        method: 'DELETE',
+                        headers: {
+                            'X-Token': token, // Include the token in the headers
+                        },
+                    });
+
+                    const result = await response.json();
+                    if (response.ok) {
+                        alert('Profile deleted successfully!');
+                        // Redirect or update UI after deletion
+                    } else {
+                        alert(`Error: ${result.error}`);
+                    }
+                } catch (error) {
+                    console.error('Error deleting profile:', error);
+                }
+            }
+        });
+    }
+
 
     // Handle image upload
     const editProfilePicture = document.getElementById('edit-profile-picture');
@@ -114,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const candidates = await response.json();
                 console.log('Search results:', candidates);
                 // Code to display candidates goes here
+                displayProfiles(candidates);
             } catch (error) {
                 console.error('Error fetching candidates:', error);
             }
@@ -121,27 +183,76 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Handle pagination
-    const profileCards = document.querySelectorAll(".profile-card");
-    const nextButton = document.querySelector(".next-button");
-    let currentIndex = 0;
-    const cardsToShow = 2; // Number of cards to show at a time
+  const profileContainer = document.getElementById('profile-container');
+  const prevButton = document.querySelector('.prev-button');
+  const nextButton = document.querySelector('.next-button');
+  let currentIndex = 0;
+  const cardsToShow = 6; // Number of cards to show at a time
 
-    // Hide all cards initially
-    profileCards.forEach((card, index) => {
-        if (index >= cardsToShow) card.style.display = 'none';
-    });
+  const fetchProfiles = async () => {
+      try {
+          const response = await fetch('/api/developer/all', {
+              headers: {
+                  'X-Token': token,
+              },
+          });
+          if (!response.ok) {
+              throw new Error('Failed to fetch profiles');
+          }
+          const profiles = await response.json();
+          displayProfiles(profiles);
+      } catch (error) {
+          console.error('Error fetching profiles:', error);
+      }
+  };
 
-    nextButton.addEventListener('click', () => {
-        profileCards.forEach((card) => {
-            card.style.display = 'none';
-        });
-        currentIndex += cardsToShow;
-        profileCards.forEach((card, index) => {
-            if (index >= currentIndex && index < currentIndex + cardsToShow) {
-                card.style.display = 'block';
-            }
-        });
+  const displayProfiles = (profiles) => {
+    profileContainer.innerHTML = ''; // Clear existing profiles
+  
+    const profilesToDisplay = profiles.slice(currentIndex, currentIndex + cardsToShow);
+  
+    profilesToDisplay.forEach(profile => {
+        const profileCard = document.createElement('div');
+        profileCard.className = 'profile-card';
+        profileCard.innerHTML = `
+            <img
+                src="${profile.image || './images/png/user.png'}"
+                alt="${profile.firstName} ${profile.lastName} avatar"
+                width="100"
+                height="100"
+                class="card-avatar"
+            />
+            <div class="profile-info">
+                <h3>${profile.firstName} ${profile.lastName}</h3>
+                <p>Profession: ${profile.profession}</p>
+                <p>Experience: ${profile.experience || 'N/A'} Years</p>
+                <p>Country: ${profile.country || 'N/A'}</p>
+                <p>Skills: ${profile.skills ? profile.skills.join(', ') : 'N/A'}</p>
+                <p>Status: ${profile.status || 'N/A'}</p>
+                <p>Summary: ${profile.summary.headline || 'N/A'}</p>
+            </div>
+        `;
+        profileContainer.appendChild(profileCard);
     });
+  
+    // Update button states
+    prevButton.disabled = currentIndex === 0;
+    nextButton.disabled = currentIndex + cardsToShow >= profiles.length;
+  };
+  
+  prevButton.addEventListener('click', () => {
+    if (currentIndex > 0) {
+        currentIndex -= cardsToShow;
+        fetchProfiles();
+    }
+  });
+  
+  nextButton.addEventListener('click', () => {
+    currentIndex += cardsToShow;
+    fetchProfiles();
+  });
+  
+  
 
     // Display logged-in recruiter's info
     const fetchRecruiterData = async () => {
