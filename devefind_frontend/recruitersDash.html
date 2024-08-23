@@ -91,6 +91,8 @@
                 <select id="gender-filter">
                   <option value="">Select Gender</option>
                 </select>
+                <label for="age-filter">Age:</label>
+                <input type="number" id="age-filter" min="18" max="65" placeholder="Enter Age">
         
                 <label for="language-filter">Language:</label>
                 <select id="language-filter">
@@ -112,19 +114,19 @@
                   <option value="">Select Profession</option>
                 </select>
         
-                <button type="submit" class="cta-button">Apply Filters</button>
+                <button type="button" id="filterData" class="cta-button">Apply Filters</button>
               </form>
             </div>
           </div>
           <form id="search-form" class="col-9 py-1">
             <input class="px-5 col-12 py-1" type="text" id="search-query" placeholder="Search for candidates..."/>
           </form>
-          <button type="submit" class="col-2 customeBtn">Search</button>
+          <button type="button" class="col-2 customeBtn">Search</button>
       </section>
 
     <!-- Candidates Display -->
     <section class="candidates-display">
-      <div id="profile-container" class="profile-container">
+      <div id="profile-container" class="profile-container container">
       </div>
       <div class="pagination">
         <button class="cta-button prev-button">Previous</button>

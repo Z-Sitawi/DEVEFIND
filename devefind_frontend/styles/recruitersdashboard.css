@@ -224,7 +224,6 @@ body, html {
 
 .profile-card {
     flex: 1 1 calc(33.33% - 40px);
-    max-width: 300px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     background-color: #fff;
@@ -494,4 +493,13 @@ body, html {
   border: none;
   font-size: 22px;
   outline: 1px solid white;
+}
+
+div.profile-info table tr td {
+    text-indent: 20px;
+}
+
+
+#seeMoreBtn {
+    font-size: x-small;
 }
