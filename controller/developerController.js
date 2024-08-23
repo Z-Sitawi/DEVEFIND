@@ -98,11 +98,32 @@ class DeveloperController {
       if (gender) {
         filter = {...filter, gender};
       }
-      if (language) {
-        filter = {...filter, language};
-      }
-      
+      if (profession) {
+        filter = {...filter, profession};
+      }if (level) {
+        filter = {...filter, level};
+      }      
       const users = await Developer.find(filter);
+
+      if (language) {
+        let newUsers = {};
+        if (proficiency) {
+          newUsers = users.filter((user) => {
+            if (user.languages.some(item => item.language === language && item.proficiency === proficiency)) {
+              return user;
+            }
+          });
+        }
+        else {
+          newUsers = users.filter((user) => {
+            if (user.languages.some(item => item.language === language)) {
+              return user;
+            }
+          });
+        }
+        return res.status(200).json({ Developer: newUsers});
+
+      }
       return res.status(200).json({ Developer: users });
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -145,7 +166,7 @@ class DeveloperController {
       newDevData.level = level;
       newDevData.summary = summary; // One Singe object that contains headline and description
 
-      const result = await Developer.findByIdAndUpdate((userId, newDevData, { new: true }));
+      const result = await Developer.findByIdAndUpdate(userId, newDevData, { new: true });
 
       if (!result) return res.status(404).json({ error: 'Developer Not Found' });
       else res.status(200).json({ message: 'Developer successfully updated.' });
