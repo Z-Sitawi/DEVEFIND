@@ -73,7 +73,7 @@ class DeveloperController {
       if (!userId) return res.status(401).json({ error: 'Unauthorized' });
 
       const users = await Developer.find({});
-      return res.status(200).json({ Developers: users });
+      return res.status(200).json({ Developer: users });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -82,7 +82,7 @@ class DeveloperController {
   static async getFilterd (req, res) {
     try {
       const authToken = req.header('X-Token');
-      const userId = await Authentification.valideLogin(authToken, 'dev');
+      const userId = await Authentification.valideLogin(authToken, 'rec');
       if (!userId) return res.status(401).json({ error: 'Unauthorized' });
 
       if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
