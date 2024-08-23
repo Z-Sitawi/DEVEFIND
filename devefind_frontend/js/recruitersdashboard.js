@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('/api/recruiter', {
                     method: 'PUT',
                     headers: {
-                        'X-Token': token, // Include the token in the headers
+                        'X-Token': token,
                     },
                     body: formData,
                 });
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('/api/recruiter/image/remove', {
                     method: 'PUT',
                     headers: {
-                        'X-Token': token, // Include the token in the headers
+                        'X-Token': token,
                     },
                 });
 
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const response = await fetch('/api/recruiter', {
                         method: 'DELETE',
                         headers: {
-                            'X-Token': token, // Include the token in the headers
+                            'X-Token': token,
                         },
                     });
 
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const prevButton = document.querySelector('.prev-button');
   const nextButton = document.querySelector('.next-button');
   let currentIndex = 0;
-  const cardsToShow = 6; // Number of cards to show at a time
+  const cardsToShow = 6;
 
   const fetchProfiles = async () => {
       try {
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const displayProfiles = (profiles) => {
-    profileContainer.innerHTML = ''; // Clear existing profiles
+    profileContainer.innerHTML = '';
   
     const profilesToDisplay = profiles.slice(currentIndex, currentIndex + cardsToShow);
   

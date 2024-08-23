@@ -84,7 +84,7 @@ Developers can upload and showcase their skills, experiences, and portfolio piec
 
 **Signup**
 A tailored signup path for both developers and recruiters.
-<img width=50% src="">
+<img width=50% src="./devefind_frontend/images/png/singuppic.PNG">
 
 
 ### **Authentication**

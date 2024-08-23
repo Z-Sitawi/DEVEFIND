@@ -34,6 +34,15 @@ body, html {
     padding: 30px;
 }
 
+/* Navbar */
+.navbar{
+    background-color: whitesmoke;
+}
+
+.navbar img {
+    height: 25px;
+}
+
 /* User Profile Overview */
 .user-profile {
     padding: 20px;
@@ -42,6 +51,11 @@ body, html {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
+}
+
+.user-details a {
+    text-decoration: none;
+    
 }
 
 .user-pic {
