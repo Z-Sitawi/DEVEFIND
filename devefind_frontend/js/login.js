@@ -41,10 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
         if (response.ok) {
           alert('Login successful! Redirecting to your dashboard.');
-          window.location.href = '/dashboard';
+          window.location.href = '/developerDash.html';
         } else {
           const error = await response.json();
-          alert(`Error: ${error.message}`);
+          alert(`Error: ${error.error}`);
         }
       } catch (error) {
         console.error('Login failed:', error);

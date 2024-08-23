@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = sessionStorage.getItem('token');
 
-    /* if (!token) {
+    if (!token) {
         window.location.href = '/login.html';
         return;
-    } */
+    }
     // Fetch and populate filters from filter.json
     fetch('/api/filters')
         .then(response => response.json())
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Show edit profile popup
-    const editProfileBtn = document.getElementById('edit-profile-btn');
+    /* const editProfileBtn = document.getElementById('edit-profile-btn');
     const editProfilePopup = document.getElementById('edit-profile-popup');
     const closePopupBtn = document.getElementById('close-popup-btn');
     const removeProfilePictureBtn = document.getElementById('remove-profile-picture');
@@ -39,10 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     closePopupBtn.addEventListener('click', () => {
     editProfilePopup.style.display = 'none';
-    });
+    }); */
 
     // Handle profile edit form submission
-    const editProfileForm = document.getElementById('edit-profile-form');
+    /* const editProfileForm = document.getElementById('edit-profile-form');
     if (editProfileForm) {
         editProfileForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -159,9 +159,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+ */
 
     // Handle search form submission
-    const searchForm = document.getElementById('search-form');
+    /* const searchForm = document.getElementById('search-form');
     if (searchForm) {
         searchForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -180,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error fetching candidates:', error);
             }
         });
-    }
+    } */
 
     // Handle pagination
   const profileContainer = document.getElementById('profile-container');
@@ -200,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
               throw new Error('Failed to fetch profiles');
           }
           const profiles = await response.json();
-          displayProfiles(profiles);
+          displayProfiles(profiles.Developer);
       } catch (error) {
           console.error('Error fetching profiles:', error);
       }
@@ -209,9 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const displayProfiles = (profiles) => {
     profileContainer.innerHTML = '';
   
-    const profilesToDisplay = profiles.slice(currentIndex, currentIndex + cardsToShow);
+    // const profilesToDisplay = profiles.slice(currentIndex, currentIndex + cardsToShow);
   
-    profilesToDisplay.forEach(profile => {
+    profiles.forEach(profile => {
         const profileCard = document.createElement('div');
         profileCard.className = 'profile-card';
         profileCard.innerHTML = `
@@ -222,14 +223,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 height="100"
                 class="card-avatar"
             />
-            <div class="profile-info">
-                <h3>${profile.firstName} ${profile.lastName}</h3>
-                <p>Profession: ${profile.profession}</p>
-                <p>Experience: ${profile.experience || 'N/A'} Years</p>
-                <p>Country: ${profile.country || 'N/A'}</p>
-                <p>Skills: ${profile.skills ? profile.skills.join(', ') : 'N/A'}</p>
-                <p>Status: ${profile.status || 'N/A'}</p>
-                <p>Summary: ${profile.summary.headline || 'N/A'}</p>
+            <div class="profile-info text-start">
+                <h3 style="text-transform: capitalize;" class="text-center" >${profile.firstName} ${profile.lastName}</h3>
+                <table>
+                    <tr><th>Age: </th><td>${profile.age|| 'N/A'}</td></tr>
+                    <tr><th>Gender: </th><td>${profile.gender|| 'N/A'}</td></tr>
+                    <tr><th>Country: </th><td>${profile.country|| 'N/A'}</td></tr>
+                    <tr><th>Profession: </th><td>${profile.profession|| 'N/A'}</td></tr>
+                    <tr><th>Experince: </th><td>${profile.level|| 'N/A'}</td></tr>
+                    <tr><th>Languages: </th><td> ${profile.languages.length || 'N/A'}</td></tr>
+                </table>
+                <div class="d-flex justify-content-end">
+                    <button id="seeMoreBtn" type="button" class="btn btn-primary px-2 py-1 mt-2">see more > </button>
+                </div>
             </div>
         `;
         profileContainer.appendChild(profileCard);
@@ -267,15 +273,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const recruiter = await response.json();
             document.getElementById('recruiter-name').textContent = `${recruiter.recruiter.firstName} ${recruiter.recruiter.lastName}`;
-            document.getElementById('recruiter-title').textContent = recruiter.recruiter.title || 'Title not provided';
-            document.getElementById('recruiter-org').textContent = recruiter.recruiter.organization || 'Organization not provided';
+            document.getElementById('recruiter-email').textContent = recruiter.recruiter.email;
             document.querySelector('.card-avatar').src = recruiter.recruiter.image || '../static/user.png';
         } catch (error) {
             console.error('Error fetching recruiter data:', error);
         }
     };
-
-    fetchRecruiterData();
 
     // Log Out
     const logOutBtn = document.querySelector('#logOutBtn');
@@ -302,7 +305,45 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
           console.error('Login failed:', error);
         }
-      });
+    });
+
+    fetchRecruiterData();
+    fetchProfiles();
+
+    //! Filterning---------------------------------------
+    const filterBtn = document.querySelector('#filterData');
+
+    filterBtn.addEventListener('click', async () => {
+        const country = document.querySelector('#country-filter').value;
+        const gender = document.querySelector('#gender-filter').value;
+        const age = document.querySelector('#age-filter').value;
+        const language = document.querySelector('#language-filter').value;
+        const proficiency = document.querySelector('#proficiency-filter').value;
+        const level = document.querySelector('#level-filter').value;
+        const profession = document.querySelector('#profession-filter').value;
+
+        const filterObj = {country, gender, age, language, proficiency, level, profession};
+        
+        try {
+            const response = await fetch('/api/developer/filterd', {
+                method: 'POST',
+                headers: {
+                    'X-Token': token,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(filterObj),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch profiles');
+            }
+            const profiles = await response.json();
+            // console.log(profiles.Developer);
+            displayProfiles(profiles.Developer);
+        } catch (error) {
+            console.error('Error fetching profiles:', error);
+        }
+    });
+
 });
 
 // Function to populate dropdowns
@@ -317,6 +358,7 @@ function populateDropdown(elementId, options) {
 }
 
 // Function to update candidate list
+
 /* function updateCandidateList(candidates) {
     const candidateList = document.getElementById('candidate-list');
     candidateList.innerHTML = ''; // Clear existing candidates
@@ -331,3 +373,5 @@ function populateDropdown(elementId, options) {
         candidateList.appendChild(candidateCard);
     });
 } */
+
+

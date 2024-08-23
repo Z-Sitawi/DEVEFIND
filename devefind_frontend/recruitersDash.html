@@ -15,7 +15,7 @@
       <a class="navbar-brand" href="#">
         <img src="./images/png/logo-no-background.png" alt="DeveFind">
       </a>
-      <a id="logOutBtn" class="cta-button logout-button" style="cursor: pointer">Logout</a>
+      <a id="logOutBtn" class="py-1 px-3 logout-button" style="cursor: pointer">Logout</a>
     </div>
   </nav>
   <div class="dashboard-page">
@@ -31,10 +31,9 @@
 
       <div class="user-details">
         <h2 id="recruiter-name">[User Name]</h2>
-        <a id="edit-profile" class="editProfile" href="#">Edit Profile</a>
+        <h4 id="recruiter-email">[User Email]</h4>
+        <a href="/editProfile.html">edit profile</a>
       </div>
-      
-
     </div>
     
     <!-- Edit Profile Popup -->
@@ -78,60 +77,56 @@
     </section>
 
     <!-- Search and Filter -->
-    <section class="search-filter-bar">
-      <div class="filter-section">
-        <button id="filter-toggle" class="cta-button">Filters</button>
-        <div id="filter-dropdown" class="filter-dropdown">
-          <form id="filter-form">
-            <label for="country-filter">Country:</label>
-            <select id="country-filter">
-              <option value="">Select Country</option>
-            </select>
-    
-            <label for="gender-filter">Gender:</label>
-            <select id="gender-filter">
-              <option value="">Select Gender</option>
-            </select>
-    
-            <label for="language-filter">Language:</label>
-            <select id="language-filter">
-              <option value="">Select Language</option>
-            </select>
-    
-            <label for="proficiency-filter">Language Proficiency:</label>
-            <select id="proficiency-filter">
-              <option value="">Select Proficiency</option>
-            </select>
-    
-            <label for="level-filter">Experience Level:</label>
-            <select id="level-filter">
-              <option value="">Select Experience Level</option>
-            </select>
-    
-            <label for="profession-filter">Profession:</label>
-            <select id="profession-filter">
-              <option value="">Select Profession</option>
-            </select>
-    
-            <button type="submit" class="cta-button">Apply Filters</button>
+      <section class="container search-filter-bar py-1 d-flex justify-content-around">
+        <div class="filter-section col-2">
+          <button id="filter-toggle" class="customeBtn2 col-12">Filters</button>
+            <div id="filter-dropdown" class="filter-dropdown">
+              <form id="filter-form">
+                <label for="country-filter">Country:</label>
+                <select id="country-filter">
+                  <option value="">Select Country</option>
+                </select>
+        
+                <label for="gender-filter">Gender:</label>
+                <select id="gender-filter">
+                  <option value="">Select Gender</option>
+                </select>
+                <label for="age-filter">Age:</label>
+                <input type="number" id="age-filter" min="18" max="65" placeholder="Enter Age">
+        
+                <label for="language-filter">Language:</label>
+                <select id="language-filter">
+                  <option value="">Select Language</option>
+                </select>
+        
+                <label for="proficiency-filter">Language Proficiency:</label>
+                <select id="proficiency-filter">
+                  <option value="">Select Proficiency</option>
+                </select>
+        
+                <label for="level-filter">Experience Level:</label>
+                <select id="level-filter">
+                  <option value="">Select Experience Level</option>
+                </select>
+        
+                <label for="profession-filter">Profession:</label>
+                <select id="profession-filter">
+                  <option value="">Select Profession</option>
+                </select>
+        
+                <button type="button" id="filterData" class="cta-button">Apply Filters</button>
+              </form>
+            </div>
+          </div>
+          <form id="search-form" class="col-9 py-1">
+            <input class="px-5 col-12 py-1" type="text" id="search-query" placeholder="Search for candidates..."/>
           </form>
-        </div>
-      </div>    
-      <div class="search-bar">
-        <form id="search-form">
-          <input 
-            type="text" 
-            id="search-query" 
-            placeholder="Search for candidates..." 
-          />
-          <button type="submit" class="cta-button">Search</button>
-        </form>
-      </div>
-    </section>
+          <button type="button" class="col-2 customeBtn">Search</button>
+      </section>
 
     <!-- Candidates Display -->
     <section class="candidates-display">
-      <div id="profile-container" class="profile-container">
+      <div id="profile-container" class="profile-container container">
       </div>
       <div class="pagination">
         <button class="cta-button prev-button">Previous</button>
@@ -159,6 +154,10 @@
       </div>
       <p>© 2024 DeveFind. All rights reserved.</p>
     </footer>
+  </div>
+
+  <div class="shape">
+    <div class="circle"></div>
   </div>
 </body>
 <!-- scripts -->
