@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Show edit profile popup
-    const editProfileBtn = document.getElementById('edit-profile-btn');
+    /* const editProfileBtn = document.getElementById('edit-profile-btn');
     const editProfilePopup = document.getElementById('edit-profile-popup');
     const closePopupBtn = document.getElementById('close-popup-btn');
     const removeProfilePictureBtn = document.getElementById('remove-profile-picture');
@@ -39,10 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     closePopupBtn.addEventListener('click', () => {
     editProfilePopup.style.display = 'none';
-    });
+    }); */
 
     // Handle profile edit form submission
-    const editProfileForm = document.getElementById('edit-profile-form');
+    /* const editProfileForm = document.getElementById('edit-profile-form');
     if (editProfileForm) {
         editProfileForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
+ */
     // Handle search form submission
     const searchForm = document.getElementById('search-form');
     if (searchForm) {
