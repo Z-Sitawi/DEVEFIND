@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     saveContinue3.addEventListener('click', () => showForm(workExpForm));
     saveContinue4.addEventListener('click', () => {
         alert('Profile completed successfully!');
-        window.location.href = 'successPage.html'; // Redirect to a success page
+        window.location.href = 'developerDash.html'; // Redirect to developerDash page
     });
   
     const addEducationBtn = document.getElementById('add-education');
