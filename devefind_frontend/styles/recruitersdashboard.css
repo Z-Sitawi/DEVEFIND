@@ -72,6 +72,12 @@ body, html {
     color: #c0b9bbec;
 }
 
+.user-details h4 {
+    margin: 0;
+    font-size: x-small;
+    color: #c0b9bbec;
+}
+
 .user-details p {
     margin: 0;
     color: #c0b9bbec;
