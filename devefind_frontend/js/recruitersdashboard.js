@@ -267,8 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const recruiter = await response.json();
             document.getElementById('recruiter-name').textContent = `${recruiter.recruiter.firstName} ${recruiter.recruiter.lastName}`;
-            document.getElementById('recruiter-title').textContent = recruiter.recruiter.title || 'Title not provided';
-            document.getElementById('recruiter-org').textContent = recruiter.recruiter.organization || 'Organization not provided';
+            document.getElementById('recruiter-email').textContent = recruiter.recruiter.email;
             document.querySelector('.card-avatar').src = recruiter.recruiter.image || '../static/user.png';
         } catch (error) {
             console.error('Error fetching recruiter data:', error);

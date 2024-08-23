@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
           window.location.href = '/dashboard';
         } else {
           const error = await response.json();
-          alert(`Error: ${error.message}`);
+          alert(`Error: ${error.error}`);
         }
       } catch (error) {
         console.error('Login failed:', error);

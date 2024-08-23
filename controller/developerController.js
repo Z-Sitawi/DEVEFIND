@@ -72,8 +72,38 @@ class DeveloperController {
       const userId = await Authentification.valideLogin(authToken);
       if (!userId) return res.status(401).json({ error: 'Unauthorized' });
 
-      const user = await Developer.find({});
-      return res.status(200).json({ Developers: user });
+      const users = await Developer.find({});
+      return res.status(200).json({ Developers: users });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  static async getFilterd (req, res) {
+    try {
+      const authToken = req.header('X-Token');
+      const userId = await Authentification.valideLogin(authToken, 'dev');
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
+
+      const { country, age, gender, language, proficiency, profession, level } = req.body;
+      let filter = {};
+      if (country) {
+        filter = {...filter, country};
+      }
+      if (age) {
+        filter = {...filter, age};
+      }
+      if (gender) {
+        filter = {...filter, gender};
+      }
+      if (language) {
+        filter = {...filter, language};
+      }
+      
+      const users = await Developer.find(filter);
+      return res.status(200).json({ Developer: users });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
