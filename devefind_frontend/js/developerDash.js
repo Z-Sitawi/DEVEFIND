@@ -5,13 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Form submissions and modal interactions
   document.getElementById('profileForm').addEventListener('submit', updateProfile);
   document.getElementById('educationForm').addEventListener('submit', updateEducation);
-  document.getElementById('experienceForm').addEventListener('submit', updateExperience);
   document.getElementById('portfolioForm').addEventListener('submit', updatePortfolio);
 
   // Populate the form fields when the "Edit Profile" button is clicked
-  document.querySelector('[data-target="#editProfileModal"]').addEventListener('click', function() {
-    populateProfileForm();
-  });
+  document.querySelector('[data-target="#editProfileModal"]').addEventListener('click', populateProfileForm);
 });
 
 function fetchDeveloperData() {
@@ -22,18 +19,14 @@ function fetchDeveloperData() {
       'X-Token': token,
     }
   })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
+  .then(response => response.json())
   .then(data => {
     if (data.Developer) {
       populateProfile(data.Developer);
       populateEducation(data.Developer.education);
-      populateExperience(data.Developer.experience);
       populatePortfolio(data.Developer.portfolio);
+      populateSkills(data.Developer.skills);
+      populateCertificates(data.Developer.certificates);
     } else {
       alert('Error fetching developer data');
     }
@@ -42,16 +35,38 @@ function fetchDeveloperData() {
 }
 
 function populateProfile(developer) {
-  document.getElementById('dev-name').textContent = `${developer.firstName} ${developer.lastName}`;
-  document.getElementById('dev-age').textContent = `Age: ${developer.age}`;
-  document.getElementById('dev-gender').textContent = `Gender: ${developer.gender}`;
-  document.getElementById('dev-country').textContent = `Country: ${developer.country}`;
-  document.getElementById('dev-profession').textContent = `Profession: ${developer.profession}`;
-  document.getElementById('dev-email').textContent = `Email: ${developer.email}`;
-  document.getElementById('dev-phone').textContent = `Phone: ${developer.phone}`;
-  document.getElementById('dev-languages').textContent = `Languages: ${developer.languages.map(lang => `${lang.name} (${lang.level})`).join(', ')}`;
-  document.getElementById('dev-summary').textContent = `Summary: ${developer.summary.headline} - ${developer.summary.description}`;
+  // Profile Section
   document.getElementById('profile-image').src = developer.image || './images/png/user.png';
+  document.getElementById('dev-name').textContent = `${developer.firstName} ${developer.lastName}`;
+  document.getElementById('dev-country').textContent = developer.country;
+  document.getElementById('dev-profession').textContent = developer.profession;
+
+  // Contact Info
+  document.getElementById('dev-age').textContent = developer.age;
+  document.getElementById('dev-gender').textContent = developer.gender;
+  document.getElementById('dev-email').textContent = developer.email;
+  document.getElementById('dev-phone').textContent = developer.phone;
+
+  // Language Info
+  const languageList = document.getElementById('language-list');
+  languageList.innerHTML = '';
+  developer.languages.forEach(lang => {
+    const li = document.createElement('li');
+    li.className = 'list-group-item';
+    li.textContent = `${lang.name} (${lang.level})`;
+    languageList.appendChild(li);
+  });
+
+  // Summary Section
+  document.getElementById('dev-headline').textContent = developer.summary.headline;
+  document.getElementById('dev-description').textContent = developer.summary.description;
+
+  // Social Media Links
+  document.getElementById('github-link').href = developer.socials.github || '#';
+  document.getElementById('linkedin-link').href = developer.socials.linkedIn || '#';
+  document.getElementById('facebook-link').href = developer.socials.facebook || '#';
+  document.getElementById('blogs-link').href = developer.socials.blogs || '#';
+  document.getElementById('website-link').href = developer.socials.website || '#';
 }
 
 function populateProfileForm() {
@@ -62,12 +77,7 @@ function populateProfileForm() {
       'X-Token': token,
     }
   })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
+  .then(response => response.json())
   .then(data => {
     if (data.Developer) {
       document.getElementById('firstName').value = data.Developer.firstName;
@@ -119,12 +129,7 @@ function updateProfile(event) {
     },
     body: JSON.stringify(profileData),
   })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
+  .then(response => response.json())
   .then(data => {
     if (data.Developer) {
       populateProfile(data.Developer);
@@ -149,15 +154,13 @@ function populateEducation(educationList) {
 
 function updateEducation(event) {
   event.preventDefault();
-  const educationList = []; // Populate this with the form data
   const token = localStorage.getItem('authToken');
 
-  // Collect data from the form
-  const degree = document.getElementById('degree').value;
-  const fieldOfStudy = document.getElementById('fieldOfStudy').value;
-  const institution = document.getElementById('institution').value;
-
-  educationList.push({ degree, fieldOfStudy, institution });
+  const educationData = {
+    degree: document.getElementById('degree').value,
+    fieldOfStudy: document.getElementById('fieldOfStudy').value,
+    institution: document.getElementById('institution').value
+  };
 
   fetch('/api/developer/education', {
     method: 'PUT',
@@ -165,7 +168,7 @@ function updateEducation(event) {
       'Content-Type': 'application/json',
       'X-Token': token,
     },
-    body: JSON.stringify({ education: educationList }),
+    body: JSON.stringify(educationData),
   })
   .then(response => response.json())
   .then(data => {
@@ -175,71 +178,33 @@ function updateEducation(event) {
     } else {
       alert('Error updating education');
     }
-  });
-}
-
-function populateExperience(experienceList) {
-  const experienceContainer = document.getElementById('experience-list');
-  experienceContainer.innerHTML = ''; // Clear existing items
-  experienceList.forEach(exp => {
-    const li = document.createElement('li');
-    li.className = 'list-group-item';
-    li.textContent = `${exp.position} at ${exp.company}`;
-    experienceContainer.appendChild(li);
-  });
-}
-
-function updateExperience(event) {
-  event.preventDefault();
-  const experienceList = []; // Populate this with the form data
-  const token = localStorage.getItem('authToken');
-
-  // Collect data from the form
-  const position = document.getElementById('position').value;
-  const company = document.getElementById('company').value;
-
-  experienceList.push({ position, company });
-
-  fetch('/api/developer/experience', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Token': token,
-    },
-    body: JSON.stringify({ experience: experienceList }),
   })
-  .then(response => response.json())
-  .then(data => {
-    if (data.Developer) {
-      populateExperience(data.Developer.experience);
-      $('#editExperienceModal').modal('hide');
-    } else {
-      alert('Error updating experience');
-    }
-  });
+  .catch(error => console.error('There was a problem with the fetch operation:', error));
 }
 
 function populatePortfolio(portfolioList) {
   const portfolioContainer = document.getElementById('portfolio-list');
   portfolioContainer.innerHTML = ''; // Clear existing items
-  portfolioList.forEach(port => {
-    const li = document.createElement('li');
-    li.className = 'list-group-item';
-    li.textContent = `${port.projectTitle} - ${port.description}`;
-    portfolioContainer.appendChild(li);
-  });
+  if (portfolioList.length === 0) {
+    portfolioContainer.innerHTML = '<p>No portfolio items added.</p>';
+  } else {
+    portfolioList.forEach(port => {
+      const li = document.createElement('li');
+      li.className = 'list-group-item';
+      li.textContent = `${port.projectTitle} - ${port.description}`;
+      portfolioContainer.appendChild(li);
+    });
+  }
 }
 
 function updatePortfolio(event) {
   event.preventDefault();
-  const portfolioList = []; // Populate this with the form data
   const token = localStorage.getItem('authToken');
 
-  // Collect data from the form
-  const projectTitle = document.getElementById('projectTitle').value;
-  const description = document.getElementById('description').value;
-
-  portfolioList.push({ projectTitle, description });
+  const portfolioData = {
+    projectTitle: document.getElementById('projectTitle').value,
+    description: document.getElementById('description').value
+  };
 
   fetch('/api/developer/portfolio', {
     method: 'PUT',
@@ -247,7 +212,7 @@ function updatePortfolio(event) {
       'Content-Type': 'application/json',
       'X-Token': token,
     },
-    body: JSON.stringify({ portfolio: portfolioList }),
+    body: JSON.stringify(portfolioData),
   })
   .then(response => response.json())
   .then(data => {
@@ -257,5 +222,28 @@ function updatePortfolio(event) {
     } else {
       alert('Error updating portfolio');
     }
+  })
+  .catch(error => console.error('There was a problem with the fetch operation:', error));
+}
+
+function populateSkills(skillsList) {
+  const skillsContainer = document.getElementById('skills-section');
+  skillsContainer.innerHTML = ''; // Clear existing items
+  skillsList.forEach(skill => {
+    const li = document.createElement('li');
+    li.className = 'list-group-item';
+    li.textContent = skill;
+    skillsContainer.appendChild(li);
+  });
+}
+
+function populateCertificates(certificatesList) {
+  const certificatesContainer = document.getElementById('certificates-section');
+  certificatesContainer.innerHTML = ''; // Clear existing items
+  certificatesList.forEach(cert => {
+    const li = document.createElement('li');
+    li.className = 'list-group-item';
+    li.textContent = cert;
+    certificatesContainer.appendChild(li);
   });
 }
