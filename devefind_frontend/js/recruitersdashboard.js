@@ -33,171 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Show edit profile popup
-    /* const editProfileBtn = document.getElementById('edit-profile-btn');
-    const editProfilePopup = document.getElementById('edit-profile-popup');
-    const closePopupBtn = document.getElementById('close-popup-btn');
-    const removeProfilePictureBtn = document.getElementById('remove-profile-picture');
-    const deleteProfileBtn = document.getElementById('delete-profile');
-
-    editProfileBtn.addEventListener('click', () => {
-    editProfilePopup.style.display = 'block';
-    });
-
-    closePopupBtn.addEventListener('click', () => {
-    editProfilePopup.style.display = 'none';
-    }); */
-
-    // Handle profile edit form submission
-    /* const editProfileForm = document.getElementById('edit-profile-form');
-    if (editProfileForm) {
-        editProfileForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const formData = new FormData(editProfileForm);
-            const password = formData.get('edit-password');
-            const confirmPassword = formData.get('edit-confirm-password');
-
-            if (password !== confirmPassword) {
-                alert('Passwords do not match');
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/recruiter', {
-                    method: 'PUT',
-                    headers: {
-                        'X-Token': token,
-                    },
-                    body: formData,
-                });
-
-                const result = await response.json();
-                if (response.ok) {
-                    alert('Profile updated successfully!');
-                    editProfilePopup.style.display = 'none';
-                } else {
-                    alert(`Error: ${result.error}`);
-                }
-            } catch (error) {
-                console.error('Error updating profile:', error);
-            }
-        });
-    }
-
-    // Handle profile picture removal
-    if (removeProfilePictureBtn) {
-        removeProfilePictureBtn.addEventListener('click', async () => {
-            try {
-                const response = await fetch('/api/recruiter/image/remove', {
-                    method: 'PUT',
-                    headers: {
-                        'X-Token': token,
-                    },
-                });
-
-                const result = await response.json();
-                if (response.ok) {
-                    alert('Profile picture removed successfully!');
-                } else {
-                    alert(`Error: ${result.error}`);
-                }
-            } catch (error) {
-                console.error('Error removing profile picture:', error);
-            }
-        });
-    }
-
-    // Handle profile deletion
-    if (deleteProfileBtn) {
-        deleteProfileBtn.addEventListener('click', async () => {
-            if (confirm('Are you sure you want to delete your profile?')) {
-                try {
-                    const response = await fetch('/api/recruiter', {
-                        method: 'DELETE',
-                        headers: {
-                            'X-Token': token,
-                        },
-                    });
-
-                    const result = await response.json();
-                    if (response.ok) {
-                        alert('Profile deleted successfully!');
-                        // Redirect or update UI after deletion
-                    } else {
-                        alert(`Error: ${result.error}`);
-                    }
-                } catch (error) {
-                    console.error('Error deleting profile:', error);
-                }
-            }
-        });
-    }
-
-
-    // Handle image upload
-    const editProfilePicture = document.getElementById('edit-profile-picture');
-    if (editProfilePicture) {
-        editProfilePicture.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const formData = new FormData();
-                formData.append('file', file);
-
-                try {
-                    const response = await fetch('/api/recruiter/image/update', {
-                        method: 'PUT',
-                        headers: {
-                            'X-Token': token,
-                        },
-                        body: formData,
-                    });
-                    const result = await response.json();
-                    if (response.ok) {
-                        alert('Profile picture updated successfully!');
-                        // Optionally update the UI with the new profile picture
-                        location.reload();
-                    } else {
-                        alert(`Error: ${result.error}`);
-                    }
-                } catch (error) {
-                    console.error('Error uploading profile picture:', error);
-                }
-            }
-        });
-    }
- */
-
-    // Handle search form submission
-    /* const searchForm = document.getElementById('search-form');
-    if (searchForm) {
-        searchForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const searchQuery = document.getElementById('search-query').value;
-
-            try {
-                const response = await fetch(`/api/candidates/search?q=${encodeURIComponent(searchQuery)}`);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const candidates = await response.json();
-                console.log('Search results:', candidates);
-                // Code to display candidates goes here
-                displayProfiles(candidates);
-            } catch (error) {
-                console.error('Error fetching candidates:', error);
-            }
-        });
-    } */
-
     // Handle pagination
-  const profileContainer = document.getElementById('profile-container');
-  const prevButton = document.querySelector('.prev-button');
-  const nextButton = document.querySelector('.next-button');
-  let currentIndex = 0;
-  const cardsToShow = 6;
+    const profileContainer = document.getElementById('profile-container');
+    const prevButton = document.querySelector('.prev-button');
+    const nextButton = document.querySelector('.next-button');
+    let currentIndex = 0;
+    const cardsToShow = 6;
 
-  const fetchProfiles = async () => {
+    const fetchProfiles = async () => {
       try {
           const response = await fetch('/api/developer/all', {
               headers: {
@@ -217,9 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const displayProfiles = (profiles) => {
     profileContainer.innerHTML = '';
   
-    // const profilesToDisplay = profiles.slice(currentIndex, currentIndex + cardsToShow);
+    const profilesToDisplay = profiles.slice(currentIndex, currentIndex + cardsToShow);
+    if (profilesToDisplay.length === 0) {
+        profileContainer.innerHTML = `<h1 class="text-danger">No Profiles Found!</h1>`;   
+    }
   
-    profiles.forEach(profile => {
+    profilesToDisplay.forEach(profile => {
         const profileCard = document.createElement('div');
         profileCard.className = 'profile-card';
         profileCard.innerHTML = `
