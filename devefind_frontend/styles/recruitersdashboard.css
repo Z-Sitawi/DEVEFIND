@@ -37,6 +37,18 @@ body, html {
 /* Navbar */
 .navbar{
     background-color: whitesmoke;
+    position: relative;
+}
+
+#backBtn  {
+    position: absolute;
+    top: 100%;
+    text-decoration: none;
+    color: rgb(250, 218, 114);
+}
+
+#backBtn:hover {
+    color: white;
 }
 
 .navbar img {
@@ -232,8 +244,8 @@ body, html {
 }
 
 .card-avatar {
-    border-radius: 50%;
-    margin-bottom: 15px;
+    width: 150px;
+    height: auto;
 }
 
 .profile-info h3 {
@@ -502,4 +514,9 @@ div.profile-info table tr td {
 
 #seeMoreBtn {
     font-size: x-small;
+}
+
+#profilePicture {
+    width: 150px;
+    height: auto;
 }
