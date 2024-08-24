@@ -26,6 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
         filterDropdown.classList.toggle('show');
     });
 
+    // Close filter form when clicking outside of it
+    document.addEventListener('click', (e) => {
+        if (!filterDropdown.contains(e.target) && !filterToggle.contains(e.target)) {
+            filterDropdown.classList.remove('show');
+        }
+    });
+
     // Show edit profile popup
     /* const editProfileBtn = document.getElementById('edit-profile-btn');
     const editProfilePopup = document.getElementById('edit-profile-popup');
