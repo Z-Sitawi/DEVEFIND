@@ -39,35 +39,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const addExperienceBtn = document.getElementById('add-experience');
     const addSkillButton = document.getElementById('add-skill-button');
     const skillsContainer = document.getElementById('skills-container');
+    const educationContainer = document.getElementById('eduSection');
   
     addEducationBtn.addEventListener('click', () => {
         const newEducation = `
+        <div id="education-section">
             <div class="form-group">
-                <label for="school">School Name</label>
-                <input type="text" name="school" required>
+                <label for="school">Instituition</label>
+                <input type="text" id="school" name="school" required>
             </div>
             <div class="form-group">
                 <label for="degree">Degree</label>
-                <input type="text" name="degree" required>
+                <input type="text" id="degree" name="degree" required>
             </div>
             <div class="form-group">
                 <label for="field-of-study">Field of Study</label>
-                <input type="text" name="field-of-study" required>
+                <input type="text" id="field-of-study" name="field-of-study" required>
             </div>
             <div class="form-group">
-                <label for="graduation-year">Year of Graduation</label>
-                <input type="number" name="graduation-year" required>
+                <label for="graduation-year">Graduation Date</label>
+                <input type="date" id="graduation-year" name="graduation-year" required>
             </div>
-            <div class="form-group">
-                <label for="education-country">Country</label>
-                <select name="education-country" required>
-                    <option value="Nigeria">Nigeria</option>
-                    <option value="Kenya">Kenya</option>
-                    <option value="South Africa">South Africa</option>
-                    <!-- Add more countries as needed -->
-                </select>
-            </div>`;
-        educationBtn.insertAdjacentHTML('beforeend', newEducation);
+        </div>`;
+        educationContainer.insertAdjacentHTML('beforeend', newEducation);
     });
   
     addExperienceBtn.addEventListener('click', () => {
@@ -97,4 +91,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
   });
-  

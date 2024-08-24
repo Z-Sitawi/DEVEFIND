@@ -2,3 +2,5 @@
 .env
 /views
 /static
+/utils
+index.js
