@@ -13,7 +13,13 @@ class RedisClient {
    * Initializes the Redis client and sets up event listeners for connection status.
    */
   constructor () {
-    this.client = redis.createClient();
+    this.client = redis.createClient({
+      password: 'BbN2w3sHSneKTdZzljIAckjRKoxygNhv',
+      socket: {
+          host: 'redis-13461.c98.us-east-1-4.ec2.redns.redis-cloud.com',
+          port: 13461
+      }
+  });
 
     // Handling connection errors
     this.client.on('error', (err) => {
