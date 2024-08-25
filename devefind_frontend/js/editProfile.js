@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = sessionStorage.getItem('token');
-    if (!token) {
-        window.location.href = '/login.html';
-        return;
-    }
+    // if (!token) {
+    //     window.location.href = '/login.html';
+    //     return;
+    // }
 
     // Handle form submission
     document.getElementById('edit-profile-form').addEventListener('submit', async (e) => {
