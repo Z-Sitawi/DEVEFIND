@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = sessionStorage.getItem('token');
 
-    if (!token) {
-        window.location.href = '/login.html';
-        return;
-    }
+    // if (!token) {
+    //     window.location.href = '/login.html';
+    //     return;
+    // }
     // Fetch and populate filters from filter.json
     fetch('/api/filters')
         .then(response => response.json())

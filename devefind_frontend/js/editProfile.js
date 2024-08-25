@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const token = sessionStorage.getItem('token');
-    if (!token) {
-        window.location.href = '/login.html';
-        return;
-    }
+    // if (!token) {
+    //     window.location.href = '/login.html';
+    //     return;
+    // }
 
     // fetch the recruiter's data
     const fetchRecruiterData = async () => {
