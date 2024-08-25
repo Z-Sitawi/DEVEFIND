@@ -351,6 +351,18 @@ thead tr th:not(.btnContainer) {
   border: 1px solid #dee2e6;
 }
 
+.input-wrapper {
+  flex: 1;
+  max-width: 100%;
+}
+
+input {
+  width: 100%; /* Make the input take up the full width of the wrapper */
+  box-sizing: border-box; /* Include padding and border in the element's total width */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 table tbody td:not(table tbody td:last-of-type){
   border: 1px solid #dee2e6;
 }
