@@ -70,6 +70,7 @@ h2, h3 {
 
 #dev-name, #dev-profession, #dev-country {
   margin-bottom: 0.2rem;
+  text-transform: capitalize;
 }
 
 .profile-details {
@@ -285,4 +286,79 @@ h2, h3 {
       margin-top: 10px;
       width: 100%;
   }
+}
+
+
+.custom-fieldset {
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  padding: 0px 10px;
+}
+
+.custom-fieldset legend {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+}
+
+.card-header {
+  position: relative;
+}
+
+.card-header span.arrow {
+  position: absolute;
+  left: 50%;
+}
+
+
+.card-body:not(#languageBox, #socialsBox, #personalBox) {
+  overflow: hidden; /* Hide overflow when collapsing */
+  overflow-x: scroll;
+  transition: height 0.5s ease, padding 0.5s ease; /* Smooth transition */
+  height: 0; /* Initially collapsed */
+  padding: 0; /* Remove padding initially */
+}
+
+.card-body.expanded:not(#languageBox, #socialsBox, #personalBox) {
+  height: auto; /* Automatically adjust height when expanded */
+  padding: 1.25rem; /* Add padding when expanded */
+}
+
+thead th {
+  text-align: center;
+  font-size: x-small;
+}
+
+tbody td {
+  text-align: center;
+  font-size: x-small;
+}
+
+tbody td textarea, tbody td input{
+  border: none;
+  background-color: white;
+  text-align: center;
+}
+
+thead tr th:not(.btnContainer) {
+  border: 1px solid #dee2e6;
+}
+
+table tbody td:not(table tbody td:last-of-type){
+  border: 1px solid #dee2e6;
+}
+
+table tbody tr{
+  border: green;
+}
+
+.table td {
+  border-top: none;
 }

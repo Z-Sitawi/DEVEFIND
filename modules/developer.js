@@ -79,8 +79,8 @@ const DeveloperSchema = new mongoose.Schema({
     default: './images/png/user.png'
   },
   summary: {
-    headline: { type: String, maxlength: 100, default: '' },
-    description: { type: String, maxlength: 700, default: '' }
+    headline: { type: String, maxlength: 200, default: '' },
+    description: { type: String, maxlength: 1000, default: '' }
   },
   education: [{
     institution: { type: String, maxlength: 100 },

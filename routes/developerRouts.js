@@ -22,6 +22,7 @@ DeveloperRoutes.put('/api/developer/update/personal', DeveloperController.update
 
 DeveloperRoutes.put('/api/developer/edu', DeveloperController.eduInfo);
 DeveloperRoutes.put('/api/developer/exp', DeveloperController.expInfo);
+DeveloperRoutes.put('/api/developer/summary', DeveloperController.summaryInfo);
 
 // `upload.single('file')` parses the file data and attaches it to `req.file`
 DeveloperRoutes.put('/api/developer/image/update', upload.single('file'), DeveloperController.updateDevImage);

@@ -76,8 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
           });
           if (res.ok) {
             const info = await res.json();
-            sessionStorage.setItem("token", info.token);
-            window.location.href = '/candidateProfile.html';
+            await sessionStorage.setItem("token", info.token);
+            console.log(info.token);
+            window.location.href = '/developerDash.html';
           }
           else {
             const info = await response.json();

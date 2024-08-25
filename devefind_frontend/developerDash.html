@@ -25,7 +25,7 @@
           <a class="nav-link" href="#">Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Logout</a>
+          <a class="nav-link" id="logOutBtn">Logout</a>
         </li>
       </ul>
     </div>
@@ -62,39 +62,40 @@
       <div class="col-md-4">
         <!-- Personal Information Row -->
         <div class="card mb-4">
-          <div class="card-body">
-            <p id="dev-age">Age: [Age]</p>
-            <p id="dev-gender">Gender: [Gender]</p>
-            <p id="dev-email">Email: [Email]</p>
-            <p id="dev-phone">Phone: [Phone]</p>
+          <div class="card-body" id="personalBox">
+            <p> Age: <span class="px-2" id="dev-age">[Age]</span></p>
+            <p> Gender:<spanp class="px-2" id="dev-gender">[Gender]</span></p>
+            <p> Email:<span class="px-2" id="dev-email">[Email]</span></p>
+            <p> Back-up Email:<span class="px-2" id="dev-backup-email">[Back up Email]</span></p>
+            <p> Phone:<span class="px-2" id="dev-phone">[Phone]</span></p>
           </div>
         </div>
 
         <!-- Language Section -->
         <div class="card mb-4">
           <div class="card-header d-flex justify-content-between align-items-center">
-            Languages
+            <b>Languages</b>
             <button class="btn btn-sm btn-outline-primary">Add</button>
           </div>
-          <div class="card-body">
+          <div class="card-body1" id="languageBox">
             <ul class="list-group list-group-flush" id="dev-languages">
               <!-- Language items will be appended here -->
             </ul>
           </div>
         </div>
 
-        <!-- Education Section -->
+        <!-- Socials Section -->
         <div class="card mb-4">
           <div class="card-header d-flex justify-content-between align-items-center">
-            Education
+            <b>Socials</b>
             <div>
               <button class="btn btn-sm btn-outline-primary">Add</button>
               <button class="btn btn-sm btn-outline-secondary">Edit</button>
             </div>
           </div>
-          <div class="card-body">
+          <div class="card-body" id="socialsBox">
             <ul class="list-group list-group-flush" id="education-list">
-              <!-- Education items will be appended here -->
+              <!-- Socials items will be appended here -->
             </ul>
           </div>
         </div>
@@ -105,18 +106,68 @@
         <!-- Summary Section -->
         <div class="card mb-4">
           <div class="card-header d-flex justify-content-between align-items-center">
-            Summary
+            <b>Summary</b><span class="arrow">&#11015;</span>
+            <div>
+              <button class="btn btn-sm btn-outline-primary d-none save" id="saveSummaryBtn">save</button>
+              <button class="btn btn-sm btn-outline-primary d-none edit" id="editSummaryBtn">Edit</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <fieldset class="custom-fieldset mb-2 py-2">
+              <legend>Headline</legend>
+              <textarea class="px-2 py-1 col-12" type="text" disabled id="devHeadline" maxlength="200"></textarea>
+            </fieldset>
+            <fieldset class="custom-fieldset py-2">
+              <legend>Description</legend>
+              <textarea rows="3" class="px-2 py-1 col-12" id="devDescription" type="text" disabled id="devHeadline" maxlength="1000"></textarea>
+            </fieldset>
+            </section>
+          </div>
+        </div>
+
+        <!-- Education Section -->
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b>Education</b><span class="arrow">&#11015;</span>
+            <div>
+              <button class="btn btn-sm btn-outline-primary d-none save" id="saveEduBtn">save</button>
+              <button class="btn btn-sm btn-outline-primary d-none add" id="addEduBtn">add</button>
+            </div>
+          </div>
+          <div class="card-body mx-3">
+            <table class="table">
+              <thead>
+                <tr style="border-right: none;">
+                  <th>Institution</th>
+                  <th>Degree</th>
+                  <th>Field Of Study</th>
+                  <th>Graduation Date</th>
+                  <th class="btnContainer" style="display: none;"></th>
+                </tr>
+              </thead>
+              <tbody id="eduDataContainer">
+              </tbody>
+            </table>
+          </div>
+        </div> 
+
+        <!-- Experience Section -->
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b>Experience</b>
             <button class="btn btn-sm btn-outline-primary">Add</button>
           </div>
           <div class="card-body">
-            <p id="dev-summary">Summary: [Headline] - [Description]</p>
+            <ul class="list-group list-group-flush" id="skills-list">
+              <!-- Experience items will be appended here -->
+            </ul>
           </div>
         </div>
 
         <!-- Portfolio Section -->
         <div class="card mb-4">
           <div class="card-header d-flex justify-content-between align-items-center">
-            Portfolio
+            <b>Portfolio</b>
             <button class="btn btn-sm btn-outline-primary">Add</button>
           </div>
           <div class="card-body">
@@ -126,23 +177,10 @@
           </div>
         </div>
 
-        <!-- Skills Section -->
-        <div class="card mb-4">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            Skills
-            <button class="btn btn-sm btn-outline-primary">Add</button>
-          </div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush" id="skills-list">
-              <!-- Skills items will be appended here -->
-            </ul>
-          </div>
-        </div>
-
         <!-- Certificates Section -->
         <div class="card mb-4">
           <div class="card-header d-flex justify-content-between align-items-center">
-            Certificates
+            <b>Certificates</b>
             <button class="btn btn-sm btn-outline-primary">Add</button>
           </div>
           <div class="card-body">
@@ -212,6 +250,6 @@
 </body>
 
   <!-- Bootstrap JS and dependencies -->
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4Ag6r4GMXYM35Q5Yo9onJ6UGP0r12B7CmYFUp9yFeAAkFs0p6Ck" crossorigin="anonymous"></script>
-  <script src="./js/developerDash.js"></script>
+<!--   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4Ag6r4GMXYM35Q5Yo9onJ6UGP0r12B7CmYFUp9yFeAAkFs0p6Ck" crossorigin="anonymous"></script>
+ -->  <script src="./js/developerDash.js"></script>
 </html>
