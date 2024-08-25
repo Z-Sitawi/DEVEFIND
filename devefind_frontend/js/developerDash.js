@@ -1,9 +1,10 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
   // checks if login is valid evry 6 hours if not redirect the user to login
   const token = sessionStorage.getItem('token');
   setInterval(async () => {
     const isLogedin = await validateToken(token, 'dev');
     if (!isLogedin) {
+      sessionStorage.removeItem("token");
       window.location.href = '/login.html';
       return;
     }
@@ -32,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (data.Developer) {
         populateProfile(data.Developer);
         populateEducation(data.Developer.education);
+        populateLinks(data.Developer.links);
         /* populatePortfolio(data.Developer.portfolio);
         populateCertificates(data.Developer.certificates); */
       } else {
@@ -214,6 +216,50 @@ document.querySelectorAll('.arrow').forEach(arrow => {
 
   /***************************** End Education ************************************/
 
+  //!/************** Socials **************/!\\
+  document.querySelector('#editSocialsBtn').addEventListener('click', ()=> {
+    document.querySelector('#saveSocialsBtn').classList.remove('d-none');
+    const githubLinkInput = document.getElementById('githubLink');
+    const linkedinLinkInput = document.getElementById('linkedinLink');
+    const facebookLinkInput = document.getElementById('facebookLink');
+    const blogLinkInput = document.getElementById('blogLink');
+    const websiteLinkInput = document.getElementById('websiteLink');
+    const links = [githubLinkInput, linkedinLinkInput, facebookLinkInput, blogLinkInput, websiteLinkInput];
+    links.forEach(link => link.removeAttribute('disabled'));
+
+    document.querySelector('#saveSocialsBtn').addEventListener('click', async () => {
+      const linksVal = links.map(link => link.value);
+      const jsonLinks = [{gitHub: linksVal[0]}, {linkedin: linksVal[1]}, {facebook: linksVal[2]}, {blog: linksVal[3]}, {personalWebsite: linksVal[4]}];
+      try {
+        const response = await fetch('/api/developer/socials', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-token': token,
+          },
+          body: JSON.stringify({links: jsonLinks})
+        });
+        const result = await response.json();
+  
+        if (response.ok) {
+          alert(result.message);
+          links.forEach(link => link.setAttribute('disabled', 'disabled'));
+          document.querySelector('#saveSocialsBtn').classList.add('d-none');
+
+        } else {
+          alert(`Error: ${result.error}`);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+
+
+  });
+
+  /***************************** End Socials ************************************/
+
+
   /** Area to call functions **/
   fetchDeveloperData();
   /***************************/
@@ -248,12 +294,6 @@ function populateProfile(developer) {
   document.getElementById('devHeadline').value = developer.summary.headline || "Not set";
   document.getElementById('devDescription').value = developer.summary.description || "Not set";
 
-  // Social Media Links
-  /* document.getElementById('github-link').href = developer.socials.github || '#';
-  document.getElementById('linkedin-link').href = developer.socials.linkedIn || '#';
-  document.getElementById('facebook-link').href = developer.socials.facebook || '#';
-  document.getElementById('blogs-link').href = developer.socials.blogs || '#';
-  document.getElementById('website-link').href = developer.socials.website || '#'; */
 }
 
 function populateProfileForm() {
@@ -423,16 +463,13 @@ function populateEducation(educationList) {
   .catch(error => console.error('There was a problem with the fetch operation:', error));
 } */
 
-/* function populateSkills(skillsList) {
-  const skillsContainer = document.getElementById('skills-section');
-  skillsContainer.innerHTML = ''; // Clear existing items
-  skillsList.forEach(skill => {
-    const li = document.createElement('li');
-    li.className = 'list-group-item';
-    li.textContent = skill;
-    skillsContainer.appendChild(li);
-  });
-} */
+function populateLinks(linksObj) {
+    document.getElementById('githubLink').value = linksObj[0].gitHub;
+    document.getElementById('linkedinLink').value = linksObj[1].linkedin;
+    document.getElementById('facebookLink').value = linksObj[2].facebook;
+    document.getElementById('blogLink').value = linksObj[3].blog;
+    document.getElementById('websiteLink').value = linksObj[4].personalWebsite;
+}
 
 /* function populateCertificates(certificatesList) {
   const certificatesContainer = document.getElementById('certificates-section');
@@ -462,6 +499,8 @@ async function validateToken(token, type) {
     console.error(error.message);
   }  
 }
+
+/* eslint-disable no-unused-vars */
 
 function delEdurow(obj) {
   const answer = confirm('Delete This Item?');
