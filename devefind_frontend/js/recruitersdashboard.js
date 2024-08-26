@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alt="${profile.firstName} ${profile.lastName} avatar"
                 width="100"
                 height="100"
-                class="card-avatar"
+                class="card-avatar rounded-circle"
             />
             <div class="profile-info text-start">
                 <h3 style="text-transform: capitalize;" class="text-center" >${profile.firstName} ${profile.lastName}</h3>
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Failed to fetch profiles');
             }
             const profiles = await response.json();
-            // console.log(profiles.Developer);
+            document.getElementById('filter-dropdown').classList.remove('show');
             displayProfiles(profiles.Developer);
         } catch (error) {
             console.error('Error fetching profiles:', error);
