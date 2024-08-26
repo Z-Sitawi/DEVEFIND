@@ -17,8 +17,6 @@ document.addEventListener('DOMContentLoaded', async function() {
   document.getElementById('educationForm').addEventListener('submit', updateEducation);
   document.getElementById('portfolioForm').addEventListener('submit', updatePortfolio); */
 
-  // Populate the form fields when the "Edit Profile" button is clicked
-  document.querySelector('[data-target="#editProfileModal"]').addEventListener('click', populateProfileForm);
 
   // get and display the developer's data
   function fetchDeveloperData() {
@@ -37,13 +35,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         /* populatePortfolio(data.Developer.portfolio);
         populateCertificates(data.Developer.certificates); */
       } else {
-        alert('Error fetching developer data');
+        redirectToLogin();
       }
     })
     .catch(error => console.error('There was a problem with the fetch operation:', error));
   }
 
-document.querySelectorAll('.arrow').forEach(arrow => {
+  document.querySelectorAll('.arrow').forEach(arrow => {
   arrow.addEventListener('click', () => {
 
       // Get the closest parent container or section
@@ -86,7 +84,7 @@ document.querySelectorAll('.arrow').forEach(arrow => {
           }
       }
   });
-});
+  });
 
   // Log Out
   const logOutBtn = document.querySelector('#logOutBtn');
@@ -214,8 +212,6 @@ document.querySelectorAll('.arrow').forEach(arrow => {
 
   });
 
-  // delete
-
   /***************************** End Education ************************************/
 
   //!/************** Socials **************/!\\
@@ -259,7 +255,100 @@ document.querySelectorAll('.arrow').forEach(arrow => {
 
   });
 
-  /***************************** End Socials ************************************/
+  //!/***************************** End Socials ************************************/
+
+  /****************** Language ******************/
+  
+  document.querySelector('#editLanguages').addEventListener('click', async () => {
+
+    // delete laguages 
+    const cancelBtn = document.querySelector('#cancelBtn');
+    const formLang = document.querySelector("#langForm");
+    document.querySelector('#editLanguages').setAttribute('disabled', 'disabled');
+    cancelBtn.classList.remove('d-none');
+    formLang.classList.remove('d-none');
+
+    try {
+      const response = await fetch('/api/filters');
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // git current languades
+        const userLang = [];
+        document.querySelectorAll('#dev-languages li').forEach(e => userLang.push(e.textContent.split(' ')[0]));
+
+        // language
+        const laguagesList = result.languages;
+        const allowedlLaguagesList = laguagesList.filter(e => !userLang.includes(e));
+        let languageContent = '';
+        allowedlLaguagesList.forEach(ele => languageContent += `<option value="${ele}">${ele}</option>`);
+        formLang.querySelector('#languages').innerHTML += languageContent;
+
+        // proficiency
+        const proficiencyList = result.proficiency;
+        let proficienciesContent = '';
+        proficiencyList.forEach(ele => proficienciesContent += `<option value="${ele}">${ele}</option>`);
+        formLang.querySelector('#proficiencies').innerHTML += proficienciesContent;
+
+        // save Languages
+        formLang.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const formData = new FormData(formLang);
+          const data = {
+            language: formData.get('language'),
+            proficiency: formData.get('proficiency'),
+          };
+          if (data.language && data.proficiency)
+            document.querySelector('#dev-languages').innerHTML += `<li class="list-group-item">
+          <input type="checkbox" class="langCheckBox" onclick="showDel()"><span>${data.language} (${data.proficiency})</span></li>`;
+          const allLanguages = {languages: []};
+          document.querySelectorAll('#dev-languages li span').forEach(e => {
+            allLanguages.languages.push({language: e.textContent.split(' ')[0], proficiency: e.textContent.split(' ')[1].match(/\(([^)]+)\)/)[1]});
+          });
+
+          try {
+            const response = await fetch('/api/developer/language', {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Token': token,
+              },
+              body: JSON.stringify(allLanguages)
+            });
+
+            const res = await response.json();
+            if (response.ok) {
+              alert(res.message);
+              formLang.classList.add('d-none');
+              cancelBtn.classList.add('d-none');
+              document.querySelector('#editLanguages').removeAttribute('disabled');
+            }
+            else {
+              alert(res.error);
+            }
+
+          } catch (error) {
+            console.log(error);
+          }
+        });
+
+      } else {
+        alert(`Error: ${result.error}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    cancelBtn.addEventListener('click', () => {
+      cancelBtn.classList.add('d-none');
+      formLang.classList.add('d-none');
+      document.querySelector('#editLanguages').removeAttribute('disabled');
+
+    });
+  });
+
+  /************************* End Language *****************************/
 
 
   /** Area to call functions **/
@@ -288,7 +377,7 @@ function populateProfile(developer) {
   developer.languages.forEach(lang => {
     const li = document.createElement('li');
     li.className = 'list-group-item';
-    li.textContent = `${lang.language} (${lang.proficiency})`;
+    li.innerHTML = `<input type="checkbox" class="langCheckBox" onclick="showDel()"><span>${lang.language} (${lang.proficiency})</span> `;
     languageList.appendChild(li);
   });
 
@@ -296,35 +385,6 @@ function populateProfile(developer) {
   document.getElementById('devHeadline').value = developer.summary.headline || "Not set";
   document.getElementById('devDescription').value = developer.summary.description || "Not set";
 
-}
-
-function populateProfileForm() {
-  const token = localStorage.getItem('authToken');
-  fetch('/api/developer', {
-    method: 'GET',
-    headers: {
-      'X-Token': token,
-    }
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.Developer) {
-      document.getElementById('firstName').value = data.Developer.firstName;
-      document.getElementById('lastName').value = data.Developer.lastName;
-      document.getElementById('age').value = data.Developer.age;
-      document.getElementById('gender').value = data.Developer.gender;
-      document.getElementById('country').value = data.Developer.country;
-      document.getElementById('profession').value = data.Developer.profession;
-      document.getElementById('email').value = data.Developer.email;
-      document.getElementById('phone').value = data.Developer.phone;
-      document.getElementById('languages').value = data.Developer.languages.map(lang => `${lang.name}-${lang.level}`).join(', ');
-      document.getElementById('headline').value = data.Developer.summary.headline;
-      document.getElementById('description').value = data.Developer.summary.description;
-    } else {
-      alert('Error fetching developer data for form population');
-    }
-  })
-  .catch(error => console.error('There was a problem with the fetch operation:', error));
 }
 
 /* function updateProfile(event) {
@@ -391,35 +451,6 @@ function populateEducation(educationList) {
   });
 }
 
-/* function updateEducation(event) {
-  event.preventDefault();
-  const token = localStorage.getItem('authToken');
-
-  const educationData = {
-    degree: document.getElementById('degree').value,
-    fieldOfStudy: document.getElementById('fieldOfStudy').value,
-    institution: document.getElementById('institution').value
-  };
-
-  fetch('/api/developer/education', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Token': token,
-    },
-    body: JSON.stringify(educationData),
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.Developer) {
-      populateEducation(data.Developer.education);
-      document.querySelector('#editEducationModal').modal('hide');
-    } else {
-      alert('Error updating education');
-    }
-  })
-  .catch(error => console.error('There was a problem with the fetch operation:', error));
-} */
 
 /* function populatePortfolio(portfolioList) {
   const portfolioContainer = document.getElementById('portfolio-list');
@@ -519,4 +550,52 @@ function editEdurow(obj) {
     const cels = obj.parentNode.parentNode.querySelectorAll('td textarea, td input');
     cels.forEach(cel => {cel.removeAttribute('disabled');});
   }
+}
+
+function redirectToLogin() {
+  window.location.href = '/login.html';
+  return;
+}
+
+function showDel(){
+  const checkboxes = document.querySelectorAll('.langCheckBox');
+  const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+  if (!isChecked){
+    document.getElementById('trashLang').classList.add('d-none');
+  }
+  else {
+    document.getElementById('trashLang').classList.remove('d-none');
+  }
+}
+
+async function deletLanguages () {
+  const checkboxes = document.querySelectorAll('.langCheckBox:checked');
+  checkboxes.forEach(checkboxe => {
+    checkboxe.parentElement.remove();
+  });
+  showDel();
+  const allLanguages = {languages: []};
+  document.querySelectorAll('#dev-languages li span').forEach(e => {
+    allLanguages.languages.push({language: e.textContent.split(' ')[0], proficiency: e.textContent.split(' ')[1].match(/\(([^)]+)\)/)[1]});
+  });
+
+  try {
+        const response = await fetch('/api/developer/language', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Token': sessionStorage.getItem('token'),
+          },
+          body: JSON.stringify(allLanguages)
+        });
+        const res = await response.json();
+        if (response.ok) {
+          alert(res.message);
+        }
+        else {
+          alert(res.error);
+        }
+      } catch (error) {
+        console.log(error);
+      }
 }

@@ -287,6 +287,25 @@ class DeveloperController {
       res.status(500).json({ error: error.message });
     }
   }
+
+  static async languageInfo (req, res) {
+    try {
+      const authToken = req.header('X-Token');
+      const userId = await Authentification.valideLogin(authToken, 'dev');
+
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      if (!mongoose.isValidObjectId(userId)) return res.status(400).json({ error: 'Invalid ID format' });
+
+      const { languages } = req.body;
+
+      const result = await Developer.findByIdAndUpdate(userId, {languages}, { new: true });
+
+      if (!result) return res.status(404).json({ error: 'Developer Not Found' });
+      else res.status(200).json({ message: 'Developer language info updated successfully' });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
 }
 
 export default DeveloperController;
