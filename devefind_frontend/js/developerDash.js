@@ -61,6 +61,8 @@ document.querySelectorAll('.arrow').forEach(arrow => {
           if (btnContainer.querySelector('.edit'))
             btnContainer.querySelector('.edit').classList.remove('d-none');
           btnContainer.querySelector('.save').classList.add('d-none');
+          if (btnContainer.querySelector('.edit'))
+            btnContainer.querySelector('.edit').classList.add('d-none');
             if (cardBody.firstElementChild.tagName === "FIELDSET") {
               const FIELDSETs = cardBody.querySelectorAll("FIELDSET textarea");
               FIELDSETs.forEach(obj => obj.setAttribute('disabled', 'disabled'));             
@@ -504,9 +506,10 @@ async function validateToken(token, type) {
 
 function delEdurow(obj) {
   const answer = confirm('Delete This Item?');
-  if (answer)
+  if (answer) {
     obj.parentNode.parentNode.remove();
     document.querySelector('#saveEduBtn').click();
+  }
 
 }
 

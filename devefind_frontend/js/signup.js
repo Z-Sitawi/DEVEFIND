@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({ email:data.email, password: data.password}),
           });
           if (res.ok) {
+            alert('Account Created Successfully!\nRedirecting You to Dashboard...');
             const info = await res.json();
             await sessionStorage.setItem("token", info.token);
             console.log(info.token);
