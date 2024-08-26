@@ -1,0 +1,141 @@
+/* Root Variables for Theming */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #34495e;
+    --background-gradient: linear-gradient(135deg, #2c3e50, #34495e);
+  }
+
+
+/* General Styling */
+body {
+    margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  background: linear-gradient(135deg, #2c3e50, #2c3e50);
+  scroll-behavior: smooth;
+}
+
+.container {
+    max-width: 1200px;
+  margin: 20px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+
+.navbar {
+    background-color: whitesmoke;
+    padding: 10px 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand img {
+    height: 25px;
+}
+
+.close-button {
+    color: #ecf0f1;
+    background-color: #e74c3c;
+    border-radius: 5px;
+    padding: 5px 10px;
+    transition: background-color 0.3s;
+}
+
+.close-button:hover {
+    background-color: #c0392b;
+}
+
+/* Personal Info */
+.personal-info {
+    text-align: left;
+    margin-right: 60px;
+    color: #7f8c8d;
+}
+
+.personal-info p {
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+/* Header Section */
+.header-section {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #bdc3c7;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #007bff;
+    margin-right: 10px;
+}
+
+.header-section h2 {
+    font-size: 2.4rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.header-section p {
+    margin: 0;
+    color: #7f8c8d;
+    font-size: 1.2rem;
+}
+
+/* Card */
+.card {
+    border: none;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.card-title {
+    font-size: 1.6rem;
+    color: #34495e;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Social Media Icons */
+.social-icons {
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    color: #34495e;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: #3498db;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .personal-info {
+        text-align: left;
+        margin-top: 15px;
+    }
+}
