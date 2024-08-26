@@ -31,10 +31,10 @@ h2, h3 {
 
 .list-group-item {
   border: none;
-  padding: 10px 15px;
   background-color: #f8f9fa;
   margin-bottom: 10px;
   border-radius: 5px;
+  display: flex;
 }
 
 .btn-primary {
@@ -351,12 +351,17 @@ thead tr th:not(.btnContainer) {
   border: 1px solid #dee2e6;
 }
 
+.fa-trash:hover {
+  color: red;
+  transition: 0.2s color;
+}
+
 .input-wrapper {
   flex: 1;
   max-width: 100%;
 }
 
-input {
+input.socialsInput {
   width: 100%; /* Make the input take up the full width of the wrapper */
   box-sizing: border-box; /* Include padding and border in the element's total width */
   border: 1px solid #ccc;
@@ -373,4 +378,9 @@ table tbody tr{
 
 .table td {
   border-top: none;
+}
+
+input.langCheckBox {
+  width: 15%; /* Make the input take up the full width of the wrapper */
+  margin-right: 5%;
 }

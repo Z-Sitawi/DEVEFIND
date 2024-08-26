@@ -22,6 +22,7 @@ DeveloperRoutes.put('/api/developer/update/personal', DeveloperController.update
 
 DeveloperRoutes.put('/api/developer/edu', DeveloperController.eduInfo);
 DeveloperRoutes.put('/api/developer/exp', DeveloperController.expInfo);
+DeveloperRoutes.put('/api/developer/language', DeveloperController.languageInfo);
 DeveloperRoutes.put('/api/developer/summary', DeveloperController.summaryInfo);
 DeveloperRoutes.put('/api/developer/socials', DeveloperController.socialsInfo);
 
