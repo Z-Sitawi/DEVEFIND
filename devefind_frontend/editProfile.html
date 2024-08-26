@@ -10,6 +10,7 @@
 </head>
 <body>
     <nav class="navbar">
+        <a id="backBtn" href="/recruitersDash.html" class="mx-2 p-3">&#8666; Back</a>
         <div class="container-xl">
             <a class="navbar-brand" href="#">
                 <img src="./images/png/logo-no-background.png" alt="DeveFind">
@@ -18,12 +19,14 @@
         </div>
     </nav>
     <div class="container mt-5">
-        <h2>Edit Profile</h2>
-        <form id="edit-profile-form">
-            <div class="form-group mb-3">
-                <label for="edit-profile-picture">Profile Picture</label>
-                <input type="file" id="edit-profile-picture" name="edit-profile-picture">
-                <button type="button" id="remove-profile-picture" class="btn btn-danger mt-2">Remove Picture</button>
+        <h2 class="text-light">Edit Profile</h2>
+        <form id="edit-profile-form" class="text-light mx-5 p-5" >
+            <img src="" alt="profile picture" id="profilePicture" class="img-thumbnail">
+            <input type="file" id="edit-profile-picture" class="">
+            <img  id="test" alt="image" class="d-none">
+            <div class="form-group mb-3 py-2">
+                <button type="button" id="update-profile-picture" class="btn btn-primary py-0 px-3" disabled>Update Picture</button>
+                <button type="button" id="remove-profile-picture" class="btn btn-danger py-0 px-3">Remove Picture</button>
             </div>
             <div class="form-group mb-3">
                 <label for="edit-first-name">First Name</label>

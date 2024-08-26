@@ -75,9 +75,11 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({ email:data.email, password: data.password}),
           });
           if (res.ok) {
+            alert('Account Created Successfully!\nRedirecting You to Dashboard...');
             const info = await res.json();
-            sessionStorage.setItem("token", info.token);
-            window.location.href = '/candidateProfile.html';
+            await sessionStorage.setItem("token", info.token);
+            console.log(info.token);
+            window.location.href = '/developerDash.html';
           }
           else {
             const info = await response.json();

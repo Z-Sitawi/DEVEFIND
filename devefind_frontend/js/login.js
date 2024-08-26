@@ -40,7 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
   
         if (response.ok) {
+          const data = await response.json();
           alert('Login successful! Redirecting to your dashboard.');
+          sessionStorage.setItem("token", data.token);
           window.location.href = '/developerDash.html';
         } else {
           const error = await response.json();
