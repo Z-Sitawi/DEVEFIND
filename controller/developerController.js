@@ -126,7 +126,6 @@ class DeveloperController {
       }if (level) {
         filter = {...filter, level};
       }
-      console.log(filter);      
       const users = await Developer.find(filter);
 
       if (language) {
