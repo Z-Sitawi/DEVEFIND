@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <tr><th>Languages: </th><td> ${profile.languages.length || 'N/A'}</td></tr>
                 </table>
                 <div class="d-flex justify-content-end">
-                    <button id="seeMoreBtn" type="button" class="btn btn-primary px-2 py-1 mt-2">see more > </button>
+                    <button id="${profile._id}" onclick="seeDevProfile(this)" type="button" class="seeMoreBtn btn btn-primary px-2 py-1 mt-2">see more > </button>
                 </div>
             </div>
         `;
@@ -210,21 +210,11 @@ function populateDropdown(elementId, options) {
     });
 }
 
-// Function to update candidate list
-
-/* function updateCandidateList(candidates) {
-    const candidateList = document.getElementById('candidate-list');
-    candidateList.innerHTML = ''; // Clear existing candidates
-    candidates.forEach(candidate => {
-        const candidateCard = document.createElement('div');
-        candidateCard.className = 'candidate-card';
-        candidateCard.innerHTML = `
-            <h3>${candidate.name}</h3>
-            <p>${candidate.profession}</p>
-            <!-- Add more candidate details as needed -->
-        `;
-        candidateList.appendChild(candidateCard);
-    });
-} */
+/* eslint-disable no-unused-vars */
 
 
+function seeDevProfile(obj) {
+    const userId = obj.id;
+    sessionStorage.setItem('DevId', userId);
+    window.open('/profileView.html', '_blank');
+}
