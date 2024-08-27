@@ -25,7 +25,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'devefind_frontend')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'devefind_frontend', 'landingpage.html'));
+  res.sendFile(path.join(__dirname, 'devefind_frontend', 'index.html'));
 });
 
 
