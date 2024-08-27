@@ -2,6 +2,7 @@ import Database from './utils/db.js';
 import express from 'express';
 import RecruiterRoutes from './routes/recruiterRouts.js';
 import DeveloperRoutes from './routes/developerRouts.js';
+import Authentification from './controller/authController.js';
 import FilterController from './controller/filtersController.js';
 import dotenv from 'dotenv';
 import redisClient from './utils/redis.js';
@@ -15,7 +16,7 @@ const __dirname = dirname(__filename);
 
 
 dotenv.config();
-const PORT = 8080;
+const PORT = 3000;
 
 const app = express();
 app.use(express.json());
@@ -32,6 +33,7 @@ app.use('/', RecruiterRoutes);
 app.use('/', DeveloperRoutes);
 app.get('/stats', Database.stats);
 app.get('/api/filters', FilterController.get);
+app.get('/api/validate/token', Authentification.isLoged);
 
 function main () {
   //! Connect to the database

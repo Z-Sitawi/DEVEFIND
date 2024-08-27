@@ -46,6 +46,17 @@ class Authentification {
     return userId;
   }
 
+  static async isLoged (req, res) {
+    const token = req.header("X-Token");
+    const type = req.header("Type");
+    try {
+      if (this.valideLogin(token, type.toLowerCase)) return res.status(200);
+      else throw new Error('Not Loged in');
+    } catch (error) {
+      return res.status(101).json({message: error.message});
+    }
+  }
+
   static async logoutRecruiter (req, res) {
     try {
       const authToken = req.header('X-Token');
