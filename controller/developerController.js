@@ -79,6 +79,28 @@ class DeveloperController {
     }
   }
 
+  static async getOneById (req, res) {
+    try {
+      const authToken = req.header('X-Token');
+      const userId = await Authentification.valideLogin(authToken);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      const developerId = req.query.id;
+
+      if (!developerId) return res.status(400).json({ error: 'Developer ID is required' });
+      const validObjectId = new mongoose.Types.ObjectId(developerId);
+      if (!mongoose.Types.ObjectId.isValid(validObjectId)) {
+        return res.status(400).json({ error: 'Invalid Developer ID format' });
+      }
+
+      const user = await Developer.findOne({_id: validObjectId});
+      if (!user) return res.status(404).json({ error: 'Developer Not Found' }); 
+      return res.status(200).json({ Developer: user });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
   static async getFilterd (req, res) {
     try {
       const authToken = req.header('X-Token');
@@ -93,7 +115,8 @@ class DeveloperController {
         filter = {...filter, country};
       }
       if (age) {
-        filter = {...filter, age};
+        const ageNbr = parseInt(age);
+        filter = {...filter, age: ageNbr};
       }
       if (gender) {
         filter = {...filter, gender};
@@ -102,7 +125,8 @@ class DeveloperController {
         filter = {...filter, profession};
       }if (level) {
         filter = {...filter, level};
-      }      
+      }
+      console.log(filter);      
       const users = await Developer.find(filter);
 
       if (language) {
