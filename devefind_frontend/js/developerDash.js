@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
   }, 1000 * 60 * 60 * 6);
 
-
   // get and display the developer's data
   function fetchDeveloperData() {
     fetch('/api/developer', {
@@ -195,7 +194,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             obj.setAttribute('disabled', 'disabled');
           }); 
         });
-
       } else {
         alert(`Error: ${result.error}`);
       }
@@ -253,7 +251,6 @@ document.addEventListener('DOMContentLoaded', async function() {
   /****************** Language ******************/
   
   document.querySelector('#editLanguages').addEventListener('click', async () => {
-
     // delete laguages 
     const cancelBtn = document.querySelector('#cancelBtn');
     const formLang = document.querySelector("#langForm");
@@ -342,7 +339,6 @@ document.addEventListener('DOMContentLoaded', async function() {
   });
 
   /************************* End Language *****************************/
-
 
  // Experience
   document.querySelector("#addExpBtn").addEventListener('click', () => {
@@ -621,7 +617,6 @@ function delEdurow(obj) {
     obj.parentNode.parentNode.remove();
     document.querySelector('#saveEduBtn').click();
   }
-
 }
 
 function editEdurow(obj) {
