@@ -44,163 +44,213 @@
       </div>
     </div>
     <div class="col-md-4 text-right">
-      <a href="devEditProfile.html" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Edit Profile</a>
+      <a href="/devEditProfile.html" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Edit Profile</a>
     </div>
   </div>
 
-    <!-- Middle Section with Two Columns -->
-    <div class="row">
-      <!-- Left Column (Smaller) -->
-      <div class="col-md-4">
-        <!-- Personal Information Row -->
-        <div class="card mb-4">
-          <div class="card-body" id="personalBox">
-            <p> Age: <span class="px-2" id="dev-age">[Age]</span></p>
-            <p> Gender:<spanp class="px-2" id="dev-gender">[Gender]</span></p>
-            <p> Email:<span class="px-2" id="dev-email">[Email]</span></p>
-            <p> Back-up Email:<span class="px-2" id="dev-backup-email">[Back up Email]</span></p>
-            <p> Phone:<span class="px-2" id="dev-phone">[Phone]</span></p>
-          </div>
-        </div>
-
-        <!-- Language Section -->
-        <div class="card mb-4">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b>Languages</b>
-            <button class="btn btn-sm btn-outline-primary">Add</button>
-          </div>
-          <div class="card-body1" id="languageBox">
-            <ul class="list-group list-group-flush" id="dev-languages">
-              <!-- Language items will be appended here -->
-            </ul>
-          </div>
-        </div>
-
-        <!-- Socials Section -->
-        <div class="card mb-4">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b>Socials</b>
-            <div>
-              <button class="btn btn-sm btn-outline-primary d-none" id="saveSocialsBtn">Save</button>
-              <button class="btn btn-sm btn-outline-primary" id="editSocialsBtn" >Edit</button>
-            </div>
-          </div>
-          <div class="card-body" id="socialsBox">
-            <div class="input-wrapper d-flex align-items-center">
-              <label for="githubLink"><i class="fab fa-github" title="GitHub"></i></label>
-              <input class="my-2 mx-2 p-1" type="text" disabled id="githubLink" placeholder="GitHub">
-            </div>
-            <div class="input-wrapper d-flex align-items-center">
-              <label for="linkedinLink"><i class="fab fa-linkedin" title="Linkedin"></i></label>
-              <input class="my-2 mx-2 p-1" type="text" disabled id="linkedinLink" placeholder="Linkedin">
-            </div>
-            <div class="input-wrapper d-flex align-items-center">
-              <label for="facebookLink"><i class="fab fa-facebook" title="Facebook Page"></i></label>
-              <input class="my-2 mx-2 p-1" type="text" disabled id="facebookLink" placeholder="Facebook Page">
-            </div>
-            <div class="input-wrapper d-flex align-items-center">
-              <label for="blogLink"><i class="fas fa-rss" title="Blog"></i></label>
-              <input class="my-2 mx-2 p-1" type="text" disabled id="blogLink" placeholder="Personal Blog">
-            </div>
-            <div class="input-wrapper d-flex align-items-center">
-              <label for="websiteLink"><i class="fas fa-globe" title="Personal Website"></i></label>
-              <input class="my-2 mx-2 p-1" type="text" disabled id="websiteLink" placeholder="Personal Website">
-            </div>
-          </div>
+  <!-- Middle Section with Two Columns -->
+  <div class="row">
+    <!-- Left Column (Smaller) -->
+    <div class="col-md-4">
+      <!-- Personal Information Row -->
+      <div class="card mb-4">
+        <div class="card-body" id="personalBox">
+          <p> Age: <span class="px-2" id="dev-age">[Age]</span></p>
+          <p> Gender:<spanp class="px-2" id="dev-gender">[Gender]</span></p>
+          <p> Email:<span class="px-2" id="dev-email">[Email]</span></p>
+          <p> Back-up Email:<span class="px-2" id="dev-backup-email">[Back up Email]</span></p>
+          <p> Phone:<span class="px-2" id="dev-phone">[Phone]</span></p>
         </div>
       </div>
 
-      <!-- Right Column (Larger) -->
-      <div class="col-md-8">
-        <!-- Summary Section -->
-        <div class="card mb-4">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b>Summary</b><span class="arrow">&#11015;</span>
-            <div>
-              <button class="btn btn-sm btn-outline-primary d-none save" id="saveSummaryBtn">save</button>
-              <button class="btn btn-sm btn-outline-primary d-none edit" id="editSummaryBtn">Edit</button>
-            </div>
-          </div>
-          <div class="card-body">
-            <fieldset class="custom-fieldset mb-2 py-2">
-              <legend>Headline</legend>
-              <textarea class="px-2 py-1 col-12" type="text" disabled id="devHeadline" maxlength="200"></textarea>
-            </fieldset>
-            <fieldset class="custom-fieldset py-2">
-              <legend>Description</legend>
-              <textarea rows="3" class="px-2 py-1 col-12" id="devDescription" type="text" disabled id="devHeadline" maxlength="1000"></textarea>
-            </fieldset>
-            </section>
-          </div>
-        </div>
+  <!-- Language Section -->
+  <div class="card mb-4">
+    <div class="card-header row m-0 justify-content-between align-items-center">
+      <b>Languages</b>
+      <div class="row m-0">
+        <i id="trashLang" class="fa-solid fa-trash ml-2 mr-3 d-none" onclick="deletLanguages()"></i>
+        <button class="btn btn-sm btn-outline-primary" id="editLanguages">Add</button>
+        <button class="btn btn-sm btn-outline-danger d-none" id="cancelBtn">X</button>
+      </div>
+    </div>
+    <div class="card-body1" id="languageBox">
+      <ul class="list-group list-group-flush" id="dev-languages">
+      </ul>
+      <form class="col-12 m-0 row py-3 justify-content-between d-none" id="langForm">
+        <select class="p-2 col-12 mb-1" id="languages" name="language" required>
+          <option value="" selected disabled>Select Language</option>
+        </select>
+        <select class="p-2 col-12 mb-1" id="proficiencies" name="proficiency" required>
+          <option value="" selected disabled>Select Proficiency</option>
+        </select>
+        <button type="submit" class="btn btn-primary py-1 col-12" id="saveLanguages">save</button>
+      </form>
+    </div>
+  </div>
+        
 
-        <!-- Education Section -->
-        <div class="card mb-4">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b>Education</b><span class="arrow">&#11015;</span>
-            <div>
-              <button class="btn btn-sm btn-outline-primary d-none save" id="saveEduBtn">save</button>
-              <button class="btn btn-sm btn-outline-primary d-none add" id="addEduBtn">add</button>
-            </div>
-          </div>
-          <div class="card-body mx-3">
-            <table class="table">
-              <thead>
-                <tr style="border-right: none;">
-                  <th>Institution</th>
-                  <th>Degree</th>
-                  <th>Field Of Study</th>
-                  <th>Graduation Date</th>
-                  <th class="btnContainer" style="display: none;"></th>
-                </tr>
-              </thead>
-              <tbody id="eduDataContainer">
-              </tbody>
-            </table>
-          </div>
-        </div> 
-
-        <!-- Experience Section -->
-        <div class="card mb-4">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b>Experience</b>
-            <button class="btn btn-sm btn-outline-primary">Add</button>
-          </div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush" id="skills-list">
-              <!-- Experience items will be appended here -->
-            </ul>
-          </div>
-        </div>
-
-        <!-- Portfolio Section -->
-        <div class="card mb-4">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b>Portfolio</b>
-            <button class="btn btn-sm btn-outline-primary">Add</button>
-          </div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush" id="portfolio-list">
-              <!-- Portfolio items will be appended here -->
-            </ul>
-          </div>
-        </div>
-
-        <!-- Certificates Section -->
-        <div class="card mb-4">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b>Certificates</b>
-            <button class="btn btn-sm btn-outline-primary">Add</button>
-          </div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush" id="certificates-list">
-              <!-- Certificates items will be appended here -->
-            </ul>
-          </div>
-        </div>
+  <!-- Socials Section -->
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <b>Socials</b>
+      <div>
+        <button class="btn btn-sm btn-outline-primary d-none" id="saveSocialsBtn">Save</button>
+        <button class="btn btn-sm btn-outline-primary" id="editSocialsBtn" >Edit</button>
+      </div>
+    </div>
+    <div class="card-body" id="socialsBox">
+      <div class="input-wrapper d-flex align-items-center">
+        <label for="githubLink"><i class="fab fa-github" title="GitHub"></i></label>
+        <input class="my-2 mx-2 p-1 socialsInput" type="text" disabled id="githubLink" placeholder="GitHub">
+      </div>
+      <div class="input-wrapper d-flex align-items-center">
+        <label for="linkedinLink"><i class="fab fa-linkedin" title="Linkedin"></i></label>
+        <input class="my-2 mx-2 p-1 socialsInput" type="text" disabled id="linkedinLink" placeholder="Linkedin">
+      </div>
+      <div class="input-wrapper d-flex align-items-center">
+        <label for="facebookLink"><i class="fab fa-facebook" title="Facebook Page"></i></label>
+        <input class="my-2 mx-2 p-1 socialsInput" type="text" disabled id="facebookLink" placeholder="Facebook Page">
+      </div>
+      <div class="input-wrapper d-flex align-items-center">
+        <label for="blogLink"><i class="fas fa-rss" title="Blog"></i></label>
+        <input class="my-2 mx-2 p-1 socialsInput" type="text" disabled id="blogLink" placeholder="Personal Blog">
+      </div>
+      <div class="input-wrapper d-flex align-items-center">
+        <label for="websiteLink"><i class="fas fa-globe" title="Personal Website"></i></label>
+        <input class="my-2 mx-2 p-1 socialsInput" type="text" disabled id="websiteLink" placeholder="Personal Website">
       </div>
     </div>
   </div>
+</div>
+        
+
+  <!-- Right Column (Larger) -->
+  <div class="col-md-8">
+    <!-- Summary Section -->
+    <div class="card mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <b>Summary</b><span class="arrow">&#11015;</span>
+        <div>
+          <button class="btn btn-sm btn-outline-primary d-none save" id="saveSummaryBtn">save</button>
+          <button class="btn btn-sm btn-outline-primary d-none edit" id="editSummaryBtn">Edit</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <fieldset class="custom-fieldset mb-2 py-2">
+          <legend>Headline</legend>
+          <textarea class="px-2 py-1 col-12" type="text" disabled id="devHeadline" maxlength="200"></textarea>
+        </fieldset>
+        <fieldset class="custom-fieldset py-2">
+          <legend>Description</legend>
+          <textarea rows="3" class="px-2 py-1 col-12" id="devDescription" type="text" disabled id="devHeadline" maxlength="1000"></textarea>
+        </fieldset>
+        </section>
+      </div>
+    </div>
+      
+  <!-- Education Section -->
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <b>Education</b><span class="arrow">&#11015;</span>
+      <div>
+        <button class="btn btn-sm btn-outline-primary d-none save" id="saveEduBtn">save</button>
+        <button class="btn btn-sm btn-outline-primary d-none add" id="addEduBtn">add</button>
+      </div>
+    </div>
+    <div class="card-body mx-3">
+      <table class="table">
+        <thead>
+          <tr style="border-right: none;">
+            <th>Institution</th>
+            <th>Degree</th>
+            <th>Field Of Study</th>
+            <th>Graduation Date</th>
+            <th class="btnContainer" style="display: none;"></th>
+          </tr>
+        </thead>
+        <tbody id="eduDataContainer">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Experience Section -->
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <b>Experience</b><span class="arrow">&#11015;</span>
+      <div>
+        <button class="btn btn-sm btn-outline-primary d-none save" id="saveExpBtn">save</button>
+        <button class="btn btn-sm btn-outline-primary d-none add" id="addExpBtn">add</button>
+      </div>
+    </div>
+    <div class="card-body mx-3">
+      <table class="table">
+        <thead>
+          <tr style="border-right: none;">
+            <th>Company</th>
+            <th>Role</th>
+            <th>Duration</th>
+            <th>Description</th>
+            <th class="btnContainer" style="display: none;"></th>
+          </tr>
+        </thead>
+        <tbody id="expDataContainer">
+        </tbody>
+      </table>
+    </div>
+  </div>
+        
+
+  <!-- Portfolio Section -->
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <b>Portfolio</b><span class="arrow">&#11015;</span>
+      <div>
+        <button class="btn btn-sm btn-outline-primary d-none save" id="savePortfolioBtn">save</button>
+        <button class="btn btn-sm btn-outline-primary d-none add" id="addPortfolioBtn">add</button>
+      </div>
+    </div>
+    <div class="card-body mx-3">
+      <table class="table">
+        <thead>
+          <tr style="border-right: none;">
+            <th>Project Name</th>
+            <th>Link</th>
+            <th>Description</th>
+            <th class="btnContainer" style="display: none;"></th>
+          </tr>
+        </thead>
+        <tbody id="portfolioDataContainer">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Certificates Section -->
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <b>Certificates</b><span class="arrow">&#11015;</span>
+      <div>
+        <button class="btn btn-sm btn-outline-primary d-none save" id="saveCertBtn">save</button>
+        <button class="btn btn-sm btn-outline-primary d-none add" id="addCertBtn">add</button>
+      </div>
+    </div>
+    <div class="card-body mx-3">
+      <table class="table">
+        <thead>
+          <tr style="border-right: none;">
+            <th>Certificate Name</th>
+            <th>Issuing Organization</th>
+            <th>Date Issued</th>
+            <th class="btnContainer" style="display: none;"></th>
+          </tr>
+        </thead>
+        <tbody id="certDataContainer">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 
   <!-- Profile Modal -->
   <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
@@ -214,6 +264,7 @@
         </div>
         <div class="modal-body">
           <form id="profileForm">
+
             <!-- Form Fields for profile information -->
             <div class="form-group">
               <label for="firstName">First Name</label>
@@ -223,11 +274,10 @@
               <label for="lastName">Last Name</label>
               <input type="text" class="form-control" id="lastName" placeholder="Enter last name">
             </div>
-    
             <button type="submit" class="btn btn-primary">Save Changes</button>
           </form>
         </div>
-      </div>
+       </div>
     </div>
   </div>
 
@@ -237,6 +287,7 @@
       <div class="container">
         <a class="navbar-brand" href="#">
           <img src="./images/png/footer1.png" alt="DeveFind" width="" height="90px">
+          <img src="./images/png/footer.png" alt="DeveFind" width="" height="50px">
         </a>
       </div>
       <hr>
