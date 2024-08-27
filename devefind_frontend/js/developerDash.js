@@ -260,8 +260,6 @@ document.addEventListener('DOMContentLoaded', async function() {
   /****************** Language ******************/
   
   document.querySelector('#editLanguages').addEventListener('click', async () => {
-
-    // delete laguages 
     const cancelBtn = document.querySelector('#cancelBtn');
     const formLang = document.querySelector("#langForm");
     document.querySelector('#editLanguages').setAttribute('disabled', 'disabled');
@@ -573,7 +571,6 @@ async function deletLanguages () {
   checkboxes.forEach(checkboxe => {
     checkboxe.parentElement.remove();
   });
-  showDel();
   const allLanguages = {languages: []};
   document.querySelectorAll('#dev-languages li span').forEach(e => {
     allLanguages.languages.push({language: e.textContent.split(' ')[0], proficiency: e.textContent.split(' ')[1].match(/\(([^)]+)\)/)[1]});
@@ -591,6 +588,8 @@ async function deletLanguages () {
         const res = await response.json();
         if (response.ok) {
           alert(res.message);
+          showDel();
+
         }
         else {
           alert(res.error);
