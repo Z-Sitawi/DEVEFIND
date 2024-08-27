@@ -9,14 +9,6 @@ document.addEventListener('DOMContentLoaded', async function() {
       return;
     }
   }, 1000 * 60 * 60 * 6);
-  
-  // Fetch developer data and populate the dashboard
-
-  // Form submissions and modal interactions
-/*   document.getElementById('profileForm').addEventListener('submit', updateProfile);
-  document.getElementById('educationForm').addEventListener('submit', updateEducation);
-  document.getElementById('portfolioForm').addEventListener('submit', updatePortfolio); */
-
 
   // get and display the developer's data
   function fetchDeveloperData() {
@@ -202,7 +194,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             obj.setAttribute('disabled', 'disabled');
           }); 
         });
-
       } else {
         alert(`Error: ${result.error}`);
       }
@@ -260,7 +251,6 @@ document.addEventListener('DOMContentLoaded', async function() {
   /****************** Language ******************/
   
   document.querySelector('#editLanguages').addEventListener('click', async () => {
-
     // delete laguages 
     const cancelBtn = document.querySelector('#cancelBtn');
     const formLang = document.querySelector("#langForm");
@@ -350,6 +340,192 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   /************************* End Language *****************************/
 
+ // Experience
+  document.querySelector("#addExpBtn").addEventListener('click', () => {
+    const dataContainer = document.querySelector('#expDataContainer');
+    const expContent = dataContainer.innerHTML;
+    const row = `<tr>
+                  <td><textarea placeholder="Company..."></textarea></td>
+                  <td><textarea placeholder="Position..."></textarea></td>
+                  <td><input type="date"></td>
+                  <td><input type="date"></td>
+                  <td><textarea placeholder="Description..."></textarea></td>
+                  <td class="d-flex flex-column p-1 m-0 btnContainer">
+                    <button title="edit" type="button" class="btn p-0" onclick="editExprow(this)">&#128394;&#65039;</button>
+                    <button title="delete" type="button" onclick="delExprow(this)" class="btn p-0 text-danger">&#128465;</button>
+                  </td>
+                </tr>`;
+    dataContainer.innerHTML = expContent + row;
+  });
+  
+  document.querySelector("#saveExpBtn").addEventListener('click', async () => {
+    const dataContainer = document.querySelectorAll('#expDataContainer tr');
+    const expInfo = { experience: [] };
+  
+    dataContainer.forEach(row => {
+      let rowData = [];
+      row.querySelectorAll('td textarea, td input').forEach(obj => {
+        rowData.push(obj.value);
+      });
+      expInfo.experience.push({
+        company: rowData[0] || "",
+        position: rowData[1] || "",
+        startDate: rowData[2] || "",
+        endDate: rowData[3] || "",
+        description: rowData[4] || ""
+      });
+    });
+  
+    try {
+      const response = await fetch('/api/developer/experience', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-token': token,
+        },
+        body: JSON.stringify(expInfo)
+      });
+      const result = await response.json();
+  
+      if (response.ok) {
+        alert(result.message);
+        dataContainer.forEach(row => {
+          row.querySelectorAll('td textarea, td input').forEach(obj => {
+            obj.setAttribute('disabled', 'disabled');
+          });
+        });
+      } else {
+        alert(`Error: ${result.error}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  // End of Experience
+
+
+  // portfolio
+
+  document.querySelector("#addPortfolioBtn").addEventListener('click', () => {
+    const dataContainer = document.querySelector('#portfolioDataContainer');
+    const portfolioContent = dataContainer.innerHTML;
+    const row = `<tr>
+                  <td><textarea placeholder="Project Title..."></textarea></td>
+                  <td><textarea placeholder="Project URL..."></textarea></td>
+                  <td><textarea placeholder="Description..."></textarea></td>
+                  <td class="d-flex flex-column p-1 m-0 btnContainer">
+                    <button title="edit" type="button" class="btn p-0" onclick="editPortfoliorow(this)">&#128394;&#65039;</button>
+                    <button title="delete" type="button" onclick="delPortfoliorow(this)" class="btn p-0 text-danger">&#128465;</button>
+                  </td>
+                </tr>`;
+    dataContainer.innerHTML = portfolioContent + row;
+  });
+
+  document.querySelector("#savePortfolioBtn").addEventListener('click', async () => {
+    const dataContainer = document.querySelectorAll('#portfolioDataContainer tr');
+    const portfolioInfo = { portfolio: [] };
+  
+    dataContainer.forEach(row => {
+      let rowData = [];
+      row.querySelectorAll('td textarea').forEach(obj => {
+        rowData.push(obj.value);
+      });
+      portfolioInfo.portfolio.push({
+        title: rowData[0] || "",
+        url: rowData[1] || "",
+        description: rowData[2] || ""
+      });
+    });
+  
+    try {
+      const response = await fetch('/api/developer/portfolio', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-token': token,
+        },
+        body: JSON.stringify(portfolioInfo)
+      });
+      const result = await response.json();
+  
+      if (response.ok) {
+        alert(result.message);
+        dataContainer.forEach(row => {
+          row.querySelectorAll('td textarea').forEach(obj => {
+            obj.setAttribute('disabled', 'disabled');
+          });
+        });
+      } else {
+        alert(`Error: ${result.error}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });  
+
+  // End of portfolio
+
+
+  //  Certificate
+  document.querySelector("#addCertBtn").addEventListener('click', () => {
+    const dataContainer = document.querySelector('#certDataContainer');
+    const certContent = dataContainer.innerHTML;
+    const row = `<tr>
+                  <td><textarea placeholder="Certificate Name..."></textarea></td>
+                  <td><textarea placeholder="Institution..."></textarea></td>
+                  <td><input type="date"></td>
+                  <td class="d-flex flex-column p-1 m-0 btnContainer">
+                    <button title="edit" type="button" class="btn p-0" onclick="editCertrow(this)">&#128394;&#65039;</button>
+                    <button title="delete" type="button" onclick="delCertrow(this)" class="btn p-0 text-danger">&#128465;</button>
+                  </td>
+                </tr>`;
+    dataContainer.innerHTML = certContent + row;
+  });
+
+  document.querySelector("#saveCertBtn").addEventListener('click', async () => {
+    const dataContainer = document.querySelectorAll('#certDataContainer tr');
+    const certInfo = { certificates: [] };
+  
+    dataContainer.forEach(row => {
+      let rowData = [];
+      row.querySelectorAll('td textarea, td input').forEach(obj => {
+        rowData.push(obj.value);
+      });
+      certInfo.certificates.push({
+        name: rowData[0] || "",
+        institution: rowData[1] || "",
+        date: rowData[2] || ""
+      });
+    });
+  
+    try {
+      const response = await fetch('/api/developer/certificates', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-token': token,
+        },
+        body: JSON.stringify(certInfo)
+      });
+      const result = await response.json();
+  
+      if (response.ok) {
+        alert(result.message);
+        dataContainer.forEach(row => {
+          row.querySelectorAll('td textarea, td input').forEach(obj => {
+            obj.setAttribute('disabled', 'disabled');
+          });
+        });
+      } else {
+        alert(`Error: ${result.error}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+   // End of Certificate
 
   /** Area to call functions **/
   fetchDeveloperData();
@@ -387,49 +563,6 @@ function populateProfile(developer) {
 
 }
 
-/* function updateProfile(event) {
-  event.preventDefault();
-  const token = localStorage.getItem('authToken');
-
-  const profileData = {
-    firstName: document.getElementById('firstName').value,
-    lastName: document.getElementById('lastName').value,
-    age: document.getElementById('age').value,
-    gender: document.getElementById('gender').value,
-    country: document.getElementById('country').value,
-    profession: document.getElementById('profession').value,
-    email: document.getElementById('email').value,
-    phone: document.getElementById('phone').value,
-    languages: document.getElementById('languages').value.split(',').map(lang => {
-      const [name, level] = lang.split('-');
-      return { name: name.trim(), level: level.trim() };
-    }),
-    summary: {
-      headline: document.getElementById('headline').value,
-      description: document.getElementById('description').value
-    }
-  };
-
-  fetch('/api/developer', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Token': token,
-    },
-    body: JSON.stringify(profileData),
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.Developer) {
-      populateProfile(data.Developer);
-      document.querySelector('#editProfileModal').modal('hide');
-    } else {
-      alert('Error updating profile');
-    }
-  })
-  .catch(error => console.error('There was a problem with the fetch operation:', error));
-} */
-
 function populateEducation(educationList) {
   const educationContainer = document.getElementById('eduDataContainer');
   educationContainer.innerHTML = '';
@@ -451,51 +584,6 @@ function populateEducation(educationList) {
   });
 }
 
-
-/* function populatePortfolio(portfolioList) {
-  const portfolioContainer = document.getElementById('portfolio-list');
-  portfolioContainer.innerHTML = ''; // Clear existing items
-  if (portfolioList.length === 0) {
-    portfolioContainer.innerHTML = '<p>No portfolio items added.</p>';
-  } else {
-    portfolioList.forEach(port => {
-      const li = document.createElement('li');
-      li.className = 'list-group-item';
-      li.textContent = `${port.projectTitle} - ${port.description}`;
-      portfolioContainer.appendChild(li);
-    });
-  }
-} */
-
-/* function updatePortfolio(event) {
-  event.preventDefault();
-  const token = localStorage.getItem('authToken');
-
-  const portfolioData = {
-    projectTitle: document.getElementById('projectTitle').value,
-    description: document.getElementById('description').value
-  };
-
-  fetch('/api/developer/portfolio', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Token': token,
-    },
-    body: JSON.stringify(portfolioData),
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.Developer) {
-      populatePortfolio(data.Developer.portfolio);
-      document.querySelector('#editPortfolioModal').modal('hide');
-    } else {
-      alert('Error updating portfolio');
-    }
-  })
-  .catch(error => console.error('There was a problem with the fetch operation:', error));
-} */
-
 function populateLinks(linksObj) {
     document.getElementById('githubLink').value = linksObj[0].gitHub;
     document.getElementById('linkedinLink').value = linksObj[1].linkedin;
@@ -503,18 +591,6 @@ function populateLinks(linksObj) {
     document.getElementById('blogLink').value = linksObj[3].blog;
     document.getElementById('websiteLink').value = linksObj[4].personalWebsite;
 }
-
-/* function populateCertificates(certificatesList) {
-  const certificatesContainer = document.getElementById('certificates-section');
-  certificatesContainer.innerHTML = ''; // Clear existing items
-  certificatesList.forEach(cert => {
-    const li = document.createElement('li');
-    li.className = 'list-group-item';
-    li.textContent = cert;
-    certificatesContainer.appendChild(li);
-  });
-} */
-
 
 async function validateToken(token, type) {
   try {
@@ -541,7 +617,6 @@ function delEdurow(obj) {
     obj.parentNode.parentNode.remove();
     document.querySelector('#saveEduBtn').click();
   }
-
 }
 
 function editEdurow(obj) {
