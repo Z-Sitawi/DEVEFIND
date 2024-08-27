@@ -1,4 +1,3 @@
-
 /* Root Variables for Theming */
 :root {
   --primary-color: #2c3e50;
@@ -11,9 +10,9 @@
 body {
   margin: 0;
   padding: 0;
-  /* font-family: 'Arial', sans-serif; */
+  font-family: 'Arial', sans-serif;
   color: #333;
-  background: linear-gradient(135deg, #2c3e50, #2c3e50);
+  background: #2c3e50;
   scroll-behavior: smooth;
 }
 
@@ -24,6 +23,7 @@ body {
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  box-shadow: 5px 5px 15px 1px;
 }
 
 h2, h3 {
@@ -114,14 +114,14 @@ h2, h3 {
 
 /* Socials */
 .social-icons {
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
-  gap: 5px;
+  gap: 10px;
 }
 
 .social-icons a {
   color: #2c3e50;
-  font-size: 18px;
+  font-size: 24px;
   transition: color 0.3s;
 }
 
@@ -175,6 +175,14 @@ h2, h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+#portfolio-section .empty-folder {
+  font-size: 100px;
+  color: #007bff;
+  display: block;
+  text-align: center;
+  margin-top: 20px;
 }
 
 #portfolio-section .section-header button {
@@ -231,8 +239,8 @@ h2, h3 {
 
 /* Footer Section */
 .footer {
-  background-color: #2c3e50;
-  padding: 5px;
+  background-color: #060b10;
+  padding: 20px;
   color: #fff;
   text-align: center;
 }
@@ -376,25 +384,4 @@ table tbody tr{
 input.langCheckBox {
   width: 15%; /* Make the input take up the full width of the wrapper */
   margin-right: 5%;
-}
-
-
-/* Experience Section Styles */
-#expDataContainer tr td input {
-  padding: 8px;
-  margin-bottom: 10px;
-}
-
-#expDataContainer button {
-  margin-left: 5px;
-}
-
-/* Certificates Section Styles */
-#certDataContainer tr td input {
-  padding: 8px;
-  margin-bottom: 10px;
-}
-
-#certDataContainer button {
-  margin-left: 5px;
 }

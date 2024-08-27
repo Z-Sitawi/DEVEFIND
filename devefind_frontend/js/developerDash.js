@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     .then(response => response.json())
     .then(data => {
       if (data.Developer) {
+        document.querySelector('#profileBtn').setAttribute('value', data.Developer._id);
         populateProfile(data.Developer);
         populateEducation(data.Developer.education);
         populateLinks(data.Developer.links);
@@ -529,6 +530,14 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   /** Area to call functions **/
   fetchDeveloperData();
+
+  //!  Nav Bar Profile 
+  document.querySelector('#profileBtn').addEventListener('click', () => {
+    const userId =  document.querySelector('#profileBtn').getAttribute('value');
+    sessionStorage.setItem('DevId', userId);
+    window.open('/profileView.html', '_blank');
+  });
+
   /***************************/
 });
 
