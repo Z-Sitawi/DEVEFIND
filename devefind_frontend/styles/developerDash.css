@@ -1,3 +1,4 @@
+
 /* Root Variables for Theming */
 :root {
   --primary-color: #2c3e50;
@@ -10,7 +11,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
+  /* font-family: 'Arial', sans-serif; */
   color: #333;
   background: linear-gradient(135deg, #2c3e50, #2c3e50);
   scroll-behavior: smooth;
@@ -31,10 +32,10 @@ h2, h3 {
 
 .list-group-item {
   border: none;
-  padding: 10px 15px;
   background-color: #f8f9fa;
   margin-bottom: 10px;
   border-radius: 5px;
+  display: flex;
 }
 
 .btn-primary {
@@ -113,14 +114,14 @@ h2, h3 {
 
 /* Socials */
 .social-icons {
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
-  gap: 10px;
+  gap: 5px;
 }
 
 .social-icons a {
   color: #2c3e50;
-  font-size: 24px;
+  font-size: 18px;
   transition: color 0.3s;
 }
 
@@ -174,14 +175,6 @@ h2, h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-#portfolio-section .empty-folder {
-  font-size: 100px;
-  color: #007bff;
-  display: block;
-  text-align: center;
-  margin-top: 20px;
 }
 
 #portfolio-section .section-header button {
@@ -239,7 +232,7 @@ h2, h3 {
 /* Footer Section */
 .footer {
   background-color: #2c3e50;
-  padding: 20px;
+  padding: 5px;
   color: #fff;
   text-align: center;
 }
@@ -351,12 +344,17 @@ thead tr th:not(.btnContainer) {
   border: 1px solid #dee2e6;
 }
 
+.fa-trash:hover {
+  color: red;
+  transition: 0.2s color;
+}
+
 .input-wrapper {
   flex: 1;
   max-width: 100%;
 }
 
-input {
+input.socialsInput {
   width: 100%; /* Make the input take up the full width of the wrapper */
   box-sizing: border-box; /* Include padding and border in the element's total width */
   border: 1px solid #ccc;
@@ -373,4 +371,30 @@ table tbody tr{
 
 .table td {
   border-top: none;
+}
+
+input.langCheckBox {
+  width: 15%; /* Make the input take up the full width of the wrapper */
+  margin-right: 5%;
+}
+
+
+/* Experience Section Styles */
+#expDataContainer tr td input {
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+#expDataContainer button {
+  margin-left: 5px;
+}
+
+/* Certificates Section Styles */
+#certDataContainer tr td input {
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+#certDataContainer button {
+  margin-left: 5px;
 }
