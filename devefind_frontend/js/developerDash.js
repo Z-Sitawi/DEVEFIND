@@ -9,16 +9,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       return;
     }
   }, 1000 * 60 * 60 * 6);
-  
-  // Fetch developer data and populate the dashboard
 
-  // Form submissions and modal interactions
-/*   document.getElementById('profileForm').addEventListener('submit', updateProfile);
-  document.getElementById('educationForm').addEventListener('submit', updateEducation);
-  document.getElementById('portfolioForm').addEventListener('submit', updatePortfolio); */
-
-  // Populate the form fields when the "Edit Profile" button is clicked
-  document.querySelector('[data-target="#editProfileModal"]').addEventListener('click', populateProfileForm);
 
   // get and display the developer's data
   function fetchDeveloperData() {
@@ -37,13 +28,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         /* populatePortfolio(data.Developer.portfolio);
         populateCertificates(data.Developer.certificates); */
       } else {
-        alert('Error fetching developer data');
+        redirectToLogin();
       }
     })
     .catch(error => console.error('There was a problem with the fetch operation:', error));
   }
 
-document.querySelectorAll('.arrow').forEach(arrow => {
+  document.querySelectorAll('.arrow').forEach(arrow => {
   arrow.addEventListener('click', () => {
 
       // Get the closest parent container or section
@@ -86,7 +77,7 @@ document.querySelectorAll('.arrow').forEach(arrow => {
           }
       }
   });
-});
+  });
 
   // Log Out
   const logOutBtn = document.querySelector('#logOutBtn');
@@ -214,8 +205,6 @@ document.querySelectorAll('.arrow').forEach(arrow => {
 
   });
 
-  // delete
-
   /***************************** End Education ************************************/
 
   //!/************** Socials **************/!\\
@@ -259,8 +248,288 @@ document.querySelectorAll('.arrow').forEach(arrow => {
 
   });
 
-  /***************************** End Socials ************************************/
+  //!/***************************** End Socials ************************************/
 
+  /****************** Language ******************/
+  
+  document.querySelector('#editLanguages').addEventListener('click', async () => {
+
+    // delete laguages 
+    const cancelBtn = document.querySelector('#cancelBtn');
+    const formLang = document.querySelector("#langForm");
+    document.querySelector('#editLanguages').setAttribute('disabled', 'disabled');
+    cancelBtn.classList.remove('d-none');
+    formLang.classList.remove('d-none');
+
+    try {
+      const response = await fetch('/api/filters');
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // git current languades
+        const userLang = [];
+        document.querySelectorAll('#dev-languages li').forEach(e => userLang.push(e.textContent.split(' ')[0]));
+
+        // language
+        const laguagesList = result.languages;
+        const allowedlLaguagesList = laguagesList.filter(e => !userLang.includes(e));
+        let languageContent = '';
+        allowedlLaguagesList.forEach(ele => languageContent += `<option value="${ele}">${ele}</option>`);
+        formLang.querySelector('#languages').innerHTML += languageContent;
+
+        // proficiency
+        const proficiencyList = result.proficiency;
+        let proficienciesContent = '';
+        proficiencyList.forEach(ele => proficienciesContent += `<option value="${ele}">${ele}</option>`);
+        formLang.querySelector('#proficiencies').innerHTML += proficienciesContent;
+
+        // save Languages
+        formLang.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const formData = new FormData(formLang);
+          const data = {
+            language: formData.get('language'),
+            proficiency: formData.get('proficiency'),
+          };
+          if (data.language && data.proficiency)
+            document.querySelector('#dev-languages').innerHTML += `<li class="list-group-item">
+          <input type="checkbox" class="langCheckBox" onclick="showDel()"><span>${data.language} (${data.proficiency})</span></li>`;
+          const allLanguages = {languages: []};
+          document.querySelectorAll('#dev-languages li span').forEach(e => {
+            allLanguages.languages.push({language: e.textContent.split(' ')[0], proficiency: e.textContent.split(' ')[1].match(/\(([^)]+)\)/)[1]});
+          });
+
+          try {
+            const response = await fetch('/api/developer/language', {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Token': token,
+              },
+              body: JSON.stringify(allLanguages)
+            });
+
+            const res = await response.json();
+            if (response.ok) {
+              alert(res.message);
+              formLang.classList.add('d-none');
+              cancelBtn.classList.add('d-none');
+              document.querySelector('#editLanguages').removeAttribute('disabled');
+            }
+            else {
+              alert(res.error);
+            }
+
+          } catch (error) {
+            console.log(error);
+          }
+        });
+
+      } else {
+        alert(`Error: ${result.error}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    cancelBtn.addEventListener('click', () => {
+      cancelBtn.classList.add('d-none');
+      formLang.classList.add('d-none');
+      document.querySelector('#editLanguages').removeAttribute('disabled');
+
+    });
+  });
+
+  /************************* End Language *****************************/
+
+
+ // Experience
+  document.querySelector("#addExpBtn").addEventListener('click', () => {
+    const dataContainer = document.querySelector('#expDataContainer');
+    const expContent = dataContainer.innerHTML;
+    const row = `<tr>
+                  <td><textarea placeholder="Company..."></textarea></td>
+                  <td><textarea placeholder="Position..."></textarea></td>
+                  <td><input type="date"></td>
+                  <td><input type="date"></td>
+                  <td><textarea placeholder="Description..."></textarea></td>
+                  <td class="d-flex flex-column p-1 m-0 btnContainer">
+                    <button title="edit" type="button" class="btn p-0" onclick="editExprow(this)">&#128394;&#65039;</button>
+                    <button title="delete" type="button" onclick="delExprow(this)" class="btn p-0 text-danger">&#128465;</button>
+                  </td>
+                </tr>`;
+    dataContainer.innerHTML = expContent + row;
+  });
+  
+  document.querySelector("#saveExpBtn").addEventListener('click', async () => {
+    const dataContainer = document.querySelectorAll('#expDataContainer tr');
+    const expInfo = { experience: [] };
+  
+    dataContainer.forEach(row => {
+      let rowData = [];
+      row.querySelectorAll('td textarea, td input').forEach(obj => {
+        rowData.push(obj.value);
+      });
+      expInfo.experience.push({
+        company: rowData[0] || "",
+        position: rowData[1] || "",
+        startDate: rowData[2] || "",
+        endDate: rowData[3] || "",
+        description: rowData[4] || ""
+      });
+    });
+  
+    try {
+      const response = await fetch('/api/developer/experience', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-token': token,
+        },
+        body: JSON.stringify(expInfo)
+      });
+      const result = await response.json();
+  
+      if (response.ok) {
+        alert(result.message);
+        dataContainer.forEach(row => {
+          row.querySelectorAll('td textarea, td input').forEach(obj => {
+            obj.setAttribute('disabled', 'disabled');
+          });
+        });
+      } else {
+        alert(`Error: ${result.error}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  // End of Experience
+
+
+  // portfolio
+
+  document.querySelector("#addPortfolioBtn").addEventListener('click', () => {
+    const dataContainer = document.querySelector('#portfolioDataContainer');
+    const portfolioContent = dataContainer.innerHTML;
+    const row = `<tr>
+                  <td><textarea placeholder="Project Title..."></textarea></td>
+                  <td><textarea placeholder="Project URL..."></textarea></td>
+                  <td><textarea placeholder="Description..."></textarea></td>
+                  <td class="d-flex flex-column p-1 m-0 btnContainer">
+                    <button title="edit" type="button" class="btn p-0" onclick="editPortfoliorow(this)">&#128394;&#65039;</button>
+                    <button title="delete" type="button" onclick="delPortfoliorow(this)" class="btn p-0 text-danger">&#128465;</button>
+                  </td>
+                </tr>`;
+    dataContainer.innerHTML = portfolioContent + row;
+  });
+
+  document.querySelector("#savePortfolioBtn").addEventListener('click', async () => {
+    const dataContainer = document.querySelectorAll('#portfolioDataContainer tr');
+    const portfolioInfo = { portfolio: [] };
+  
+    dataContainer.forEach(row => {
+      let rowData = [];
+      row.querySelectorAll('td textarea').forEach(obj => {
+        rowData.push(obj.value);
+      });
+      portfolioInfo.portfolio.push({
+        title: rowData[0] || "",
+        url: rowData[1] || "",
+        description: rowData[2] || ""
+      });
+    });
+  
+    try {
+      const response = await fetch('/api/developer/portfolio', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-token': token,
+        },
+        body: JSON.stringify(portfolioInfo)
+      });
+      const result = await response.json();
+  
+      if (response.ok) {
+        alert(result.message);
+        dataContainer.forEach(row => {
+          row.querySelectorAll('td textarea').forEach(obj => {
+            obj.setAttribute('disabled', 'disabled');
+          });
+        });
+      } else {
+        alert(`Error: ${result.error}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });  
+
+  // End of portfolio
+
+
+  //  Certificate
+  document.querySelector("#addCertBtn").addEventListener('click', () => {
+    const dataContainer = document.querySelector('#certDataContainer');
+    const certContent = dataContainer.innerHTML;
+    const row = `<tr>
+                  <td><textarea placeholder="Certificate Name..."></textarea></td>
+                  <td><textarea placeholder="Institution..."></textarea></td>
+                  <td><input type="date"></td>
+                  <td class="d-flex flex-column p-1 m-0 btnContainer">
+                    <button title="edit" type="button" class="btn p-0" onclick="editCertrow(this)">&#128394;&#65039;</button>
+                    <button title="delete" type="button" onclick="delCertrow(this)" class="btn p-0 text-danger">&#128465;</button>
+                  </td>
+                </tr>`;
+    dataContainer.innerHTML = certContent + row;
+  });
+
+  document.querySelector("#saveCertBtn").addEventListener('click', async () => {
+    const dataContainer = document.querySelectorAll('#certDataContainer tr');
+    const certInfo = { certificates: [] };
+  
+    dataContainer.forEach(row => {
+      let rowData = [];
+      row.querySelectorAll('td textarea, td input').forEach(obj => {
+        rowData.push(obj.value);
+      });
+      certInfo.certificates.push({
+        name: rowData[0] || "",
+        institution: rowData[1] || "",
+        date: rowData[2] || ""
+      });
+    });
+  
+    try {
+      const response = await fetch('/api/developer/certificates', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-token': token,
+        },
+        body: JSON.stringify(certInfo)
+      });
+      const result = await response.json();
+  
+      if (response.ok) {
+        alert(result.message);
+        dataContainer.forEach(row => {
+          row.querySelectorAll('td textarea, td input').forEach(obj => {
+            obj.setAttribute('disabled', 'disabled');
+          });
+        });
+      } else {
+        alert(`Error: ${result.error}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+   // End of Certificate
 
   /** Area to call functions **/
   fetchDeveloperData();
@@ -288,7 +557,7 @@ function populateProfile(developer) {
   developer.languages.forEach(lang => {
     const li = document.createElement('li');
     li.className = 'list-group-item';
-    li.textContent = `${lang.language} (${lang.proficiency})`;
+    li.innerHTML = `<input type="checkbox" class="langCheckBox" onclick="showDel()"><span>${lang.language} (${lang.proficiency})</span> `;
     languageList.appendChild(li);
   });
 
@@ -297,78 +566,6 @@ function populateProfile(developer) {
   document.getElementById('devDescription').value = developer.summary.description || "Not set";
 
 }
-
-function populateProfileForm() {
-  const token = localStorage.getItem('authToken');
-  fetch('/api/developer', {
-    method: 'GET',
-    headers: {
-      'X-Token': token,
-    }
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.Developer) {
-      document.getElementById('firstName').value = data.Developer.firstName;
-      document.getElementById('lastName').value = data.Developer.lastName;
-      document.getElementById('age').value = data.Developer.age;
-      document.getElementById('gender').value = data.Developer.gender;
-      document.getElementById('country').value = data.Developer.country;
-      document.getElementById('profession').value = data.Developer.profession;
-      document.getElementById('email').value = data.Developer.email;
-      document.getElementById('phone').value = data.Developer.phone;
-      document.getElementById('languages').value = data.Developer.languages.map(lang => `${lang.name}-${lang.level}`).join(', ');
-      document.getElementById('headline').value = data.Developer.summary.headline;
-      document.getElementById('description').value = data.Developer.summary.description;
-    } else {
-      alert('Error fetching developer data for form population');
-    }
-  })
-  .catch(error => console.error('There was a problem with the fetch operation:', error));
-}
-
-/* function updateProfile(event) {
-  event.preventDefault();
-  const token = localStorage.getItem('authToken');
-
-  const profileData = {
-    firstName: document.getElementById('firstName').value,
-    lastName: document.getElementById('lastName').value,
-    age: document.getElementById('age').value,
-    gender: document.getElementById('gender').value,
-    country: document.getElementById('country').value,
-    profession: document.getElementById('profession').value,
-    email: document.getElementById('email').value,
-    phone: document.getElementById('phone').value,
-    languages: document.getElementById('languages').value.split(',').map(lang => {
-      const [name, level] = lang.split('-');
-      return { name: name.trim(), level: level.trim() };
-    }),
-    summary: {
-      headline: document.getElementById('headline').value,
-      description: document.getElementById('description').value
-    }
-  };
-
-  fetch('/api/developer', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Token': token,
-    },
-    body: JSON.stringify(profileData),
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.Developer) {
-      populateProfile(data.Developer);
-      document.querySelector('#editProfileModal').modal('hide');
-    } else {
-      alert('Error updating profile');
-    }
-  })
-  .catch(error => console.error('There was a problem with the fetch operation:', error));
-} */
 
 function populateEducation(educationList) {
   const educationContainer = document.getElementById('eduDataContainer');
@@ -391,80 +588,6 @@ function populateEducation(educationList) {
   });
 }
 
-/* function updateEducation(event) {
-  event.preventDefault();
-  const token = localStorage.getItem('authToken');
-
-  const educationData = {
-    degree: document.getElementById('degree').value,
-    fieldOfStudy: document.getElementById('fieldOfStudy').value,
-    institution: document.getElementById('institution').value
-  };
-
-  fetch('/api/developer/education', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Token': token,
-    },
-    body: JSON.stringify(educationData),
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.Developer) {
-      populateEducation(data.Developer.education);
-      document.querySelector('#editEducationModal').modal('hide');
-    } else {
-      alert('Error updating education');
-    }
-  })
-  .catch(error => console.error('There was a problem with the fetch operation:', error));
-} */
-
-/* function populatePortfolio(portfolioList) {
-  const portfolioContainer = document.getElementById('portfolio-list');
-  portfolioContainer.innerHTML = ''; // Clear existing items
-  if (portfolioList.length === 0) {
-    portfolioContainer.innerHTML = '<p>No portfolio items added.</p>';
-  } else {
-    portfolioList.forEach(port => {
-      const li = document.createElement('li');
-      li.className = 'list-group-item';
-      li.textContent = `${port.projectTitle} - ${port.description}`;
-      portfolioContainer.appendChild(li);
-    });
-  }
-} */
-
-/* function updatePortfolio(event) {
-  event.preventDefault();
-  const token = localStorage.getItem('authToken');
-
-  const portfolioData = {
-    projectTitle: document.getElementById('projectTitle').value,
-    description: document.getElementById('description').value
-  };
-
-  fetch('/api/developer/portfolio', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Token': token,
-    },
-    body: JSON.stringify(portfolioData),
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.Developer) {
-      populatePortfolio(data.Developer.portfolio);
-      document.querySelector('#editPortfolioModal').modal('hide');
-    } else {
-      alert('Error updating portfolio');
-    }
-  })
-  .catch(error => console.error('There was a problem with the fetch operation:', error));
-} */
-
 function populateLinks(linksObj) {
     document.getElementById('githubLink').value = linksObj[0].gitHub;
     document.getElementById('linkedinLink').value = linksObj[1].linkedin;
@@ -472,18 +595,6 @@ function populateLinks(linksObj) {
     document.getElementById('blogLink').value = linksObj[3].blog;
     document.getElementById('websiteLink').value = linksObj[4].personalWebsite;
 }
-
-/* function populateCertificates(certificatesList) {
-  const certificatesContainer = document.getElementById('certificates-section');
-  certificatesContainer.innerHTML = ''; // Clear existing items
-  certificatesList.forEach(cert => {
-    const li = document.createElement('li');
-    li.className = 'list-group-item';
-    li.textContent = cert;
-    certificatesContainer.appendChild(li);
-  });
-} */
-
 
 async function validateToken(token, type) {
   try {
@@ -519,4 +630,52 @@ function editEdurow(obj) {
     const cels = obj.parentNode.parentNode.querySelectorAll('td textarea, td input');
     cels.forEach(cel => {cel.removeAttribute('disabled');});
   }
+}
+
+function redirectToLogin() {
+  window.location.href = '/login.html';
+  return;
+}
+
+function showDel(){
+  const checkboxes = document.querySelectorAll('.langCheckBox');
+  const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+  if (!isChecked){
+    document.getElementById('trashLang').classList.add('d-none');
+  }
+  else {
+    document.getElementById('trashLang').classList.remove('d-none');
+  }
+}
+
+async function deletLanguages () {
+  const checkboxes = document.querySelectorAll('.langCheckBox:checked');
+  checkboxes.forEach(checkboxe => {
+    checkboxe.parentElement.remove();
+  });
+  showDel();
+  const allLanguages = {languages: []};
+  document.querySelectorAll('#dev-languages li span').forEach(e => {
+    allLanguages.languages.push({language: e.textContent.split(' ')[0], proficiency: e.textContent.split(' ')[1].match(/\(([^)]+)\)/)[1]});
+  });
+
+  try {
+        const response = await fetch('/api/developer/language', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Token': sessionStorage.getItem('token'),
+          },
+          body: JSON.stringify(allLanguages)
+        });
+        const res = await response.json();
+        if (response.ok) {
+          alert(res.message);
+        }
+        else {
+          alert(res.error);
+        }
+      } catch (error) {
+        console.log(error);
+      }
 }
