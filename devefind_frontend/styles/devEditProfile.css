@@ -1,0 +1,95 @@
+/* General Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    scroll-behavior: smooth;
+}
+
+.container {
+    margin-bottom: 19px;
+    border: 0.5px solid #2c3e50;
+    border-radius: 20px;
+    background-color: #fff;
+} 
+
+/* Navbar */
+.navbar{
+    background-color: #2c3e50;
+    position: relative;
+}
+
+#backBtn  {
+    position: absolute;
+    top: 100%;
+    text-decoration: none;
+    color: rgb(250, 218, 114);
+}
+
+#backBtn:hover {
+    color: #2c3e50;
+}
+
+.navbar img {
+    height: 25px;
+}
+
+.logout-button {
+    margin-left: auto;
+    background-color: #e74c3c;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #c0392b;
+}
+
+#profilePicture {
+    width: 150px;
+    height: auto;
+    border: 1px solid #2c3e50;
+}
+
+input {
+    color: #333;
+}
+
+.col input {
+    border: 1px solid #2c3e50;
+}
+
+form label {
+    color: #333;
+}
+
+@media (min-width: 480px) {
+    #profilePicture {
+        margin-bottom: 1rem;
+    }
+
+}
+
+@media (max-width: 452px) {
+    body {
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+    }
+    #profilePicture {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        font-size: xx-small;
+    }
+    
+    form .btn, #edit-profile-picture {
+        font-size: small;
+    }
+    /* #update-profile-picture {
+        margin-bottom: 0.5rem;
+    } */
+}
