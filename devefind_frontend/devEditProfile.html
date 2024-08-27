@@ -23,7 +23,7 @@
         <h2 class="text-medium">Edit Profile</h2>
         </div>
         <form id="edit-profile-form" class="text-medium mx-5 p-4" >
-            <img src="./images/jpg/pic-person-02.jpg" alt="profile picture" id="profilePicture" class="rounded-circle">
+            <img src="" alt="profile pic" id="profilePicture" class="rounded-circle">
             <input type="file" id="edit-profile-picture" class="">
             <img  id="test" alt="image" class="d-none">
             <div class="form-group mb-3 py-2">
@@ -48,16 +48,20 @@
             </div>
             <div class="row g-3">
                 <div class="col form-group mb-3">
-                    <label for="edit-age">Age</label>
-                    <input type="number" id="edit-age" name="edit-age" class="form-control" required>
+                    <label for="gender-filter">Gender:</label>
+                    <select id="gender-filter" class="form-control">
+                        <option value="">Select Gender</option>
+                    </select>
                 </div>
                 <div class="col form-group mb-3">
-                    <label for="edit-gender">Gender</label>
-                    <input type="text" id="edit-gender" name="edit-gender" class="form-control" required>
+                    <label for="age-filter">Age:</label>
+                    <input type="number" id="age-filter" min="18" max="65" placeholder="Enter Age" class="form-control">
                 </div>
                 <div class="col form-group mb-3">
-                    <label for="edit-country">Country</label>
-                    <input type="text" id="edit-country" name="edit-country" class="form-control" required>
+                    <label for="country-filter">Country:</label>
+                    <select id="country-filter" class="form-control">
+                      <option value="">Select Country</option>
+                    </select>
                 </div>
             </div>
 
