@@ -17,13 +17,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 throw new Error('Failed to fetch developer data');
             }
             const developer = await response.json();
-            document.querySelector('#edit-first-name').value = developer.developer.firstName;
-            document.querySelector('#edit-last-name').value = developer.developer.lastName;
-            document.querySelector('#edit-backup-email').value = developer.developer.backupEmail || "";
-            document.querySelector('#edit-phone').value = developer.developer.phone || "";
-            document.querySelector('#profilePicture').src = developer.developer.image;
+            document.querySelector('#edit-first-name').value = developer.Developer.firstName;
+            document.querySelector('#edit-last-name').value = developer.Developer.lastName;
+            document.querySelector('#edit-age').value = developer.Developer.age;
+            document.querySelector('#edit-backup-email').value = developer.Developer.backupEmail || "";
+            document.querySelector('#edit-phone').value = developer.Developer.phone || "";
+            document.querySelector('#profilePicture').src = developer.Developer.image || "";
   
-            if (developer.developer.image === "./images/png/user.png") {
+            if (developer.Developer.image === "./images/png/user.png") {
                 document.querySelector('#remove-profile-picture').setAttribute("disabled", "disabled");
             }
         } catch (error) {
