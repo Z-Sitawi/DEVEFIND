@@ -13,6 +13,7 @@ DeveloperRoutes.post('/developer/logout', Authentification.logoutDeveloper); //!
 
 DeveloperRoutes.get('/api/developer', DeveloperController.get);
 DeveloperRoutes.get('/api/developer/all', DeveloperController.getAll);
+DeveloperRoutes.get('/api/developer/one', DeveloperController.getOneById);
 DeveloperRoutes.post('/api/developer/filterd', DeveloperController.getFilterd);
 
 DeveloperRoutes.delete('/api/developer', DeveloperController.del); //! Delete
