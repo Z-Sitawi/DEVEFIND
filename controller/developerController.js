@@ -82,7 +82,7 @@ class DeveloperController {
   static async getOneById (req, res) {
     try {
       const authToken = req.header('X-Token');
-      const userId = await Authentification.valideLogin(authToken);
+      const userId = await Authentification.valideLogin(authToken) || await Authentification.valideLogin(authToken, 'dev');
       if (!userId) return res.status(401).json({ error: 'Unauthorized' });
 
       const developerId = req.query.id;
