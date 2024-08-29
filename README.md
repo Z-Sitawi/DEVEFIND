@@ -9,7 +9,7 @@ Streamlining the recruitment process for IT professionals and recruiters.
 
 ## Authors
 ### **Zakaria Aaichaou**
-* [LinkdIn]()
+* [LinkdIn](https://www.linkedin.com/in/zakaria-aaichaou-🇵🇸-842983270/)
 * [Blog]()
 
 ### **Sandra Amofa**

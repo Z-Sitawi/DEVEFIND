@@ -4,12 +4,11 @@ import Developer from '../modules/developer.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
-/* const user = process.env.USER;
-const pwd = process.env.PASSWORD; */
+const mongoURI = process.env.mongoURI;
 
 class Database {
   static async connect () {
-    await mongoose.connect(`mongodb://localhost:27017/${process.env.DATABASE}`);
+    await mongoose.connect(mongoURI);
     console.log('Database Connected Successfully');
   }
 
