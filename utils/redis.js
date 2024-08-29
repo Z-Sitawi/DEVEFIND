@@ -2,7 +2,9 @@ import redis from 'redis';
 import dotenv from 'dotenv';
 
 dotenv.config();
-const redisURI = process.env.redisURI;
+const redisPwd = process.env.redisURI;
+const redisHost = process.env.redisHost;
+const redisPort = process.env.redisURI;
 
 /**
  * RedisClient class for interacting with a Redis database.
@@ -14,7 +16,13 @@ class RedisClient {
    * Initializes the Redis client and sets up event listeners for connection status.
    */
   constructor () {
-    this.client = redis.createClient(redisURI);
+    this.client = redis.createClient({
+      password: redisPwd,
+      socket: {
+          host: redisHost,
+          port: redisPort
+      }
+  });
 
     // Handling connection errors
     this.client.on('error', (err) => {
