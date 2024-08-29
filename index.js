@@ -16,7 +16,7 @@ const __dirname = dirname(__filename);
 
 
 dotenv.config();
-const PORT = 3000;
+const PORT = process.env.redisURI.PORT;
 
 const app = express();
 app.use(express.json());
