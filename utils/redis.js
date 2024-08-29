@@ -2,9 +2,9 @@ import redis from 'redis';
 import dotenv from 'dotenv';
 
 dotenv.config();
-const redisPwd = process.env.redisURI;
+const redisPwd = process.env.redisPwd;
 const redisHost = process.env.redisHost;
-const redisPort = process.env.redisURI;
+const redisPort = process.env.redisPort;
 
 /**
  * RedisClient class for interacting with a Redis database.
