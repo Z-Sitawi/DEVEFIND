@@ -1,7 +1,8 @@
 import redis from 'redis';
-import functions from 'firebase-functions';
+import dotenv from 'dotenv';
 
-const redisURI = functions.config().redis.uri;
+dotenv.config();
+const redisURI = process.env.redisURI;
 
 /**
  * RedisClient class for interacting with a Redis database.

@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
 import Recruiter from '../modules/recruiter.js';
 import Developer from '../modules/developer.js';
-import functions from 'firebase-functions';
+import dotenv from 'dotenv';
 
-const mongoURI = functions.config().mongodb.uri;
+dotenv.config();
+const mongoURI = process.env.mongoURI;
 
 class Database {
   static async connect () {
