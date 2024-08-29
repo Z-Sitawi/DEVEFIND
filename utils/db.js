@@ -9,7 +9,7 @@ const pwd = process.env.PASSWORD; */
 
 class Database {
   static async connect () {
-    await mongoose.connect(`mongodb://localhost:27017/${process.env.DATABASE}`);
+    await mongoose.connect(process.env.DATABASE_URL);
     console.log('Database Connected Successfully');
   }
 

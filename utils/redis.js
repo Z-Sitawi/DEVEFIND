@@ -13,7 +13,7 @@ class RedisClient {
    * Initializes the Redis client and sets up event listeners for connection status.
    */
   constructor () {
-    this.client = redis.createClient();
+    this.client = redis.createClient(process.env.DATABASE_URL);
 
     // Handling connection errors
     this.client.on('error', (err) => {
