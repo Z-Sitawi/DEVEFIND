@@ -1,7 +1,7 @@
 import redis from 'redis';
-import dotenv from 'dotenv';
+import functions from 'firebase-functions';
 
-dotenv.config();
+const redisURI = functions.config().redis.uri;
 
 /**
  * RedisClient class for interacting with a Redis database.
@@ -13,7 +13,7 @@ class RedisClient {
    * Initializes the Redis client and sets up event listeners for connection status.
    */
   constructor () {
-    this.client = redis.createClient(process.env.DATABASE_URL);
+    this.client = redis.createClient(redisURI);
 
     // Handling connection errors
     this.client.on('error', (err) => {

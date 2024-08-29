@@ -1,15 +1,13 @@
 import mongoose from 'mongoose';
 import Recruiter from '../modules/recruiter.js';
 import Developer from '../modules/developer.js';
-import dotenv from 'dotenv';
+import functions from 'firebase-functions';
 
-dotenv.config();
-/* const user = process.env.USER;
-const pwd = process.env.PASSWORD; */
+const mongoURI = functions.config().mongodb.uri;
 
 class Database {
   static async connect () {
-    await mongoose.connect(process.env.DATABASE_URL);
+    await mongoose.connect(mongoURI);
     console.log('Database Connected Successfully');
   }
 
