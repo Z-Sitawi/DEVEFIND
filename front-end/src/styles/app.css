@@ -1,0 +1,164 @@
+* {
+    box-sizing: border-box;
+}
+
+#root {
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Abril Fatface", serif;
+    letter-spacing: 0.2vw;
+
+}
+
+header {
+    box-sizing: border-box;
+    background-image: url('../assets/gradiantcolor.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#logoHeader {
+    width: 30%;
+}
+
+
+#logo {
+    background-image: url('../assets/logo-no-background.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+button {
+    background-color: #fc5d3900;
+    color: black;
+    font-size: small;
+    padding: 1vh 1.5vw;
+    box-shadow: 1px 1.5px 1px 2px rgba(0, 0, 0, 0.144);
+    border-radius: 2rex 2rex;
+    transition: background-color 0.5s, color 1s;
+
+}
+
+button#signIn {
+    background-color: #fc5e39;
+    color: white;
+
+}
+
+button#signIn:hover {
+    background-color: #fc5d3900;
+    color: #fc5e39;
+    border: 1px solid #fc5e39;
+}
+
+button#signUp:hover {
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #000;
+}
+
+section.main, section.cards {
+    background-image: url('../assets/gradiantcolor.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+section.main h1 {
+    padding: 0px 5px;
+    font-size: xx-large;
+}
+
+section.main p.subHeadline {
+    font-size:large ;
+}
+
+section.cards h1 {
+    font-size: large;
+    font-weight: bolder;
+}
+
+.card {
+    transition: 0.5s;
+    background-color: rgba(220, 220, 220, 0.367);
+    box-shadow: 1px 1px 5px 1px;
+}
+
+.card:hover {
+    background-color: rgba(247, 247, 247, 0.816);
+    padding: 0rem 1rem;
+    box-shadow: 1px 1px 8px 1px;
+}
+
+div.profiles div button {
+    background-color: rgba(255, 255, 255, 0.662);
+    margin: 0.1rem;
+    border-color: #fc5e39;
+}
+
+.testimonials div {
+    background-color: #fff5f2;
+    border-radius: 0.7rem;
+    box-shadow: 0px 3px 3px 0px;
+
+}
+
+
+.preFooter, footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: small;
+}
+
+footer {
+    border-top: 1px solid white;
+}
+
+footer a {
+    text-decoration: none;
+    color: #ff9b85;
+}
+
+footer a:hover {
+    color: rgb(207, 36, 207);
+}
+
+@media screen and (max-width: 540px) {
+
+    .subSec1 div img {
+        width: 60%;
+    }
+
+    section.main h1:nth-child(1) {
+        font-size: x-large;
+    }
+    section.main p.subHeadline, .card {
+        font-size: small ;
+    }
+}
+
+@media screen and (max-width: 444px) {
+    .preFooter h3 {
+      font-size: medium;
+    }
+
+    footer p {
+        font-size: x-small;
+    }
+
+    footer div a, button {
+      font-size: xx-small;
+    }
+
+    .preFooter img {
+        width: 100%;
+    }
+
+}
