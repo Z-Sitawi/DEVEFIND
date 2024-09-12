@@ -14,9 +14,12 @@
 }
 
 body {
+  background-image: url('../assets/gradiantcolor.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
   margin: 0px;
-  background-color: red;
-  height: 100vh;
 }
 
 img {
