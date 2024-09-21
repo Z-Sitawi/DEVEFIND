@@ -162,7 +162,9 @@ const DeveloperSchema = new mongoose.Schema({
     name: { type: String, maxlength: 100 },
     issuingOrganization: { type: String, maxlength: 100 },
     dateIssued: { type: Date }
-  }]
+  }],
+  public: {type: Boolean, default: false, required: false},
+
 },
 {
   timestamps: true

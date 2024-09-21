@@ -64,30 +64,15 @@ document.addEventListener('DOMContentLoaded', () => {
           },
           body: JSON.stringify(data),
         });
-  
+        
         if (response.ok) {
           // Redirect to job seeker profile page
-          const res = await fetch('/developer/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email:data.email, password: data.password}),
-          });
-          if (res.ok) {
-            alert('Account Created Successfully!\nRedirecting You to Dashboard...');
-            const info = await res.json();
-            await sessionStorage.setItem("token", info.token);
-            console.log(info.token);
-            window.location.href = '/developerDash.html';
-          }
-          else {
-            const info = await response.json();
-            alert(info.error || 'Sign in failed');
-          }
+          const result = await response.json();
+          alert(result.message);
+          window.location.href = './login.html';
         } else {
           const result = await response.json();
-          alert(result.error || 'Sign up failed');
+          alert(result.error);
         }
       } catch (error) {
         console.error('Error:', error);

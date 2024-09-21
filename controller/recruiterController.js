@@ -4,6 +4,7 @@ import Authentification from '../controller/authController.js';
 import mongoose from 'mongoose';
 import sharp from 'sharp';
 import redisClient from '../utils/redis.js';
+import transporter from '../utils/emailValidation.js';
 
 class RecruiterController {
   static async create (req, res) {
@@ -13,17 +14,17 @@ class RecruiterController {
       /* ======= checks ========== */
       if (!firstName || !lastName || !email || !password || !confirmPassword) return res.status(400).json({ error: 'All Fields Must Be Filed' });
       const user = await Recruiter.findOne({ email });
-      if (user) return res.status(400).json({ error: 'email already exist' });
-      if (password !== confirmPassword) return res.status(400).json({ error: 'Passwords Do Not Match' });
+      if (user) return res.status(400).json({ error: 'Email Already Exist', email: true });
+      if (password !== confirmPassword) return res.status(400).json({ error: 'Passwords Do Not Match', password: true });
 
       /* ======= End of checks ========== */
 
       const hashedPwd = await Tools.hashPwd(password);
       const newRecruiterData = { firstName, lastName, email, password: hashedPwd };
 
-      const recruiter = await Recruiter.create(newRecruiterData);
-      console.log('Recruiter Account Created Successfully with the Id => ' + recruiter._id.toString());
-      res.status(201).json({ message: 'Recruiter Account Created Successfully' });
+      const status = await transporter.sendVerificationEmail(newRecruiterData, 'rec');
+      if (!status) return res.status(500).json({ error: 'An Error Ocuured. Please Try Again Later!' });
+      res.status(201).json({ message: 'A Varification Email Was Sent to Your Email' });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

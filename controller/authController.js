@@ -12,10 +12,10 @@ class Authentification {
       if (!email || !password) return res.status(400).json({ error: 'All Fields Must Be Filed' });
 
       const user = await Recruiter.findOne({ email });
-      if (!user) return res.status(400).json({ error: 'Account Does Not Exist' });
+      if (!user) return res.status(400).json({ error: 'Account Does Not Exist', email: true });
 
       const result = await Tools.authenticatePassword(password, user.password);
-      if (!result) return res.status(401).json({ error: 'Incorrect Password' });
+      if (!result) return res.status(401).json({ error: 'Incorrect Password',  password: true});
       /* ======= End Of checks ========== */
 
       const token = Tools.generateToken();
@@ -79,10 +79,10 @@ class Authentification {
       if (!email || !password) return res.status(400).json({ error: 'All Fields Must Be Filed' });
 
       const user = await Developer.findOne({ email });
-      if (!user) return res.status(401).json({ error: 'Account Does Not Exist' });
+      if (!user) return res.status(401).json({ error: 'Account Does Not Exist', email: true  });
 
       const result = await Tools.authenticatePassword(password, user.password);
-      if (!result) return res.status(401).json({ error: 'Incorrect Password' });
+      if (!result) return res.status(401).json({ error: 'Incorrect Password',  password: true });
       /* ======= End Of checks ========== */
 
       const token = Tools.generateToken();
@@ -95,9 +95,11 @@ class Authentification {
       console.log(`Log in Success, Token: ${token}`);
 
       const expirationResult = await redisClient.client.expire(key, timeInSec);
-      if (expirationResult) {
-        console.log(`The key will expire in ${timeInSec} seconds from now.`);
+      if (!expirationResult) {
+        await redisClient.client.del(key);
+        return res.status(500).json({ error: 'Rrdis Server Error' });
       }
+      console.log(`The key will expire in ${timeInSec} seconds from now.`);
 
       res.status(200).json({ status: 'connected', token });
     } catch (err) {
@@ -119,6 +121,29 @@ class Authentification {
       return res.status(500).json({ error: error.message });
     }
   }
+
+  static async validateEmail(req, res) {
+    const { id, t } = req.query;
+    const userData = await redisClient.client.get(id);
+    
+    if (!userData) {
+        return res.status(404).render('status', { message: 'Validation Link Expired' });
+    }
+
+    const dataObject = JSON.parse(userData);
+    const account = (t === 'dev') ? await Developer.findOne({ email: dataObject.email }) : await Recruiter.findOne({ email: dataObject.email });
+    
+    if (account) {
+        return res.status(200).render('status', { message: 'Email Already Validated' });
+    } else {
+        const user = (t === 'dev') ? await Developer.create(dataObject) : await Recruiter.create(dataObject);
+        if (!user) {
+            return res.status(500).render('status', { message: 'Account Creation Failed' });
+        }
+        return res.status(200).render('status', { message: 'Email Validated Successfully' });
+    }
+  }
+
 }
 
 export default Authentification;

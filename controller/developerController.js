@@ -4,6 +4,8 @@ import Authentification from '../controller/authController.js';
 import mongoose from 'mongoose';
 import redisClient from '../utils/redis.js';
 import sharp from 'sharp';
+import transporter from '../utils/emailValidation.js';
+
 
 class DeveloperController {
   static async create (req, res) {
@@ -14,17 +16,18 @@ class DeveloperController {
       if (!firstName || !lastName || !email || !password || !confirmPassword || !age || !gender || !country || !profession) {
         return res.status(400).json({ error: 'All Fields Must Be Filed' });
       }
-      if (password !== confirmPassword) return res.status(400).json({ error: 'Passwords Do Not Match' });
+      if (password !== confirmPassword) return res.status(400).json({ error: 'Passwords Do Not Match', password: true });
 
       const user = await Developer.findOne({ email });
-      if (user) return res.status(400).json({ error: 'email already exist' });
+      if (user) return res.status(400).json({ error: 'Email Already Exist', email: true });
       /* ======= End of checks ========== */
 
       const hashedPwd = await Tools.hashPwd(password);
       const newDevData = { firstName, lastName, email, password: hashedPwd, age, gender, country, profession };
-      const developer = await Developer.create(newDevData);
-      console.log('Developer Account Created Successfully with the Id => ' + developer._id.toString());
-      res.status(201).json({ message: 'Developer Account Created Successfully' });
+
+      const status = await transporter.sendVerificationEmail(newDevData, 'dev');
+      if (!status) return res.status(500).json({ error: 'An Error Ocuured. Please Try Again Later!' });
+      res.status(201).json({ message: 'A Varification Email Was Sent to Your Email' });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
