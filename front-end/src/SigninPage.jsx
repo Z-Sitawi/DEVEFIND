@@ -2,14 +2,13 @@ import { useState } from 'react';
 
 /* components */
 import UserIdentifyer from './components/UserIdentifyer';
-import JobSeekerSignUp from './components/JobSeekerSignUp';
-import RecruiterSignUp from './components/RecruiterSignUp';
+import SignIn from './components/SignIn';
 import Footer from './components/Footer';
 
 /* styles */
 import './styles/signup.css';
 
-function SignupPage () {
+function SigninPage () {
   const [user, setUser] = useState('');
   const [eff, setEff] = useState('');
   const onJobSeekerClick = () => {
@@ -25,9 +24,9 @@ function SignupPage () {
   return (
     <>
       <main id='signUpBody' className=' py-3 p-lg-5'>
-        <div className='container text-center'>
+        <div className='col-9 col-sm-8 col-md-7 col-lg-5 container text-center'>
           <UserIdentifyer
-            title='Sign Up'
+            title='Sign In'
             onJobSeekerClick={onJobSeekerClick}
             onRecruiterClick={onRecruiterClick}
           />
@@ -37,22 +36,20 @@ function SignupPage () {
                 ? (null)
                 : user === 'jobSeeker'
                   ? (
-                    <JobSeekerSignUp />
+                    <SignIn user='dev' apiUrl='http://0.0.0.0:3000/developer/login' page='jobSeeker' />
                     )
                   : (
-                    <RecruiterSignUp />
+                    <SignIn user='rec' apiUrl='http://0.0.0.0:3000/recruiter/login' page='recruiter' />
                     )
           }
           </div>
 
         </div>
       </main>
-      <h1 />
-
       <Footer />
     </>
 
   );
 }
 
-export default SignupPage;
+export default SigninPage;
